@@ -1,0 +1,98 @@
+Closing the system of differential equations requires applying an approximation to estimate the moments of order larger than $p$. On one hand, the approximation needs to be physically justified, which guarantees its correctness. On the other hand, it has to lead to a stable differential system under numerical errors. Indeed, since we treat the moments as independent variables, stability problems appear. This justifies studying the stability of the differential system under numerical errors. We start by introducing the following notions of local stability. The following notion is abstract and will be clarified afterwards.
+
+\begin{definition}[General Notions of Local Stability]
+    A system of differential equations can be linearized around any given point of the multi-dimensional space defined by the moments at a given time $t$. Depending on the real part of the eigenvalues $\{\lambda_i\}_i$ of the linearized differential system, we can classify the stability of the system at that specific point into three classes:
+    \begin{enumerate}
+        \item Stable: $\forall i, \Re{\lambda_i} < 0$
+        \item Neutral: $\forall i, \Re{\lambda_i} \le 0$ and $\exists i, \Re{\lambda_i} = 0$
+        \item Unstable: $\exists i, \Re{\lambda_i} > 0$
+    \end{enumerate}
+    The goal of this notion is to study whether the system amplifies numerical errors or not.
+\end{definition}
+
+\subsubsection{Introduction of $\mathcal{L}$}
+
+We introduce the notation $f[j_1, \ldots, j_N, k_1, \ldots, k_N] \equiv \average{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}$. We shall denote $\Vec{f}$ the vector containing $f[j_1, \ldots, j_N, k_1, \ldots, k_N]$'s. The order of the elements in the vector shall be fixed in the following manner. First, we put the elements such that $0 \le \sum_{l = 1}^N j_l \le \sum_{l = 1}^N k_l$ and $\sum_{l = 1}^N j_l + k_l \le p$ in a \textbf{lexicographic order}. Afterwards, we place in the same order the complex conjugate values (i.e.\@ $f[k_1, \ldots, k_N, j_1, \ldots, j_N] = f[j_1, \ldots, j_N, k_1, \ldots, k_N]^*$ will come in the same place in the second half than $f[j_1, \ldots, j_N, k_1, \ldots, k_N]$ in the first half). This ensures that $\Vec{f} = \begin{pmatrix}
+    x\\
+    x^*
+\end{pmatrix}$. Further, the equation of evolution of $\Vec{f}$ that we obtain after applying the approximation can be written in all generality
+
+\begin{equation}
+    \timeDeriv{\Vec{f}} = \Vec{\mathcal{E}}\left(\Vec{f}\right).
+\end{equation}
+In order to study the stability, we consider a small deviation $\Vec{\epsilon}$ from a solution $\Vec{f_0}$. To linear order, $\Vec{\epsilon}$ satisfies the differential equation:
+
+\begin{equation}
+    \timeDeriv{\Vec{\epsilon}} = \nabla_{\Vec{f}} \Vec{\mathcal{E}}\left(\Vec{f_0}\right) \Vec{\epsilon}.
+\end{equation}
+For the following, we introduce the notation: $\mathcal{L} \equiv \nabla_{\Vec{f}} \Vec{\mathcal{E}}\left(\Vec{f_0}\right)$, such that:
+
+\begin{equation}
+    \mathcal{L}_{j_1, \ldots, j_N , k_1, \ldots, k_N; r_1, \ldots, r_N, s_1, \ldots, s_N} \equiv \pdv{\mathcal{E}_{j_1, \ldots, j_N, k_1, \ldots, k_N}}{{f[r_1, \ldots, r_N, s_1, \ldots, s_N]}}\left(\Vec{f_0}\right)
+\end{equation}
+By construction, the matrix $\mathcal{L}$ can be put in the form
+
+\begin{equation} \label{general-form}
+    \mathcal{L} = \begin{pmatrix}
+        A & B\\
+        B^* & A^*
+    \end{pmatrix},
+\end{equation}
+with $A$ corresponding to $\sum_{l = 1}^N j_l \le \sum_{l = 1}^N k_l$ and $\sum_{l = 1}^N r_l \le \sum_{l = 1}^N s_l$ and $B$ corresponding to $\sum_{l = 1}^N j_l \le \sum_{l = 1}^N k_l$ and $\sum_{l = 1}^N r_l \ge \sum_{l = 1}^N s_l$. One remarks that some lines and columns are repeated (corresponding to $\sum_{l = 1}^N j_l = \sum_{l = 1}^N k_l$ and $\sum_{l = 1}^N r_l = \sum_{l = 1}^N s_l$). This is done to ensure that $\mathcal{L}$ has the form \ref{general-form}. Some additional properties of $\mathcal{L}$ are shown in~\autoref{ppties-L}.
+
+\subsection{Numerical Tests} \label{sub-num-stab}
+
+We compare the results for some quantum jumps: one-photon loss (cf.\@~\autoref{fig:CompStab1Loss}), two-photon loss (cf.\@~\autoref{fig:CompStab2Loss}) and dephasing (cf.\@~\autoref{fig:CompStabDeph}). We see that one-photon loss stabilizes all the methods. This is corroborated by~\autoref{fig:Eg_H_CrossKerr_1Loss}, \autoref{fig:Eg_H_CrossKerr_1Loss_stable}, \autoref{fig:Eg_H_Kerr_1Loss} and~\autoref{fig:Eg_H_Kerr_1Loss_stqble} in~\autoref{gene-other-plots}. Additionally, two-photon loss stabillizes \texttt{cumulant method} only, allowing us to conclude that the \texttt{cumulant method} is much more stable than the two others. Dephasing jump has no effect on the stability for all the methods.
+
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_0_and_losses_1_p_1_rule_trunc-cumul.pdf}
+        \caption{Method \texttt{Truncated cumulants}}
+        \label{fig:H_0_and_losses_1_p_1_rule_trunc-cumul}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_0_and_losses_1_p_1_rule_min-cut.pdf}
+        \caption{Method \texttt{Minimum cut}}
+        \label{fig:H_0_and_losses_1_p_1_rule_min-cut}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_0_and_losses_1_p_1_rule_smart_divide_in_half.pdf}
+        \caption{Method \texttt{Divide in half}}
+        \label{fig:H_0_and_losses_1_p_1_rule_smart_divide_in_half}
+    \end{subfigure}
+    \caption{Maximal value for the real part of the eigenvalues of the stability matrix $\mathcal{L}$ for quantum jump $\sqrt{\kappa} a$, coherent state $\ket{\alpha}$ and $p=1$.}
+    \label{fig:CompStab1Loss}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_0_and_losses_2_p_2_rule_trunc-cumul.pdf}
+        \caption{Method \texttt{Truncated cumulants}}
+        \label{fig:H_0_and_losses_2_p_2_rule_trunc-cumul}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_0_and_losses_2_p_2_rule_min-cut.pdf}
+        \caption{Method \texttt{Minimum cut}}
+        \label{fig:H_0_and_losses_2_p_2_rule_min-cut}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_0_and_losses_2_p_2_rule_smart_divide_in_half.pdf}
+        \caption{Method \texttt{Divide in half}}
+        \label{fig:H_0_and_losses_2_p_2_rule_smart_divide_in_half}
+    \end{subfigure}
+    \caption{Maximal value for the real part of the eigenvalues of the stability matrix $\mathcal{L}$ for quantum jump $\sqrt{\kappa} a^2$, coherent state $\ket{\alpha}$ and $p=2$.}
+    \label{fig:CompStab2Loss}
+\end{figure}

@@ -1,0 +1,49 @@
+\subsection{Motivation}
+Let us consider a system made of $N$ bosonic modes that are described using the annihilators $a_1, \ldots, a_N$ which follow the commutation relations
+
+\begin{eqnarray}
+    \commutator{a_i}{a^\dagger_j} &=& \delta_{i j},\\
+    \commutator{a_i}{a_j} &=& 0.
+\end{eqnarray}
+
+As we shall see afterwards, in order to study the time evolution of $a_i$, we need to evaluate, among other things, $\commutator{a_i}{H}$, where $H$ is the Hamiltonian of the system. In general, $H$ can be written as a polynomial of the operators $a_1, \ldots, a_N$ and of $a^\dagger_1, \ldots, a^\dagger_N$. We introduce the notation
+
+\begin{equation}
+    H = \poly{m}{a_1, \ldots, a_N; a^\dagger_1, \ldots, a^\dagger_N},
+\end{equation}
+meaning that the degree of $H$ is less or equal to $m$ (in the sense that, for each term of $H$, the \textbf{sum} of the powers of different operators is \textbf{less or equal} to $m$). Therefore, we need to know the properties of commutation relations between polynomials of bosonic annihilators and creators.
+
+
+\subsection{Properties}
+
+\subsubsection{Commutator Algebra}
+
+In this part, we recall some usual properties of the commutator~\cite{commuator_wiki}. The proofs are given in~\autoref{proof-basic-commutator}.
+
+\begin{theorem} \label{basic_commutator}
+    The commutator $\commutator{\cdot}{\cdot}$ satisfies the following properties
+    \begin{enumerate}
+        \item $\commutator{\cdot}{\cdot}$ is anti-symmetric under exchange of the arguments.
+        \item $\commutator{\cdot}{\cdot}$ is bilinear (i.e.\@ linear in each variable).
+        \item $\forall A, B, C,\  \commutator{A}{B C} = \commutator{A}{B} C + B \commutator{A}{C}$ and $\commutator{B C}{A} = \commutator{B}{A} C + B \commutator{C}{A}$.
+    \end{enumerate}
+\end{theorem}
+
+The last result has an interesting corollary if we consider a bosonic annihilator $a$.
+
+\begin{corollary}
+    Let $a$ be a bosonic annihilator, for each $n \in \mathbb{N}$, $\commutator{a}{a^{\dagger n}} = n a^{\dagger (n-1)}$ and $\commutator{a^n}{a^\dagger} = n a^{(n-1)}$
+\end{corollary}
+
+\subsubsection{Degree of Commutator of Polynomials}
+
+The goal of this part is to state the result~\autoref{th_deg_comm}. This result will be very important in analysing the differential systems to solve and will allow us to distinguish between linear and non-linear systems. Even though this result is mentioned in the literature~\cite{quesada_deg}, the proof could not be found in the literature we read. The proof in~\autoref{proof-th_deg_comm} is, at the best of our knowledge, original.
+
+\begin{theorem} \label{th_deg_comm}
+    Let $p, m \in \mathbb{N}$, we have
+    \begin{equation}
+        \commutator{\poly{p}{a_1, \ldots, a_N; a^\dagger_1, \ldots, a^\dagger_N}}{\poly{m}{a_1, \ldots, a_N; a^\dagger_1, \ldots, a^\dagger_N}} = \poly{p+m-2}{a_1, \ldots, a_N; a^\dagger_1, \ldots, a^\dagger_N}
+    \end{equation}
+
+    where $\poly{q}{a_1, \ldots, a_N; a^\dagger_1, \ldots, a^\dagger_N}$ designates any polynomial of degree $q$.
+\end{theorem}

@@ -1,0 +1,167 @@
+We have seen in \autoref{schro-pic} that solving the dynamics of the system in the Schrödinger picture requires a large memory. This can be very limiting since matrix operations need to be done on this representation, leading to a large time complexity. In this part, we change the representation of the dynamics in the hope that these problems will be solved.
+
+In the Heisenberg representation, the dynamics are described by the evolution of the operators and a time-independent density matrix. This transformation is defined carefully in this section.
+
+\subsubsection{Reminders Concerning the Heisenberg Picture}
+
+In this part, the subscript or superscript $S$ refers to the Schrödinger picture, while $H$ refers to the Heisenberg picture. The evolution of a quantum state is given by the Kraus operators $K_k$~\cite{explo_quant, green_bible}
+\begin{equation}
+    \rho_S(t) = \sum_{k} K^{(S)}_k(t) \rho(0) K^{(S) \dagger}_k(t),
+\end{equation}
+with the normalization condition $\sum_k K^{(S) \dagger}_k(t) K^{(S)}_k(t)  = \mathbb{1}$ and the sum $\sum_{k}$ being potentially uncountable. This condition ensures that the trace of $\rho_S(t)$ is preserved. The Heisenberg representation is defined as~\cite{stack_exch_prod}
+
+\begin{definition}[Heisenberg Representation]
+    The Heisenberg representation of an operator $O_S(t)$ (with explicit time-dependence) is given by:
+    \begin{equation}
+        O_H(t) \equiv \sum_k K^{(S) \dagger}_k(t) O_S(t) K^{(S)}_k(t).
+    \end{equation}
+The Heisenberg representation of a density matrix is given by $\rho_H(t) \equiv \rho_S(0)$ (time-independent).
+\end{definition}
+
+The definition of the Heisenberg picture comes from the fact that \textbf{the averages of observables should not depend on the representation}. This can be generalized to any operator $O$ by taking linear combinations of $\frac{O+O^\dagger}{2}$ and $\frac{O-O^\dagger}{2i}$ which are observable. The average of the operator $O_S(t)$ (i.e. with explicit time-dependence) is given by
+\begin{eqnarray}
+    \average{O_S}(t) &=& \Tr{\rho_S(t) O_S(t)} = \sum_k \Tr{K^{(S)}_k(t) \rho_S(0) K^{(S) \dagger}_k(t) O_S(t)} \nonumber\\
+    &=& \sum_k \Tr{\rho_S(0) K^{(S) \dagger}_k(t) O_S(t) K^{(S)}_k(t)} \nonumber\\
+    &=& \Tr{\rho_S(0) \sum_k K^{(S) \dagger}_k(t) O_S(t) K^{(S)}_k(t)}.
+\end{eqnarray}
+
+We observe that $(A + \lambda B)_H = A_H + \lambda B_H$ and $\left(O^\dagger\right)_H = \left(O_H\right)^\dagger$. However, it is quite important to observe that in general $(A B)_H \neq A_H B_H$ unless the sum over $k$ is on one element (i.e.\@ closed system). In fact,
+
+\begin{eqnarray}
+    A_H(t) B_H(t) &=& \sum_k \sum_l K^{(S) \dagger}_k(t) A_S K^{(S)}_k(t) K^{(S) \dagger}_l(t) B_S K^{(S)}_l(t)\\
+    (A B)_H(t) &=& \sum_k K^{(S) \dagger}_k(t) A_S B_S K^{(S)}_k(t).
+\end{eqnarray}
+
+Furthermore, the average $\average{A B}(t)$ is associated to $(A B)_H(t)$.
+
+The interest of the Heisenberg picture is to study the evolution of average of operators, allowing us to follow a smaller number of quantities than required for solving the master equation~\autoref{master_eq}. For this purpose, we need to write the equation of evolution of the operators.
+
+\begin{theorem}[Evolution equation in the Heisenberg Picture] \label{eq_evo_heisen}
+    Under the Hamiltonian $H_S(t)$ and jump operators $L_n(t)$, the time evolution of $O_H(t)$, with $O_S$ time-independent, is given by
+    \begin{equation} \label{equa-evo_heisen}
+        \timeDeriv{O_H} = \left(\ihbar \commutator{O_S}{H_S(t)} + \frac{1}{2} \sum_n \left(L^\dagger_n(t) \commutator{O_S}{L_n(t)}  - \commutator{O_S}{L^\dagger_n(t)} L_n(t) \right)\right)_H.
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    The master equation is given by:
+    \begin{equation}
+        \timeDeriv{\rho_S(t)} = \ihbar \commutator{H_S(t)}{\rho_S(t)} + \frac{1}{2} \sum_{n} \left(2 L_n(t) \rho_S(t) L_n^\dagger(t) - \anticomm{L_n^\dagger(t) L_n(t)}{\rho_S(t)}\right).
+    \end{equation}
+    Taking the average for the time-independent operator $O_S$, we find:
+    \begin{eqnarray}
+        \timeDeriv{\Tr{\rho_S(t) O_S}} &=& \ihbar \Tr{\commutator{H_S(t)}{\rho_S(t)}  O_S} + \frac{1}{2} \sum_{n} \left(2 \Tr{L_n(t) \rho(t) L_n^\dagger(t) O_S} - \Tr{\anticomm{L_n^\dagger(t) L_n(t)}{\rho(t)} O_S }\right) \nonumber\\
+        &=& \ihbar \Tr{H_S(t) \rho(t) O_S} - \ihbar \Tr{\rho(t) H_S(t)  O_S}\nonumber\\
+        &+& \frac{1}{2} \sum_{n} \left(2 \Tr{\rho(t) L_n^\dagger(t) O_S L_n(t)} - \Tr{L_n^\dagger(t) L_n(t) \rho(t) O_S} - \Tr{\rho(t) L_n^\dagger(t) L_n(t) O_S}\right)\nonumber\\
+        &=& \ihbar \average{\commutator{O_S}{H_S(t)}} + \frac{1}{2} \sum_{n} \left(2 \average{L_n^\dagger(t) O_S L_n(t)} - \average{O_S L_n^\dagger(t) L_n(t)} - \average{L_n^\dagger(t) L_n(t) O_S}\right)\nonumber
+    \end{eqnarray}
+    We observe that: $2 L_n^\dagger O_S L_n - O_S L_n^\dagger L_n - L_n^\dagger L_n O_S = L_n^\dagger \left(O_S L_n - L_n O_S\right) + \left(L_n^\dagger O_S - O_S L_n^\dagger\right) L_n = L_n^\dagger \commutator{O_S}{L_n} - \commutator{O_S}{L_n^\dagger} L_n$. Furthermore, since our computation does not depend on the initial state $\rho(0)$, we deduce that:
+    \begin{equation}
+        \timeDeriv{O_H} = \left(\ihbar \commutator{O_S}{H_S(t)} + \frac{1}{2} \sum_n \left( L^\dagger_n \commutator{O_S}{L_n}  - \commutator{O_S}{L^\dagger_n} L_n \right)\right)_H
+    \end{equation}
+\end{proof}
+
+\begin{remark}
+    \autoref{eq_evo_heisen} implies that the evolution of an operator in Heisenberg picture can be computed using the standard bosonic commutation relations, since $O_S$ is a constant in \autoref{eq_evo_heisen}. This is important since commutation relations are not conserved for $t > 0$ (to see this consider $H = \hbar \omega a^\dagger a$ with the jump operator $L = \sqrt{\kappa} a$ where $\commutator{a(t)}{a^\dagger(t)} = e^{-\kappa t}$, see \autoref{misc-quad-one-loss} for a proof).
+\end{remark}
+
+\begin{remark}
+    \autoref{equa-evo_heisen} does not need to have a closed form in $O_H$. It can depend on the Heisenberg representation of other operators. This is the crux of the problem of solving non-quadratic Hamiltonians (cf.\@~\autoref{intro-MF}).
+\end{remark}
+
+
+\paragraph{Example where $(A B)_H \neq A_H B_H$:} This example is from~\cite{stack_exch_prod}. Consider $H = \hbar \omega a^\dagger a$ with jump operators $L_1 = \sqrt{\kappa} a$ (spontaneous emission) and $L_2 = \sqrt{\kappa} e^{-\frac{\beta \hbar \omega}{2}} a^\dagger$ (thermal excitation). We can show that $a(t) = e^{-i \omega t -\frac{\gamma t}{2}} a(0)$ with $\gamma \equiv \kappa (1-e^{-\beta \hbar \omega})$. Thus: $a^\dagger(t) a(t) = e^{-\gamma t} a^\dagger(0) a(0)$. However, by writing and solving the differential equation on $n(t) \equiv \left(a^\dagger a\right)(t)$, we find: $n(t) = e^{-\gamma t} (n(0) - n_\infty) + n_\infty$, with $n_\infty$ corresponding to the Bose-Einstein distribution $n_\infty \equiv \frac{1}{e^{\beta \hbar \omega}- 1}$. Indeed, $n(t)$ represents the population which can go to a nonzero value while $a^\dagger(t) a(t)$ is a correlation that decays towards zero. \autoref{multi-heisenberg-multi} presents a sufficient condition that ensures that $(A B)_H = A_H B_H$. Even though the result is in itself not very practical, proving it gives a better understanding of the Heisenberg representation for an open system that can be seen by writing the equations of evolution for $(A B)_H$ and $A_H B_H$.
+
+\paragraph{Comment on Bosonic Commutation Relations:} Even though $a(t)$ does not satisfy bosonic commutation relations for an open system and thus does not describe a boson in general, we show in this part that bosonic commutation relations are preserved. More specifically:
+
+\begin{theorem}[Preservation of Bosonic Commutation Relations] \label{comm-preservation}
+    We have for any open or closed bosonic system:
+    \begin{eqnarray}
+        \left(\commutator{a_i}{a_j}\right)(t) &=& 0\\
+        \left(\commutator{a_i}{a^\dagger_j}\right)(t) &=& \delta_{i j}
+    \end{eqnarray}
+\end{theorem}
+
+\begin{proof}
+    We show more generally that the Heisenberg representation of a scalar $\lambda$ is constant. This proves the desired result since canonical bosonic commutators are scalar. We have
+    \begin{equation}
+        \lambda_H(t) = \sum_k K^{(S) \dagger}_k(t) \lambda K^{(S)}_k(t) = \lambda \sum_k K^{(S) \dagger}_k(t) K^{(S)}_k(t) = \lambda,
+    \end{equation}
+    where we used the normalization condition $\sum_k K^{(S) \dagger}_k(t) K^{(S)}_k(t)  = \mathbb{1}$.
+\end{proof}
+
+\begin{corollary}
+    In the case of a \textbf{closed} system, we can write:
+    \begin{eqnarray}
+        \commutator{a_i(t)}{a_j(t)} &=& 0\\
+        \commutator{a_i(t)}{a^\dagger_j(t)} &=& \delta_{i j}
+    \end{eqnarray}
+    This shows that $a_i(t)$ describes a boson for a closed system.
+\end{corollary}
+
+\begin{remark}
+    We expect that adding the external input $a_{\text{in}}(t)$ and keeping the output $a_{\text{out}}(t)$, as done in a quantum Langevin equation, leads to a closed system where $(A B)_H = A_H B_H$. So far, this was not proven formally.
+\end{remark}
+
+
+\subsubsection{Case of Time-Independent Hamiltonian without Jump Operators}
+
+In the case of a time-independent Hamiltonian without jump operators (i.e.\@ closed system), the Schrödinger and Heisenberg pictures of the aforementioned Hamiltonian are the same.
+
+\begin{theorem}[Time-Independent Hamiltonian for a Closed System]
+    For time-independent $H_S$: $H_S = H_H$.
+\end{theorem}
+
+\begin{proof}
+    For $H_S$ time-independent: $U_S(t) = e^{-i\frac{H_S t}{\hbar}}$, which commutes with $H_S$.
+\end{proof}
+
+\begin{corollary}
+    If $H_S$ is time-independent for a closed system, then $H_H$ is time-independent.
+\end{corollary}
+
+In the following, we will be interested in the operators that are not explicitly time-dependant, such as polynomials of ladder operators.
+
+\begin{theorem}
+    For $H_S$ and $O_S$ time-independent for a closed system, the time-evolution of $O_H$ is given by
+    \begin{equation}
+        O_H(t) = e^{i\frac{H_H t}{\hbar}} O_H(0) e^{-i\frac{H_H t}{\hbar}}
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    For $H_S$ and $O_S$ time-independent, the equation of evolution of $O_H$ is given by
+    \begin{equation} \label{equa-diff-closed}
+        \timeDeriv{O_H(t)} = \ihbar \commutator{O_H(t)}{H_H}
+    \end{equation}
+
+    Since $H_H$ is time-independent, the solution of the differential equation is $O_H(t) = e^{i\frac{H_H t}{\hbar}} O_H(0) e^{-i\frac{H_H t}{\hbar}}$. This can be proven by showing that the right hand side \textit{satisfies the same differential equation} and \textit{has the same initial condition}.
+\end{proof}
+
+For the following, we will consider that all the operators are in the Heisenberg picture and drop the subscript $H$. In order to compute $O(t)$ explicitly, we introduce the following quantity.
+
+\begin{definition}[Composition of Commutators]
+    We define the sequence of operators $\Comm{n}{H}{O}$ by
+    \begin{eqnarray}
+        \Comm{0}{H}{O} &=& O\\
+        \forall n \in \mathbb{N}, \Comm{n+1}{H}{O} &=& \commutator{H}{\Comm{n}{H}{O}}
+    \end{eqnarray}
+    which formally defines $\commutator{H}{\commutator{H}{\ldots\commutator{H}{O}}}$.
+\end{definition}
+
+Using this definition, we can write the time evolution of $O(t)$:
+
+\begin{theorem} 
+    For $H$ time-independent, we have
+    \begin{equation} \label{exact_tea_expansion}
+        O(t) = \sum_{n = 0}^\infty \frac{1}{n!} \left(\frac{i t}{\hbar}\right)^n \Comm{n}{H}{O(0)}
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    We introduce the linear operator: $\Lambda : X \mapsto \ihbar \commutator{X}{H}$ (right hand side of~\autoref{equa-diff-closed}). Let us consider the linear differential equation: $\timeDeriv{X}(t) = \Lambda(X(t))$. The solution of this differential equation is $X(t) = \exp{t \Lambda}(X(0)) \equiv \sum_{n = 0}^\infty \frac{t^n}{n!} \Lambda^{(n)}(X(0))$, where $\Lambda^{(n)}$ designates the composition $n$ times. This is just a re-writing of~\autoref{exact_tea_expansion}.
+\end{proof}
+
+\begin{remark}
+    In \autoref{exact_tea_expansion}, we can take $H$ both in the Heisenberg and the Schrödinger representations. Since we are computing its commutators with $O(0)$, $H$ should be considered in the Schrödinger picture. In particular, since all the operators are in the Schrödinger picture, \textbf{we can use the canonical commutation relations}.
+\end{remark}

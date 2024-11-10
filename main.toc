@@ -1,0 +1,113 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Résumé / Abstract}{ii}{figure.caption.4}%
+\contentsline {paragraph}{Keywords:}{ii}{section*.6}%
+\contentsline {chapter}{Dedication}{iii}{section*.6}%
+\contentsline {chapter}{Acknowledgements}{iv}{chapter*.7}%
+\contentsline {chapter}{Introduction}{1}{chapter*.12}%
+\contentsline {chapter}{\numberline {1}Generalities and Review of the Literature}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Bosonic Commutation Relations}{2}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Motivation}{2}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Properties}{2}{subsection.1.1.2}%
+\contentsline {subsubsection}{Commutator Algebra}{2}{section*.13}%
+\contentsline {subsubsection}{Degree of Commutator of Polynomials}{3}{section*.14}%
+\contentsline {section}{\numberline {1.2}Quantum Dynamics}{3}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Schrödinger Representation - Density Matrix}{3}{subsection.1.2.1}%
+\contentsline {subsubsection}{Presentation of the Method}{3}{section*.15}%
+\contentsline {subsubsection}{Performance}{3}{section*.16}%
+\contentsline {subsection}{\numberline {1.2.2}Heisenberg Representation}{4}{subsection.1.2.2}%
+\contentsline {subsubsection}{Reminders Concerning the Heisenberg Picture}{4}{section*.17}%
+\contentsline {paragraph}{Example where $(A B)_H \neq A_H B_H$:}{5}{section*.18}%
+\contentsline {paragraph}{Comment on Bosonic Commutation Relations:}{5}{section*.19}%
+\contentsline {subsubsection}{Case of Time-Independent Hamiltonian without Jump Operators}{6}{section*.20}%
+\contentsline {subsection}{\numberline {1.2.3}Mean Field Methods (MF)}{7}{subsection.1.2.3}%
+\contentsline {subsubsection}{Equations on Moments / Cumulants}{7}{section*.21}%
+\contentsline {paragraph}{Interesting Corollary:}{8}{section*.22}%
+\contentsline {subsubsection}{Cumulant Method}{8}{section*.23}%
+\contentsline {paragraph}{Moment Generating Function (MGF)}{8}{section*.25}%
+\contentsline {paragraph}{Cumulant Generating Function (CGF)}{9}{section*.26}%
+\contentsline {paragraph}{Method (\texttt {truncated cumulants})}{10}{section*.27}%
+\contentsline {chapter}{\numberline {2}Solving Non-Quadratic Hamiltonians}{11}{chapter.2}%
+\contentsline {section}{\numberline {2.1}General Form of Quantum Langevin Equation}{11}{section.2.1}%
+\contentsline {subsubsection}{Examples}{11}{section*.28}%
+\contentsline {paragraph}{One Photon Loss:}{11}{section*.29}%
+\contentsline {paragraph}{Two Photon Loss:}{11}{section*.30}%
+\contentsline {subsection}{\numberline {2.1.1}Sanity Check: Adding Jump Operators}{12}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Mean Field (MF) Methods}{12}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Summary of Other Methods}{12}{subsection.2.2.1}%
+\contentsline {subsubsection}{Writing the Differential System}{12}{section*.31}%
+\contentsline {paragraph}{\texttt {Divide in Half}}{12}{section*.32}%
+\contentsline {paragraph}{\texttt {Minimum Cut}}{13}{section*.33}%
+\contentsline {subsubsection}{Initial States}{13}{section*.34}%
+\contentsline {paragraph}{Numerical Implementation:}{13}{section*.35}%
+\contentsline {subsection}{\numberline {2.2.2}Stability Analysis}{15}{subsection.2.2.2}%
+\contentsline {subsubsection}{Introduction of $\mathcal {L}$}{15}{section*.38}%
+\contentsline {subsection}{\numberline {2.2.3}Numerical Tests}{16}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Time Evolution Approximation (TEA)}{16}{section.2.3}%
+\contentsline {subsubsection}{Can We Include Quantum Jumps?}{17}{section*.41}%
+\contentsline {subsubsection}{Padé Approximate}{17}{section*.43}%
+\contentsline {section}{\numberline {2.4}Complexity of the Methods}{18}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Density Matrix Method}{18}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Usual MF}{18}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Cumulant Method}{19}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Time Evolution Approximation}{19}{subsection.2.4.4}%
+\contentsline {chapter}{\numberline {3}Conclusion}{20}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Summary of the Report}{20}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Open questions}{20}{section.3.2}%
+\contentsline {chapter}{Bibliography}{21}{section.3.2}%
+\contentsline {chapter}{\numberline {A}Additional Definitions}{25}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Notions of Complexity}{25}{section.A.1}%
+\contentsline {subsection}{\numberline {A.1.1}Presentation of the Problem}{25}{subsection.A.1.1}%
+\contentsline {subsection}{\numberline {A.1.2}Notation Conventions}{25}{subsection.A.1.2}%
+\contentsline {section}{\numberline {A.2}Bell Numbers}{26}{section.A.2}%
+\contentsline {chapter}{\numberline {B}Sufficient Condition for Multiplicity of Heisenberg Representation}{27}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Derivation of Quantum Langevin Equation}{30}{appendix.C}%
+\contentsline {section}{\numberline {C.1}General Derivation}{30}{section.C.1}%
+\contentsline {subsubsection}{Presentation of the Problem}{30}{section*.50}%
+\contentsline {subsubsection}{Heisenberg-Langevin Equations}{30}{section*.51}%
+\contentsline {section}{\numberline {C.2}Two-Cavity Model}{31}{section.C.2}%
+\contentsline {subsection}{\numberline {C.2.1}Model}{31}{subsection.C.2.1}%
+\contentsline {subsection}{\numberline {C.2.2}Heisenberg-Langevin Equations}{31}{subsection.C.2.2}%
+\contentsline {chapter}{\numberline {D}Expression of Some Quantities as a Function of Moments}{33}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Quasi-Probabilities}{33}{section.D.1}%
+\contentsline {subsection}{\numberline {D.1.1}Sanity Check: Coherent State}{35}{subsection.D.1.1}%
+\contentsline {subsubsection}{$P-$distribution}{35}{section*.52}%
+\contentsline {subsubsection}{Wigner Function and Husimi Function}{35}{section*.53}%
+\contentsline {section}{\numberline {D.2}Probability of Number Occupation}{36}{section.D.2}%
+\contentsline {subsection}{\numberline {D.2.1}Sanity Checks}{37}{subsection.D.2.1}%
+\contentsline {subsubsection}{Coherent State $\ket {\alpha }$}{37}{section*.54}%
+\contentsline {subsubsection}{Fock State $\ket {\nu }$}{37}{section*.55}%
+\contentsline {chapter}{\numberline {E}Analytical Expressions for Some Hamiltonians}{38}{appendix.E}%
+\contentsline {section}{\numberline {E.1}Results and Techniques}{38}{section.E.1}%
+\contentsline {subsection}{\numberline {E.1.1}Time-Ordered Exponential}{38}{subsection.E.1.1}%
+\contentsline {subsubsection}{Definition}{38}{section*.56}%
+\contentsline {subsubsection}{Technique}{38}{section*.57}%
+\contentsline {subsection}{\numberline {E.1.2}Derivation with Respect to Operators}{39}{subsection.E.1.2}%
+\contentsline {section}{\numberline {E.2}Examples}{39}{section.E.2}%
+\contentsline {subsection}{\numberline {E.2.1}One-Mode Kerr Hamiltonian}{39}{subsection.E.2.1}%
+\contentsline {subsubsection}{Expression of the moments}{40}{section*.58}%
+\contentsline {subsection}{\numberline {E.2.2}Cross-Kerr Hamiltonian}{40}{subsection.E.2.2}%
+\contentsline {subsection}{\numberline {E.2.3}Partial Generalization}{40}{subsection.E.2.3}%
+\contentsline {chapter}{\numberline {F}Summary of the Methods}{42}{appendix.F}%
+\contentsline {chapter}{\numberline {G}Other Numerical Results}{53}{appendix.G}%
+\contentsline {paragraph}{Numerical resolution for MF methods:}{53}{section*.61}%
+\contentsline {section}{\numberline {G.1}General Considerations}{53}{section.G.1}%
+\contentsline {section}{\numberline {G.2}Test of X-gate}{53}{section.G.2}%
+\contentsline {chapter}{\numberline {H}Miscellaneous}{60}{appendix.H}%
+\contentsline {section}{\numberline {H.1}Proof of \autoref {basic_commutator}}{60}{section.H.1}%
+\contentsline {section}{\numberline {H.2}Proof of \autoref {th_deg_comm}}{60}{section.H.2}%
+\contentsline {section}{\numberline {H.3}Solving Quadratic Hamiltonian with One Photon Loss}{61}{section.H.3}%
+\contentsline {section}{\numberline {H.4}Number of Equations - MF Equations}{62}{section.H.4}%
+\contentsline {section}{\numberline {H.5}Proofs and Corollaries - Initial States (\autoref {initial-general})}{62}{section.H.5}%
+\contentsline {section}{\numberline {H.6}Proof of Independent Resolution on Projectors}{63}{section.H.6}%
+\contentsline {section}{\numberline {H.7}Properties of Stability Matrix}{64}{section.H.7}%
+\contentsline {paragraph}{Real initial condition with no quantum jump}{64}{section*.74}%
+\contentsline {subsubsection}{General Case}{64}{section*.75}%
+\contentsline {section}{\numberline {H.8}Complexity of TEA - Computation of the Commutators}{64}{section.H.8}%
+\contentsline {section}{\numberline {H.9}Proofs for Times of Validity - TEA}{65}{section.H.9}%
+\contentsline {chapter}{\numberline {I}Sum of Gaussian States \color {red}(UNFINISHED)\color {black}}{66}{appendix.I}%
+\contentsline {section}{\numberline {I.1}One-Mode Gaussian State}{66}{section.I.1}%
+\contentsline {subsection}{\numberline {I.1.1}One-Mode Squeeze Operator}{66}{subsection.I.1.1}%
+\contentsline {subsection}{\numberline {I.1.2}Scalar Product of One-Mode Gaussian States}{66}{subsection.I.1.2}%
+\contentsline {subsection}{\numberline {I.1.3}Squeeze and Displacement Operators}{67}{subsection.I.1.3}%
+\contentsline {subsection}{\numberline {I.1.4}Cumulants of One-Mode Gaussian States}{67}{subsection.I.1.4}%
+\contentsline {subsection}{\numberline {I.1.5}Cumulants of One-Mode Gaussian \textit {Projectors}}{68}{subsection.I.1.5}%

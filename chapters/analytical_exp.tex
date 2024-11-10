@@ -1,0 +1,132 @@
+In this part, we solve exactly some Hamiltonians and give examples where our methods for analytical resolution fail. The analytical expressions given here were not found in the literature.
+
+\section{Results and Techniques}
+In this section, we present the time-ordered exponential and show how we can use it for solving some differential systems.
+
+\subsection{Time-Ordered Exponential}
+\subsubsection{Definition}
+The time-ordered exponential is defined as the solution of the initial value problem \cite{wiki_time_exp, course-time_exp}:
+
+\begin{eqnarray}
+    \timeDeriv{\texp{A}} &=& A(t) \texp{A}\\
+    \texp{A}(t = 0) &=& \mathbb{1}
+\end{eqnarray}
+
+$\texp{A}$ can be expressed as the following series~\cite{course-time_exp}:
+
+\begin{equation}
+    \texp{A} = \mathbb{1} + \sum_{n=1}^\infty \int_{0}^{t} dt_1 \int_{0}^{t_1} dt_2 ... \int_{0}^{t_{n-1}} dt_n \ A(t_1) ... A(t_n)
+\end{equation}
+
+It turns out the time ordered exponential is different from the usual exponential when the operators $\{A(t')\}_{t'}$ do not commute. Indeed, time ordering refers to putting the operators in an increasing value of time from the right to the left. This ensures that they are applied in a chronological order.
+
+\subsubsection{Technique}
+
+Let us consider the evolution of the operator $O(t)$. The following theorem gives the expression of $O(t)$ in a particular case:
+
+\begin{theorem}[Resolution with Time-Ordered Exponential] \label{th_res-toe}
+    Supposes that: $\timeDeriv{O} = \mathbb{F}(t) O$, then:
+    \begin{equation}
+        O(t) = \texp{\mathbb{F}} O(0)
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    We have: $\texp{\mathbb{F}}(t=0) O(0) = O(0)$ and 
+    $$\timeDeriv{\texp{\mathbb{F}} O(0)} = \mathbb{F}(t) \texp{\mathbb{F}} O(0).$$ Since $O(t)$ and $\texp{\mathbb{F}} O(0)$ satisfy the same differential equation with the same initial condition, we deduce that they are equal.
+\end{proof}
+
+Thus, \textit{if} we know how to express $\mathbb{F}(t)$, we fully know the evolution of $O(t)$. In~\autoref{self-kerr-exact-sol}, \autoref{cross-kerr-exact-sol} and~\autoref{gene-exact-sol}, we present examples where this is the case.
+
+\subsection{Derivation with Respect to Operators} \label{int-op}
+
+Many techniques for solving differential equations where the unknown function takes complex values use the identification of an expression as the derivative relative to the complex function. A usual example is the method of separation of variables. Generalizing this approach requires defining derivatives with respect to operators. This is challenging since two operators do not commute in general. This is particularly important when we want to integrate with respect to an operator, which imposes putting the differential on the right or on the left. Nevertheless, this can be done properly \cite{Suzuki1997-zw}. This required introducing commutators. We invite the interested reader to look into the paper \cite{Suzuki1997-zw} where derivatives of powers, exponentials and logarithms, amongst others, are derived. Here, we limit ourselves to an example to illustrate the need for commutators.
+
+Let us consider the differential equation on the operator $X$: $\timeDeriv{X} = \frac{1}{X}$ (in this example, we do not bother whether the equation is well-defined). We might attempt to use the separation of variables and write: $X dX = dt$. Formally, the expression is correct. The next step is to integrate the two expressions from $0$ to $t$. However, this required from us to know the primitive of $X \mapsto X$. Sadly, it is not $X \mapsto \frac{X^2}{2}$. Indeed:
+
+\begin{eqnarray}
+    \lim_{h \rightarrow 0} \frac{(X + h dX)^2 - X^2}{h} &=& \lim_{h \rightarrow 0} \frac{X^2 + h X dX + h dX X + h^2 dX^2 - X^2}{h} = X dX + dX X \nonumber\\
+    &=& 2 X dX + \commutator{dX}{X} = (2 X + \commutator{.}{X}) dX
+\end{eqnarray}
+
+Thus, it is not straightforward to find the primitive of $X \mapsto X$. The method of separation of variables cannot be used directly on operators.
+
+\section{Examples}
+In this section, we present some examples where an analytical expression is found and others where we did not manage to do so. We present an explanation for the failure.
+
+\subsection{One-Mode Kerr Hamiltonian} \label{self-kerr-exact-sol}
+The self-Kerr Hamiltonian is given by $H = \hbar g a^{\dagger 2} a^2$.
+
+The annihilator $a$ satisfies the differential equation:
+\begin{equation}
+    \timeDeriv{a} = -2ig a^\dagger a^2 = \left(-2ig a^\dagger a\right) a
+\end{equation}
+
+We have:
+
+\begin{equation}
+    \timeDeriv{a^\dagger a} = \timeDeriv{a^\dagger} a(t) + a^\dagger(t) \timeDeriv{a} = 0
+\end{equation}
+
+Thus, $a^\dagger(t) a(t) = a^\dagger(0) a(0)$. The differential equation is in the form of~\autoref{th_res-toe} and thus:
+
+\begin{equation}
+    a(t) = \Texp{-2 i g t a^\dagger(0) a(0)} a(0) = e^{-2 i g t a^\dagger(0) a(0)} a(0)
+\end{equation}
+
+\subsubsection{Expression of the moments}
+We can use the expression $a(t) = e^{-2 i g t a^\dagger(0) a(0)} a(0)$ to find the time evolution of the moments $\mel{\alpha}{a^{\dagger j}(t) a^k(t)}{\alpha}$ for example.
+
+To do this, we write $a(t) \ket{\alpha}$:
+\begin{equation}
+    a(t) \ket{\alpha} = e^{-2 i g t a^\dagger(0) a(0)} a(0) \ket{\alpha} = \alpha e^{-2 i g t a^\dagger(0) a(0)} \ket{\alpha} = \alpha e^{-\frac{|\alpha|^2}{2}} \sum_{n=0}^\infty \frac{\alpha^n}{\sqrt{n!}} e^{-2 i g t n} \ket{n} = \alpha \ket{\alpha e^{-2 i g t}}
+\end{equation}
+with: $\ket{\beta(t)} \equiv e^{-\frac{|\beta(t)|^2}{2}} \sum_{n=0}^\infty \frac{\beta(t)^n}{\sqrt{n!}} \ket{n}$. Thus, by induction, we have: $a^k(t) \ket{\alpha} = \left(\prod_{l=0}^{k-1} \alpha e^{-2 i l g t} \right) \ket{\alpha e^{-2 i k g t}} = \alpha^k e^{-2 i g t k(k-1)} \ket{\alpha e^{-2 i k g t}}$. Therefore, $\mel{\alpha}{a^{\dagger j}(t) a^k(t)}{\alpha} = \alpha^{* j} \alpha^k e^{-2 i g t [k(k-1) - j(j-1)]} \braket{\alpha e^{-2 i j g t}}{\alpha e^{-2 i k g t}}$, with:
+
+\begin{equation*}
+    \braket{\alpha e^{-2 i j g t}}{\alpha e^{-2 i k g t}} = e^{-|\alpha|^2} \sum_{n=0}^\infty \frac{|\alpha|^{2 n} e^{- 2 i (k-j) n g t}}{n!} = e^{-|\alpha|^2} e^{|\alpha|^2 e^{- 2 i (k-j) g t}}.
+\end{equation*}
+
+Thus:
+
+\begin{equation}
+    \mel{\alpha}{a^{\dagger j}(t) a^k(t)}{\alpha} = \alpha^{* j} \alpha^k e^{-|\alpha|^2} e^{|\alpha|^2 e^{- 2 i (k-j) g t}} \exp{- 2 i g (k - j) (k + j - 1) t}
+\end{equation}
+
+\subsection{Cross-Kerr Hamiltonian} \label{cross-kerr-exact-sol}
+Let us consider two bosonic modes represented by their annihilators $a$ and $b$. The cross-Kerr Hamiltonian is given by $H = \hbar g a^\dagger b^\dagger b a$. $a(t)$ and $b(t)$ satisfy the equations of evolution:
+\begin{eqnarray}
+    \timeDeriv{a} &=& -i g b^\dagger b a\\
+    \timeDeriv{b} &=& -i g a^\dagger a b
+\end{eqnarray}
+
+We have:
+\begin{eqnarray}
+    \timeDeriv{a^\dagger a} &=& 0\\
+    \timeDeriv{b^\dagger b} &=& 0
+\end{eqnarray}
+
+Again, the differential system is in the form~\autoref{th_res-toe}, thus:
+
+\begin{eqnarray}
+    a(t) &=& \exp{-i g t b^\dagger(0) b(0)} a(0)\\
+    b(t) &=& \exp{-i g t a^\dagger(0) a(0)} b(0)
+\end{eqnarray}
+
+\subsection{Partial Generalization} \label{gene-exact-sol}
+The examples above can be solved without any greater effort if \textit{diagonal quadratic} terms are added to the Hamiltonian. This observation is more general in fact. The same method used in~\autoref{self-kerr-exact-sol} and~\autoref{cross-kerr-exact-sol} can be used for any Hamiltonian in the form: $H = H\left(a^\dagger_1 a_1, ..., a^\dagger_N a_N\right)$ (i.e.\@~each term has the same number of creators and annihilators for each mode). Indeed, in this case, the equation of evolution of the annihilators is of the form of~\autoref{th_res-toe} and $\mathbb{F} = \mathbb{F}\left(a^\dagger_1 a_1, ..., a^\dagger_N a_N\right)$.
+
+Let us show this more rigorously:
+\begin{proof}
+    $H = H\left(a^\dagger_1 a_1, ..., a^\dagger_N a_N\right)$, thus we can write for the mode $i$, by writing $H$ in normal order for the mode $i$ for example:
+    \begin{equation}
+        H = \sum_{q=0}^\infty h^{(i)}_q\left(\{a^\dagger_j a_j\}_{j \neq i}\right) a_i^{\dagger q} a_i^q
+    \end{equation}
+    Therefore, the equation of evolution of $a_i$ is:
+    \begin{equation}
+        \timeDeriv{a_i} = \ihbar \sum_{q=0}^\infty h^{(i)}_q\left(\{a^\dagger_j a_j\}_{j \neq i}\right) q a_i^{\dagger (q-1)} a_i^q = \left[\ihbar \sum_{q=0}^\infty h^{(i)}_q\left(\{a^\dagger_j a_j\}_{j \neq i}\right) q a_i^{\dagger (q-1)} a_i^{q-1}\right] a_i
+    \end{equation}
+
+    Further, using that $\mathbb{F}^\dagger = \mathbb{F}$, we have $\timeDeriv{a^\dagger_j a_j} = 0$, thus 
+    this equation is of the form of~\autoref{th_res-toe}, its corresponding $\mathbb{F} = \mathbb{F}\left(a^\dagger_1 a_1, ..., a^\dagger_N a_N\right)$, implying that $\mathbb{F}^\dagger = \mathbb{F}$.
+\end{proof}

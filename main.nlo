@@ -1,0 +1,38 @@
+\nomenclatureentry{aMF@[{MF}]\begingroup Mean field (MF)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$a, b, a_i\ldots$@[{$a, b, a_i\ldots$}]\begingroup Bosonic annihilators\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$a^\dagger, b^\dagger, a^\dagger_i\ldots$@[{$a^\dagger, b^\dagger, a^\dagger_i\ldots$}]\begingroup Bosonic creators\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$H$@[{$H$}]\begingroup Hamiltonian\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$(\cdot)_H$@[{$(\cdot)_H$}]\begingroup Heisenberg representations\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$(\cdot)_S$@[{$(\cdot)_S$}]\begingroup Schrödinger representations\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\commutator{\cdot}{\cdot}$@[{$\commutator{\cdot}{\cdot}$}]\begingroup Commutator\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\anticomm{\cdot}{\cdot}$@[{$\anticomm{\cdot}{\cdot}$}]\begingroup Anti-commutator\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\kappa, \gamma\ldots$@[{$\kappa, \gamma\ldots$}]\begingroup Rate of jump operator\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$M(\Vec{z}, \Vec{z}^*)$@[{$M(\Vec{z}, \Vec{z}^*)$}]\begingroup Moment generating function (MGF)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$K(\Vec{z}, \Vec{z}^*)$@[{$K(\Vec{z}, \Vec{z}^*)$}]\begingroup Cumulant generating function (CGF)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$K(\Vec{z}, \Vec{z}^*)$@[{$K(\Vec{z}, \Vec{z}^*)$}]\begingroup Cumulant generating function (CGF)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\poly{q}{a_1, \ldots, a_N; a^\dagger_1, \ldots, a^\dagger_N}$@[{$\poly{q}{a_1, \ldots, a_N; a^\dagger_1, \ldots, a^\dagger_N}$}]\begingroup Polynomial of $a_1, \ldots, a_N; a^\dagger_1, \ldots, a^\dagger_N$ of degree less or equal to $q$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$L_n$@[{$L_n$}]\begingroup Jump operator\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$K_k$@[{$K_k$}]\begingroup Kraus operator\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\Theta$@[{$\Theta$}]\begingroup Big theta symbol (asymptotically comparable)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$o$@[{$o$}]\begingroup Small o symbol (asymptotically negligible)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$O$@[{$O$}]\begingroup Big o symbol (asymptotically dominated)\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\sim$@[{$\sim$}]\begingroup Equivalent\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\rho$@[{$\rho$}]\begingroup Density matrix\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\average{\cdot}$@[{$\average{\cdot}$}]\begingroup Average\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$C_{\cdot}$@[{$C_{\cdot}$}]\begingroup Cumulant\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$p$@[{$p$}]\begingroup Cut-off of the approximation\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\Comm{n}{A}{B}$@[{$\Comm{n}{A}{B}$}]\begingroup Iterated commutator $\commutator{A}{\commutator{A}{\commutator{A}{\ldots B}}}$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\tau_H$@[{$\tau_H$}]\begingroup Degree of the Hamiltonian $H$ minus $2$, represents the non-linearity of $H$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$P(\beta, \beta^*)$@[{$P(\beta, \beta^*)$}]\begingroup $P-$distribution\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$P(\beta, \beta^*)$@[{$P(\beta, \beta^*)$}]\begingroup $P-$distribution\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$W(\beta, \beta^*)$@[{$W(\beta, \beta^*)$}]\begingroup Wigner function\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\mathcal{P}(n)$@[{$\mathcal{P}(n)$}]\begingroup Set of partitions of $\{1, \ldots, n\}$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\mathcal{L}$@[{$\mathcal{L}$}]\begingroup Stability matrix\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$t_p[\alpha]$@[{$t_p[\alpha]$}]\begingroup Time of validity\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$B_n$@[{$B_n$}]\begingroup Bell numbers\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$\texp{A}$@[{$\texp{A}$}]\begingroup Time-ordered exponential\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$w_X$@[{$w_X$}]\begingroup Number of monomials in $X$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$M_{\max, i}$@[{$M_{\max, i}$}]\begingroup Cutoff in Fock space for mode $i$\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$T$@[{$T$}]\begingroup Length of the time interval\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$m$@[{$m$}]\begingroup Degree of the Hamiltonian\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{a$(p, q)$@[{$(p, q)$}]\begingroup Degrees of the numerator and denominator in Padé approximate\nomeqref {0}|nompageref}{1}

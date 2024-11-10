@@ -1,0 +1,404 @@
+In this part, we define properly the cumulants for quantum operators. This is essential if we want to use the right properties.
+
+\subsection{Real Case}
+
+\subsubsection{Definitions}
+
+This introduction is based on the paper \cite{Generalized_Cumulant_Dynamics}. We shall present the proves of different results that might not be present in the paper. We start by presenting the case of a quantum particle defined by the operators $x$ and $p$ and the corresponding ladder operator $a$. We define:
+
+\begin{definition}
+    Let $D(z) \equiv \exp{z a^\dagger - z^* a}$ be the displacement operator. For any state given by the density matrix $\rho$, we introduce the Weyl function: $\mathcal{W}(z) \equiv \trace{\rho D(z)} = \average{D(z)}$.
+\end{definition}
+
+\begin{remark}
+    The Weyl function $\mathcal{W}(z)$ is different from the Wigner function which is given by: $\mathbb{W}(z) \equiv \frac{2}{\pi} \average{D(z) (-1)^{a^\dagger a} D(-z)}$.
+\end{remark}
+
+In particular, we can take: $z \equiv \frac{\theta - i \phi}{2}$ for the convention $x = \frac{a + a^\dagger}{2}$ and $p = \frac{a - a^\dagger}{2i}$:
+
+\begin{eqnarray}
+    \mathcal{W}(z) &=& \average{\exp{\frac{\theta - i \phi}{2} a^\dagger - \frac{\theta + i \phi}{2} a}} \nonumber\\
+    &=& \average{\exp{-i \phi x -i \theta p}}
+\end{eqnarray}
+
+This allows us to introduce the moment generating function (MGF) and the cumulant generating function (CGF):
+
+\begin{definition}
+    The MGF is given by: $M(\phi, \theta) \equiv \average{\exp{-i \phi x -i \theta p}}$. The CGF is given by: $K(\phi, \theta) \equiv \ln{M(\phi, \theta)}$.
+\end{definition}
+
+\begin{remark}
+    The usual definitions of the generating functions uses a real instead of a complex exponential. However, this choice allows to ensure that the averages is well defined since the modulus is equal to one.
+\end{remark}
+
+In order to see why $M(\phi, \theta)$ is called the MGF, we expand it:
+
+\begin{eqnarray}
+    M(\phi, \theta) &=& \average{\exp{-i \phi x -i \theta p}} \nonumber\\
+    &=& \sum_{n = 0}^\infty \frac{(-i)^n}{n!} \average{(\phi x + \theta p)^n} \nonumber\\
+    &=& \sum_{n = 0}^\infty \frac{(-i)^n}{n!} \sum_{r = 0}^\infty \binom{n}{r} \phi^r \theta^{n - r} \average{\weyl{x^r p^{n - r}}}
+\end{eqnarray}
+
+where we introduce the Weyl-symmetric order $\weyl{...}$. In order to compute it, we introduce and prove the following result:
+
+\begin{theorem}[Polynomial Expression of Weyl-Symmetric Order]
+    Let $f(p)$ be any function of the operator $p$. We have:
+    
+    \begin{equation}
+        \weyl{x^r f(p)} = \frac{1}{2^r} \sum_{k = 0}^r \binom{r}{k} x^k f(p) x^{r - k}
+    \end{equation}
+\end{theorem}
+
+This identity is not intuitive since one expects to see terms like $x p x p$. However, thanks to the commutation relations, all terms can be put into the form $x^k f(p) x^{r - k}$. The proof uses the following recursion relation for the symmetric order:
+
+\begin{lemma}
+    Let $A(x, p)$ be an operator, we have:
+    \begin{equation}
+        \weyl{x A(x, p)} = \frac{1}{2} \left(x \weyl{A(x, p)} + \weyl{A(x, p)} x\right)
+    \end{equation}
+
+    idem for $p$ instead of $x$.
+\end{lemma}
+
+Using this lemma, we can write a recursive proof:
+
+\begin{proof}
+    For $r = 0$, the identity is straightforward. Let $r \in \mathbb{N}$, suppose the identity to be true for $r$ and let us show it for $r+1$:
+
+    \begin{eqnarray}
+        \weyl{x^{r+1} f(p)} &=& \frac{1}{2} \left(x \weyl{x^r f(p)} + \weyl{x^r f(p)} x \right) \nonumber\\
+        &=& \frac{1}{2^{r+1}}  \sum_{k = 0}^r \binom{r}{k} \left(x^{k+1} f(p) x^{r - k} + x^k f(p) x^{r + 1 - k}\right) \nonumber\\
+        &=& \frac{1}{2^{r+1}}  \sum_{k = 1}^{r+1} \binom{r}{k-1} x^k f(p) x^{r + 1 - k}+\frac{1}{2^{r+1}} \sum_{k = 0}^r \binom{r}{k} x^k f(p) x^{r + 1 - k}
+    \end{eqnarray}
+
+    Using the identity $\binom{r}{k-1} + \binom{r}{k} = \binom{r+1}{k}$ and that $\binom{j}{k} = 0$ if $k < 0$ or $k > j$, we recover the equality to prove.
+\end{proof}
+
+\begin{remark}
+    This identity allows to write $\weyl{x^r f(p)}$ in a polynomial number of terms.
+\end{remark}
+
+For the following, we introduce the notation: $\Omega_{j k} \equiv \weyl{x^j p^k}$. Thus, the MGF and the CGF can be written as:
+
+\begin{eqnarray}
+    M(\phi, \theta) &=& \sum_{n = 0}^\infty \frac{(-i)^n}{n!} \sum_{r = 0}^\infty \binom{n}{r} \phi^r \theta^{n - r} \average{\Omega_{r, n-r}}\\
+    K(\phi, \theta) &=& \sum_{n = 0}^\infty \frac{(-i)^n}{n!} \sum_{r = 0}^\infty \binom{n}{r} \phi^r \theta^{n - r} \cumulant{\Omega}{{r, n-r}}
+\end{eqnarray}
+
+Thus, the moments and cumulants can be extracted from the generators \textit{via} the identities:
+
+\begin{eqnarray}
+    \average{\Omega_{j k}} &=& i^{j+k} \ \pdv[order = {j,k}]{M}{\phi,\theta}(0, 0)\\
+    \cumulant{\Omega}{{j, k}} &=& i^{j+k} \  \pdv[order = {j,k}]{K}{\phi,\theta}(0, 0)
+\end{eqnarray}
+
+\subsubsection{Recursion Relations}
+
+Recursion relations are important since they allow to compute moments or cumulants using lower order quantities. We want to prove the following results:
+
+\begin{theorem}[Recursion Relations]
+    For $\alpha \ge 1$ and $\beta \ge 0$, we have:
+    \begin{eqnarray}
+        \label{recur_moment}
+        \average{\Omega_{\alpha \beta}} &=& \sum_{k = 0}^{\alpha - 1}  \sum_{l = 0}^{\beta}  \binom{\alpha - 1}{k} \binom{\beta}{l} \average{\Omega_{k l}} \cumulant{\Omega}{{\alpha - k, \beta - l}}\\
+        \label{recur_cumulant}
+        \cumulant{\Omega}{{\alpha, \beta}} &=&\average{\Omega_{\alpha \beta}} - \sum_{k = 0}^{\alpha - 1} \  \sum_{l = 0, k+l > 0}^{\beta}  \binom{\alpha - 1}{k} \binom{\beta}{l} \average{\Omega_{k l}} \cumulant{\Omega}{{\alpha - k, \beta - l}}
+    \end{eqnarray}
+
+    For $\alpha = 0$ and $\beta \ge 1$, we have:
+    \begin{eqnarray}
+        \label{recur_moment_0}
+        \average{\Omega_{0 \beta}} &=& \sum_{l = 0}^{\beta-1}  \binom{\beta - 1}{l} \average{\Omega_{0 l}} \cumulant{\Omega}{{0, \beta - l}}\\
+        \label{recur_cumulant_0}
+        \cumulant{\Omega}{{0, \beta}} &=&\average{\Omega_{0 \beta}} - \sum_{l = 1}^{\beta-1}  \binom{\beta - 1}{l} \average{\Omega_{0 l}} \cumulant{\Omega}{{0, \beta - l}}
+    \end{eqnarray}
+\end{theorem}
+
+One can observe that Eq.~\ref{recur_cumulant} and Eq.~\ref{recur_cumulant_0} are equivalent to Eq.~\ref{recur_moment} and Eq.~\ref{recur_moment_0} respectively.
+
+\begin{proof}
+    For $\alpha \ge 1$ and $\beta \ge 0$, we start from the identity $\frac{\partial M}{\partial \phi}(\phi, \theta) = M(\phi, \theta) \frac{\partial K}{\partial \phi}(\phi, \theta)$. We differentiate with respect of $\phi$ $\alpha - 1$ times and with respect of $\theta$ $\beta$ times. Applying Bernoulli's identity for both variables and evaluating at $(0,0)$ gives Eq.~\ref{recur_moment}.
+
+    For $\alpha = 0$ and $\beta \ge 1$, we start from the identity $\frac{\partial M}{\partial \theta}(\phi, \theta) = M(\phi, \theta) \frac{\partial K}{\partial \theta}(\phi, \theta)$. We differentiate with respect of $\theta$ $\beta- 1$ times. Applying Bernoulli's identity for both variables and evaluating at $(0,0)$ gives Eq.~\ref{recur_moment_0}.
+\end{proof}
+
+\subsubsection{Properties of Cumulants}
+
+This part establishes some properties of cumulants since they are not as intuitive as moments. We will prove these results in the quantum case. But before that, we notice the following which is important since it is counter-intuitive:
+
+\begin{remark}[\textbf{Important difference comparatively to moments}]
+   $\cumulant{\Omega}{{j, k}}$ is not in general equal to the first cumulant derived from the CGF of the variable $\Omega_{j k}$. This is different from moments where $\average{\Omega_{j k}}$ corresponds to the first moment from the MGF.
+
+   To see this, let us take a real random variable $X = x \neq 0$ a constant. We have $\cumulant{X}{2} = 0$ while $\cumulant{X^2}{1} = x^2 \neq 0$. Compare this with $\average{(X)^2} = \average{\left(X^2\right)}$, i.e. the second moment of $X$ is equal to the first moment of $X^2$.
+
+   One consequence is that one \textbf{CANNOT} take the cumulant of an equation like one does for moments. In fact, the cumulants are linear only \textbf{if the variables are independent}.
+\end{remark}
+
+\begin{theorem}[Sum of Independent Cumulants]
+    Let $a_1$ and $a_2$ independent such that $a = a_1 + a_2$. We have:
+    \begin{equation}
+        \forall j, k \in \mathbb{N}, \cumulant{\Omega}{{j, k}} = \cumulant{\Omega^{(1)}}{{j, k}} + \cumulant{\Omega^{(2)}}{{j, k}}
+    \end{equation}
+    with $\cumulant{\Omega^{(s)}}{{j, k}}$ corresponds to the operator $a_s$.
+\end{theorem}
+
+\begin{proof}
+    We can write $x = x_1 + x_2$ and $p = p_1 + p_2$ with the operators with index $1$ being independent from the operators with index $2$. The MGF can be written as:
+    \begin{equation}
+        M(\phi, \theta) = \average{\exp{-i \phi x_1 -i \theta p_1} \exp{-i \phi x_2 -i \theta p_2}}
+    \end{equation}
+    Using the independence, we can write $M(\phi, \theta) = M_1(\phi, \theta) M_2(\phi, \theta)$, with $M_j(\phi, \theta) = \average{\exp{-i \phi x_j -i \theta p_j}}$. Thus: $K(\phi, \theta) = K_1(\phi, \theta) + K_2(\phi, \theta)$, which shows the result.
+\end{proof}
+
+\begin{corollary}[Addition of a Constant]
+    If $a_2 = \alpha_2$, $M_2(\phi, \theta) = \exp{-i \phi \Re{\alpha_2} -i \theta \Im{\alpha_2}}$. Thus, $K_2(\phi, \theta) = -i \phi \Re{\alpha_2} -i \theta \Im{\alpha_2}$, i.e.
+
+    \begin{eqnarray}
+        \cumulant{\Omega}{{1, 0}} &=& \cumulant{\Omega^{(1)}}{{1, 0}} + \Re{\alpha_2}\\
+        \cumulant{\Omega}{{0,1}} &=& \cumulant{\Omega^{(1)}}{{0, 1}} + \Im{\alpha_2}\\
+        \forall k, j \in \mathbb{N}, j + k \ge 2 &\implies& \cumulant{\Omega}{{j,k}} = \cumulant{\Omega^{(1)}}{{j, k}}
+    \end{eqnarray}
+
+    So, only the cumulants are modified with the addition of a constant.
+\end{corollary}
+
+Let us consider the effect under multiplication: $a \mapsto \gamma a$, with $\gamma \in \mathbb{R}$. We will show that:
+
+\begin{theorem}[Multiplication by a Real Scalar]
+    Let $\gamma \in \mathbb{R}$, we consider $\cumulant{\Omega^{\{\gamma\}}}{{j, k}}$ the cumulant for $\gamma a$.
+    \begin{equation}
+        \cumulant{\Omega^{\{\gamma\}}}{{j, k}} = \gamma^{j+k} \cumulant{\Omega}{{j, k}}
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    We have: $M_{\{\gamma\}}(\phi, \theta) = \average{\exp{-i \phi \gamma x_j -i \theta \gamma p_j}} = M(\gamma \phi, \gamma \theta)$, thus: $K_{\{\gamma\}}(\phi, \theta) = K(\gamma \phi, \gamma \theta)$. Therefore:
+    \begin{equation}
+        \pdv[order={j, k}]{K_{\{\gamma\}}}{\phi, \theta} = \gamma^{j+k} \pdv[order={j, k}]{K}{\phi, \theta}
+    \end{equation}
+
+    The result is obtained by evaluating at $(0, 0)$.
+\end{proof}
+
+Let us consider Gaussian states:
+
+\begin{theorem}[Gaussian states]
+    Let us introduce $\Phi \equiv \begin{pmatrix}
+        \phi\\
+        \theta
+    \end{pmatrix}$, $\mu \equiv \begin{pmatrix}
+        \average{x}\\
+        \average{p}
+    \end{pmatrix}$, $\Sigma \equiv \begin{pmatrix}
+        \average{x^2} - \average{x}^2 & \average{x p} - \average{x} \average{p}\\
+        \average{p x} - \average{x} \average{p} & \average{p^2} - \average{p}^2
+    \end{pmatrix}$, a Gaussian state has the following MGF:
+
+    \begin{equation}
+        M(\phi, \theta) = \exp{-i \mu^T \Phi - \frac{1}{2} \Phi^T \Sigma \Phi}
+    \end{equation}
+
+    In particular, the cumulants are:
+
+    \begin{eqnarray}
+        \cumulant{\Omega}{{1, 0}} &=& \average{x}\\
+        \cumulant{\Omega}{{0, 1}} &=& \average{p}\\
+        \cumulant{\Omega}{{2, 0}} &=& \average{x^2} - \average{x}^2\\
+        \cumulant{\Omega}{{1, 1}} &=& \frac{1}{2} \average{x p + p x} - \average{x} \average{p}\\
+        \cumulant{\Omega}{{0, 2}} &=& \average{p^2} - \average{p}^2\\
+        \forall j, k \in \mathbb{N}, j + k \ge 3 &\implies& \cumulant{\Omega}{{j, k}} = 0
+    \end{eqnarray}
+\end{theorem}
+
+\begin{proof}
+    Straightforward computation of the integral defining $ M(\phi, \theta)$ (Gaussian integral).
+\end{proof}
+
+We might be interested in knowing whether there are other distributions such that the cumulants are zero beyond a certain order. The answer is negative for absolutely continuous probability distributions (i.e. this is not guaranteed in the case where the Wigner function takes negative values). This is refered to by the Marcinkiewicz theorem \cite{Book-Lukacs} which is a corollary of theorem 7.5.3. The theorem is obtained by studying the properties of CGF which impose constraints on them.
+
+\subsection{Quantum Cumulants for Ladder Operators}
+
+\subsubsection{Complex Partial Derivatives}
+
+We start by explaining how we can write the derivatives on $z$ and $z^*$ Keeping the definitions of $\theta$ and $\phi$ in the previous part, i.e. $z = \frac{\theta - i \phi}{2}$. We define:
+
+\begin{eqnarray}
+    \pdv{}{z} &\equiv& \pdv{}{\theta} + i \pdv{}{\phi}\\
+    \pdv{}{z^*} &\equiv& \pdv{}{\theta} - i \pdv{}{\phi}
+\end{eqnarray}
+
+For the following, we need to prove:
+
+\begin{theorem}
+    The operators $\pdv{}{z}$ and $\pdv{}{z^*}$ behave like usual derivatives.
+\end{theorem}
+
+\begin{proof}
+    We start by verifying that $z$ and $z^*$ behave like independent variables. This is the case since $\pdv{z}{z} = \pdv{z^*}{z^*} = 1$ and $\pdv{z^*}{z} = \pdv{z}{z^*} = 0$. Further, $\pdv{}{z}$ and $\pdv{}{z^*}$ are linear. Since $\pdv{}{\theta}$ and $\pdv{}{\phi}$ satisfy the product and chain rules, so do $\pdv{}{z}$ and $\pdv{}{z^*}$. Therefore, $\pdv{}{z}$ and $\pdv{}{z^*}$ behave like usual derivatives.
+\end{proof}
+
+\subsubsection{Generators of Ladder Moments and Cumulants}
+
+Now, we define the generators of ladder moments and cumulants:
+
+\begin{definition}[Generators of Ladder Moments and Cumulants]
+    We introduce the real function: $M(z, z^*) = \average{\exp{z a^\dagger + z^* a}}$, which we call the generator of ladder moments (GLM). We only need that $M(z, z^*)$ has a non-zero radius of convergence (which will not be verified). Further, we call the generator of ladder cumulants (GLC) $K(z, z^*) \equiv \ln{M(z, z^*)}$.
+\end{definition}
+
+Like previously, we expand the GLM:
+
+\begin{eqnarray}
+    M(z, z^*) &=& \sum_{n = 0}^\infty \average{\left(z a^\dagger + z^* a\right)^n} \nonumber\\
+    &=& \sum_{n = 0}^\infty \sum_{r=0}^\infty \binom{n}{r} z^r z^{* (n-r)} \average{\weyl{a^{\dagger r} a^{n-r}}}
+\end{eqnarray}
+
+We introduce $A_{j k} \equiv \weyl{a^{\dagger j} a^{k}}$ which plays a similar role than $\Omega_{j k}$. The results can be proven by using the proves of the previous part by replacing $x$ and $p$ by $a^\dagger$ and $a$ respectively.
+
+In particular:
+
+\begin{eqnarray}
+    \average{A_{j k}} &=& \pdv[order = {j,k}]{M}{\phi,\theta}(0, 0)\\
+    \cumulant{A}{{j, k}} &=& \pdv[order = {j,k}]{K}{\phi,\theta}(0, 0)
+\end{eqnarray}
+
+Furthermore, the recursion relations are the same than Eq.~\ref{recur_moment}, Eq.~\ref{recur_moment_0}, Eq.~\ref{recur_cumulant} and Eq.~\ref{recur_cumulant_0}. Similarly, the properties proven previously are the same. Additionally, the values of $\mu$ and $\Sigma$ for Gaussian states are given by:
+
+\begin{eqnarray}
+    \mu &\equiv& \begin{pmatrix}
+        \average{a}\\
+        \average{a^\dagger}
+    \end{pmatrix}\\
+    \Sigma &\equiv& \begin{pmatrix}
+    \frac{1}{2} \average{a^\dagger a + a a^\dagger} - \average{a^\dagger} \average{a} & \average{a^{\dagger 2}} - \average{a^\dagger}^2\\
+    \average{a^{ 2}} - \average{a}^2 & \frac{1}{2} \average{a^\dagger a + a a^\dagger} - \average{a^\dagger} \average{a}
+    \end{pmatrix}
+\end{eqnarray}
+
+For $M(z, z^*) = \exp{Z^\dagger \mu + \frac{1}{2} Z^\dagger \Sigma Z}$, with $Z \equiv \begin{pmatrix}
+        z\\
+        z^*
+    \end{pmatrix}$. We observe in particular that $\Sigma$ is Hermitian.
+
+\subsubsection{Algebra of $A_{j k}$}
+
+We start by using recursion properties of Weyl-symmetric operators:
+
+\begin{theorem}[Anti-Commutation Relations]
+    \begin{eqnarray}
+        \anticomm{a}{A_{j k}} &=& 2 A_{j, k+1}\\
+        \anticomm{a^\dagger}{A_{j k}} &=& 2 A_{j+1, k}
+    \end{eqnarray}
+\end{theorem}
+
+For the commutation relations, we shall prove the following:
+
+\begin{theorem}[Commutation Relations]
+    \begin{eqnarray}
+        \commutator{a}{A_{j k}} &=& j A_{j-1, k}\\
+        \commutator{a^\dagger}{A_{j k}} &=& -k A_{j, k-1}
+    \end{eqnarray}
+\end{theorem}
+
+For this, we need the lemma:
+
+\begin{lemma}
+    For any operators $A$, $B$ and $C$:
+    \begin{eqnarray}
+        \commutator{A}{BC} &=& \commutator{A}{B} C + B \commutator{A}{C} \nonumber\\
+        \commutator{BC}{A} &=& \commutator{B}{A} C + B \commutator{C}{A}
+    \end{eqnarray}
+\end{lemma}
+
+\begin{proof}
+    Let us show that $\commutator{a}{A_{j k}} = j A_{j-1, k}$:
+
+    \begin{eqnarray}
+        \commutator{a}{A_{j k}} &=& \frac{1}{2^k} \sum_{r=0}^k \binom{k}{r} \commutator{a}{a^r a^{\dagger j} a^{k-r}} \nonumber\\
+        &=& \frac{1}{2^k} \sum_{r=0}^k \binom{k}{r} a^r \commutator{a}{a^{\dagger j}} a^{k-r} \nonumber\\
+        &=& \frac{1}{2^k} \sum_{r=0}^k \binom{k}{r} a^r j a^{\dagger (j-1)} a^{k-r} \nonumber\\
+        &=& j A_{j-1, k}
+    \end{eqnarray}
+
+    Similarly, using $A_{j k} = \frac{1}{2^j} \sum_{r=0}^j \binom{j}{r} a^{\dagger r} a^{k} a^{\dagger (j-r)}$.
+\end{proof}
+
+\subsubsection{Link Between Normal and Symmetric Order - $\Lambda-$Tensor}
+
+Since the moments and cumulants are defined on symmetric ordered operators while the Hamiltonian and the desired quantities are written in normal order, we need to be able to go from one to the other. On the one hand, we know how to go from symmetric order to normal order thanks to the relation:
+
+\begin{equation}
+    A_{j k} = \frac{1}{2^j} \sum_{r=0}^j \binom{j}{r} a^{\dagger r} a^{k} a^{\dagger (j-r)}
+\end{equation}
+
+Putting this relation in normal order, which can be done using symbolic computation, gives us $A_{j k}$ in terms of normal order operators. On the other, we need to link normal ordered terms $a^{\dagger j} a^k$ to symmetric ordered operators. For this purpose, we introduce:
+
+\begin{definition}[$\Lambda-$Tensor]
+    The $\Lambda-$tensor is a four index tensor defined by:
+        \begin{equation} \label{define_lambda}
+            a^{\dagger j} a^k = \sum_{r=0}^\infty \sum_{s=0}^\infty \Lambda^{j k}_{r s} A_{r s}
+        \end{equation}
+\end{definition}
+
+where we have the following values: $\Lambda^{0 0}_{r s} = \delta^0_r \delta^0_s$, $\Lambda^{j 0}_{r s} = \delta^j_r \delta^0_s$ and $\Lambda^{0 k}_{r s} = \delta^0_r \delta^k_s$. For the other values, we find the following recursion relations:
+
+\begin{theorem}[Recursion Relations of $\Lambda-$Tensors]
+    For $(j, k, r, s) \in \mathbb{N}^4$, we have:
+    \begin{eqnarray}
+        \Lambda^{j+1, k}_{r s} &=& \Lambda^{j k}_{r-1, s} \mathbb{1}_{r \ge 1} - \frac{s+1}{2} \Lambda^{j k}_{r, s+1} \\
+        \Lambda^{j, k+1}_{r s} &=& \Lambda^{j k}_{r, s-1} \mathbb{1}_{s \ge 1} - \frac{r+1}{2} \Lambda^{j k}_{r+1, s}
+    \end{eqnarray}
+\end{theorem}
+
+For the proof, we will use the following lemma:
+
+\begin{lemma}
+    For any $A$, $B$ operators:
+    \begin{equation}
+        A B = \frac{1}{2} (\anticomm{A}{B} + \commutator{A}{B})
+    \end{equation}
+\end{lemma}
+
+\begin{proof}
+    We will prove the first identity since the proof of the second one is quite similar. We have:
+    \begin{equation}
+        a^{\dagger (j+1)} a^k = \sum_{r=0}^\infty \sum_{s=0}^\infty \Lambda^{j k}_{r s} a^\dagger A_{r s}
+    \end{equation}
+    Using the lemma and the algebra of $A_{r s}$, we have:
+    \begin{equation}
+        a^\dagger A_{r s} = \frac{1}{2} (\anticomm{a^\dagger}{A_{r s}} + \commutator{a^\dagger}{A_{r s}}) = A_{r+1, s} - \frac{s}{2} A_{r, s-1}
+    \end{equation}
+    Thus:
+    \begin{eqnarray}
+        a^{\dagger (j+1)} a^k &=& \sum_{r=0}^\infty \sum_{s=0}^\infty \Lambda^{j k}_{r s} A_{r+1, s} - \sum_{r=0}^\infty \sum_{s=1}^\infty \frac{s}{2} \Lambda^{j k}_{r s} A_{r, s-1} \nonumber\\
+        &=& \sum_{r=1}^\infty \sum_{s=0}^\infty \Lambda^{j k}_{r-1, s} A_{r, s} - \sum_{r=0}^\infty \sum_{s=0}^\infty \frac{s+1}{2} \Lambda^{j k}_{r, s+1} A_{r, s} \nonumber\\
+        &=& \sum_{r=0}^\infty \sum_{s=0}^\infty \left(\Lambda^{j k}_{r-1, s} \mathbb{1}_{r \ge 1} - \frac{s+1}{2} \Lambda^{j k}_{r, s+1} \right)A_{r, s}
+    \end{eqnarray}
+    Thus, we identify:
+    \begin{equation}
+        \Lambda^{j+1, k}_{r s} = \Lambda^{j k}_{r-1, s} \mathbb{1}_{r \ge 1} - \frac{s+1}{2} \Lambda^{j k}_{r, s+1}
+    \end{equation}
+\end{proof}
+
+Eq.~\ref{define_lambda} corresponds to two infinite sums. However, the following theorem allows us to consider a finite number of tensors corresponding to $r \le j$ and $s \le k$:
+
+\begin{theorem}
+    Let $(j, k, r, s) \in \mathbb{N}^4$, if $r > j$ \textbf{or} $s > k$, then $\Lambda^{j k}_{r s} = 0$.
+\end{theorem}
+
+\begin{proof}
+    We prove the result by induction. For $j = 0 = k$, the property is satisfied. Suppose that the property is true for $\Lambda^{j k}$ and let us show it for $\Lambda^{j+1, k}$ and $\Lambda^{j, k+1}$.
+
+    Let $r, s \in \mathbb{N}$ such that $r>j+1$ or $s>k$, we have:
+    \begin{equation}
+        \Lambda^{j+1, k}_{r s} = \Lambda^{j k}_{r-1, s} \mathbb{1}_{r \ge 1} - \frac{s+1}{2} \Lambda^{j k}_{r, s+1}
+    \end{equation}
+    Since $r-1 > j$ or $s>k$, $\Lambda^{j k}_{r-1, s} = 0$. Similarly, since $r>j$ and $s+1>k$, $\Lambda^{j k}_{r, s+1} = 0$. Therefore, $\Lambda^{j+1, k}_{r s} = 0$.
+
+    A similar proof can be done for $\Lambda^{j, k+1}$.
+\end{proof}
+
+\subsubsection{Approximation}
+
+The idea is to stipulate that $\cumulant{A}{r,s} = 0$ for $r + s > p$. Using the recursion relations, this gives us an estimate on $\average{A_{r s}}$. From the $\Lambda-$tensors, we can express $a^{\dagger j} a^k$ as a function of lower order moments. Thus, the Ehrenfest equations can be closed.
+
+Our method has an advantage in the case of large values of $\alpha$ where the required space dimension is large.

@@ -1,0 +1,119 @@
+In this appendix, we study how to handle the sum of Gaussian states. We start by studying one-mode Gaussian states, which can be generalized to tensor product of one-mode Gaussian states.
+
+\section{One-Mode Gaussian State}
+A one-mode Gaussian state is generated using the displacement operator and one-mode squeeze operator.
+\subsection{One-Mode Squeeze Operator}
+We use the convention of \cite{dynamiqs-squeeze, squeeze_normal_order} and define the one-mode squeeze operator.
+\begin{definition}[One-mode squeeze operator]
+    We define
+    \begin{equation}
+        S(z) \equiv \exp{\frac{1}{2}\left(z^* a^2 - z a^{\dagger 2}\right)}.
+    \end{equation}
+\end{definition}
+
+From~\cite{squeeze_normal_order} (equation (14)), we have the following theorem. Note that~\cite{squeeze_normal_order} uses the opposite convention ($z\mapsto-z$).
+\begin{theorem}[Squeeze operator in normal order (equation (14) from~\cite{squeeze_normal_order})]
+    We have for $z \equiv r e^{i \theta}$,
+    \begin{equation}
+        S(z) = \exp{-\frac{e^{i \theta}}{2} \tanh(r) a^{\dagger 2}} \frac{1}{\sqrt{\cosh{r}}} \left\{\sum_{n=0}^\infty \frac{(\sech{r} - 1)^n}{n!} a^{\dagger n} a^n\right\} \exp{\frac{e^{-i \theta}}{2} \tanh(r) a^2}
+    \end{equation}
+\end{theorem}
+
+We deduce the following corollary.
+
+\begin{corollary}
+    Let $\ket{\alpha}$ and $\ket{\beta}$ be two coherent states, we have for $z \equiv r e^{i \theta}$
+    \begin{equation}
+        \mel{\alpha}{S(z)}{\beta} = \exp{-\frac{e^{i \theta}}{2} \tanh(r) \alpha^{* 2}} \frac{\braket{\alpha}{\beta}}{\sqrt{\cosh{r}}} \exp{\alpha^* \beta (\sech{r} - 1)} \exp{\frac{e^{-i \theta}}{2} \tanh(r) \beta^2}
+    \end{equation}
+\end{corollary}
+
+\subsection{Scalar Product of One-Mode Gaussian States}
+For $z \equiv r e^{i \theta} \in \mathbb{C}$, we define $t \equiv e^{i \theta} \tanh{r}$. Let $z_1, z_2 \in \mathbb{C}$, the following theorem~\cite{Agarwal-book} gives the value of $S(z_1) S(z_2)$.
+
+\begin{theorem}[Exercise 3.8 from~\cite{Agarwal-book}] \label{th-agarwal}
+    We define $t_3 \equiv \frac{t_1 + t_2}{1 + t^*_1 t_2}$, $\xi \equiv \frac{1}{2} \ln{\frac{1 + t_1 t^*_2}{1 + t^*_1 t_2}}$. We have
+    \begin{equation}
+        S(z_1) S(z_2) = S(z_3) \exp{\xi \left(a^\dagger a + \frac{1}{2}\right)}.
+    \end{equation}
+\end{theorem}
+
+We can now compute the value of $\mel{\alpha}{S(z_1) S(z_2)}{\beta}$. 
+
+\begin{theorem}
+    We have
+    \begin{eqnarray} \label{overlap-2-dq}
+        \mel{\alpha}{S(z_1) S(z_2)}{\beta} &=& e^{\frac{\xi}{2}} e^{-\frac{|\beta|^2}{2}(1-|\xi|^2)} \mel{\alpha}{S(z_3)}{\beta}\\ 
+        &=& e^{\frac{\xi}{2}} e^{-\frac{|\beta|^2}{2}(1-|\xi|^2)} \exp{-\frac{e^{i \theta_3}}{2} \tanh(r_3) \alpha^{* 2}} \frac{\braket{\alpha}{\beta}}{\sqrt{\cosh{r_3}}} \nonumber\\
+        &\times& \exp{\alpha^* \beta (\sech{r_3} - 1)} \exp{\frac{e^{-i \theta_3}}{2} \tanh(r_3) \beta^2}.
+    \end{eqnarray}
+    where $z_3$ and $\xi$ are defined in~\autoref{th-agarwal}.
+\end{theorem}
+
+\subsection{Squeeze and Displacement Operators}
+
+We use the convention in \cite{dynamiqs-displace, squeeze_normal_order}.
+\begin{definition}[Displacement operator]
+We define
+    \begin{equation}
+        D(\alpha) \equiv \exp{\alpha a^\dagger - \alpha^* a}
+    \end{equation}
+    $D(\alpha)$ creates the coherent state $\ket{\alpha}$ from vacuum. 
+\end{definition}
+
+We can thus define a squeezed coherent state and a displaced squeezed state.
+\begin{definition}[Squeezed coherent state \textit{vs.} Displaced squeezed state]
+    A squeezed coherent state is obtained from vacuum by applying the operators in the order $S \ D$ (i.e.\@~squeeze a coherent state).
+
+    A displaced squeezed state is obtained by from vacuum by applying the operators in the order $D \ S$ (i.e.\@~displace a squeezed vacuum).
+\end{definition}
+
+The following theorem corresponds to equation (15) from~\cite{squeeze_normal_order}.
+\begin{theorem}[Exchanging squeeze and displacement operators] \label{th-exch-sd}
+    Let $\alpha, z \in \mathbb{C}$, with $z \equiv r e^{i \theta}$ we have
+    \begin{equation}
+        D(\alpha) S(z) = S(z) D(\gamma)
+    \end{equation}
+    with $\gamma \equiv \alpha \cosh{r} + \alpha^* e^{i \theta} \sinh{r}$.
+\end{theorem}
+
+\begin{corollary}
+    \autoref{th-exch-sd} implies that the two notions of squeezed coherent state and of displaced squeezed state are equivalent if the parameter of the displacement operator is updated correctly. In particular, we can limit ourselves to \textbf{squeezed coherent states}. In this case, the overlaps are written in the form \autoref{overlap-2-dq}.
+\end{corollary}
+
+\subsection{Cumulants of One-Mode Gaussian States}
+A one-mode Gaussian state can be written as $S(z) D(\alpha) \ket{\emptyset}$, with $\ket{\emptyset}$ being vacuum. We introduce $z \equiv r e^{i\theta}$. From~\cite{wiki-squeezed-coherent}, we have the following cumulants
+
+\begin{eqnarray}
+    C_a &=& \alpha \cosh{r} - \alpha^* e^{i\theta} \sinh{r}\\
+    C_{a^2} &=& -e^{i\theta} \cosh{r} \sinh{r}\\
+    C_{a^\dagger a} &=& \sinh^2(r)\\
+    \forall j, k \in \mathbb{N}, j+k > 2 &\implies& C_{a^{\dagger j} a^k} = 0
+\end{eqnarray}
+
+Additionally, we prove the following result for a \textbf{tensor product of one-mode states}.
+\begin{theorem}[Moments and cumulants for tensor product]
+    Let the state $\ket{\psi} \equiv \bigotimes_{l=1}^N \ket{\phi_l}$, with $\ket{\phi_l}$ a state on the mode $l$. Let us consider $\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)$. We have
+    \begin{equation}
+        \average{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)} = \prod_{l=1}^N \average{a^{\dagger j_l}_l a^{k_l}_l}
+    \end{equation}
+    Additionally, if there are $l_1 \neq l_2$ such that $j_{l_1} + k_{l_1} > 0$ and $j_{l_2} + k_{l_2} > 0$, then
+    \begin{equation}
+         C_{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)} = 0
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    Since $\ket{\psi} = \bigotimes_{l=1}^N \ket{\phi_l}$, $M(\Vec{z}, \Vec{z}^*) = \prod_{l=1}^N M_l(z_l, z_l^*)$ (the notations $M(\Vec{z}, \Vec{z}^*)$ and $K(\Vec{z}, \Vec{z}^*)$ are introduced in \autoref{cumulant-method}), with $M_l(z_l, z_l^*) \equiv \mel{\phi_l}{e^{i z_l^* a^\dagger_l} e^{i z_l a_l}}{\phi_l}$. Thus,
+    \begin{equation}
+        \average{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)} = \left[\prod_{l=1}^N \pdv[order = {j_l,k_l}]{}{(i z^*),(i z)}\right]M(\Vec{0}, \Vec{0}) = \prod_{l=1}^N \pdv[order = {j_l,k_l}]{M_l}{(i z^*),(i z)}(0,0) = \prod_{l=1}^N \average{a^{\dagger j_l}_l a^{k_l}_l}
+    \end{equation}
+
+    Futhermore, we have $K(\Vec{z}, \Vec{z}^*) = \sum_{l=1}^N K_l(z_l, z_l^*)$, where $K_l(z_l, z_l^*) \equiv \ln{M_l(z_l, z_l^*)}$.If there are $l_1 \neq l_2$ such that $j_{l_1} + k_{l_1} > 0$ and $j_{l_2} + k_{l_2} > 0$, then
+    \begin{equation}
+        C_{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)} = \left[\prod_{l=1}^N \pdv[order = {j_l,k_l}]{}{(i z^*),(i z)}\right]K(\Vec{0}, \Vec{0}) = \sum_{l=1}^N \pdv[order = {j_l,k_l}]{K_l}{(i z^*),(i z)}(0,0) = 0
+    \end{equation}
+\end{proof}
+
+\subsection{Cumulants of One-Mode Gaussian \textit{Projectors}}
+
+\color{red} \textbf{UNFINISHED} \color{black}

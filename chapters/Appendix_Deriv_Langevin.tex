@@ -1,0 +1,100 @@
+In this appendix, we present two derivations of the quantum Langevin equation. The first is more general and allows to add many photon loss. The second is based on a more physical model which incorporates two-photon loss.
+
+\section{General Derivation}
+This derivation is inspired by the proof of the usual quantum Langevin equation given by Prof. Zaki Leghtas in the class Cavity and Circuit QED in the second semester of the ICFP - Quantum Physics Master 2. The following derivation generalizes the result for any number $\nu$ of photon loss and includes potential jump operators $L_n$ that can affect the cavity from the inside (for eg. dephasing).
+
+\subsubsection{Presentation of the Problem}
+
+We consider a cavity of frequency $\Omega$, whose Unitary evolution is given by $H$ and which is coupled to free propagating modes $b_q$ of frequencies $\omega_q$. The Hamiltonian of the bath is $H_{\text{bath}} = \sum_q \omega_q b^\dagger_q b_q$. Since we consider many photon losses, the modes that matter are the ones such that $\omega_q \approx \nu \Omega$, $\nu \ge 1$. Therefore, we are justified in taking the continuous limit and introducing fictitious modes of negative frequencies. The Hamiltonian can be written in the following manner $H_{\text{bath}} = \int_{-\infty}^\infty d\omega \ \hbar \omega \ b^\dagger_\omega b_\omega$. The modes $b_\omega$ satisfy the commutation relations: $\commutator{b_\omega}{b^\dagger_{\omega'}} = \delta(\omega - \omega')$. $b_\omega$ are propagating modes and have the dimension $T^{\frac{1}{2}}$.
+
+Applying the rotating wave (i.e.\@~only conserving the terms that conserve energy) and the Markov approximations (i.e.\@~the coupling constant has no characteristic frequency), we can write the interaction Hamiltonian
+
+\begin{equation}
+    H_{\text{int}} = \sum_{\nu = 1}^\infty \frac{\hbar}{\sqrt{2 \pi}} \int_{-\infty}^\infty d\omega \ \sqrt{\kappa_\nu} \left(a^\nu b^\dagger_\omega + a^{\dagger \nu} b_\omega\right),
+\end{equation}
+such that the total Hamiltonian is finally given by: $H_{\text{tot}} = H + H_{\text{bath}} + H_{\text{int}}$.
+
+\subsubsection{Heisenberg-Langevin Equations}
+
+We write the Heisenberg-Langevin equations for $a(t)$ and $b_\omega(t)$:
+
+\begin{eqnarray}
+    \timeDeriv{a} &=& \ihbar \commutator{a}{H_{\text{tot}}} + \frac{1}{2} \sum_n \left(L^\dagger_n \commutator{a}{L_n} - \commutator{a}{L^\dagger_n} L_n\right) \nonumber\\
+    &=& \ihbar \commutator{a}{H} + \frac{1}{2} \sum_n \left(L^\dagger_n \commutator{a}{L_n} - \commutator{a}{L^\dagger_n} L_n\right) \nonumber + \sum_{\nu = 1}^\infty \frac{-i}{\sqrt{2 \pi}} \int_{-\infty}^\infty d\omega \ \sqrt{\kappa_\nu} \nu a^{\dagger (\nu-1)} b_\omega\\
+    \timeDeriv{b_\omega} &=& -i \omega b_\omega + \sum_{\nu = 1}^\infty \frac{-i}{\sqrt{2 \pi}} \sqrt{\kappa_\nu} a^\nu
+\end{eqnarray}
+
+We take an initial time $t_0$ defined by the input $b_\omega(t_0)$ and solve the second differential equation:
+
+\begin{equation}
+    b_\omega(t) = b_\omega(t_0) e^{-i \omega (t - t_0)} - i \sum_{\nu = 1}^\infty \sqrt{\frac{\kappa_\nu}{2 \pi}} \int_{t_0}^t dt' e^{-i \omega (t - t')} a^\nu(t')
+\end{equation}
+
+We inject it in the differential equation of $a(t)$:
+
+\begin{eqnarray}
+    \timeDeriv{a} &=& \ihbar \commutator{a}{H} + \frac{1}{2} \sum_n \left(L^\dagger_n \commutator{a}{L_n} - \commutator{a}{L^\dagger_n} L_n\right) + \sum_{\nu = 1}^\infty \frac{-i}{\sqrt{2 \pi}} \int_{-\infty}^\infty d\omega \ \sqrt{\kappa_\nu} \nu a^{\dagger (\nu-1)} b_\omega(t_0) e^{-i \omega (t - t_0)} \nonumber\\
+    &-& \sum_{\nu = 1}^\infty \frac{\kappa_\nu}{2 \pi} \nu \int_{-\infty}^\infty d\omega \int_{t_0}^t dt' e^{-i \omega (t - t')} a^{\dagger (\nu-1)}(t) a^\nu(t')\nonumber\\
+    &=& \ihbar \commutator{a}{H} + \frac{1}{2} \sum_n \left(L^\dagger_n \commutator{a}{L_n} - \commutator{a}{L^\dagger_n} L_n\right) + \sum_{\nu = 1}^\infty \frac{-i}{\sqrt{2 \pi}} \int_{-\infty}^\infty d\omega \ \sqrt{\kappa_\nu} \nu a^{\dagger (\nu-1)} b_\omega(t_0) e^{-i \omega (t - t_0)} \nonumber\\
+    &-& \sum_{\nu = 1}^\infty \kappa_\nu\nu  \int_{t_0}^t dt' a^{\dagger (\nu-1)}(t) a^\nu(t') \int_{-\infty}^\infty \frac{d\omega}{2 \pi} \ e^{-i \omega (t - t')}
+\end{eqnarray}
+
+To simplify the last term, we use the identities: $\int_{-\infty}^\infty \frac{d\omega}{2 \pi} \ e^{-i \omega (t - t')} = \delta(t - t')$ and $\int_{t_0}^t  dt' \ \delta(t - t') = \int_0^{t-t_0}  d\tau \ \delta(\tau) = \int_0^\infty  d\tau \ \delta(\tau) = \int_0 \frac{1}{2}$. We get:
+
+\begin{eqnarray}
+    \timeDeriv{a} &=& \ihbar \commutator{a}{H} + \frac{1}{2} \sum_n \left(L^\dagger_n \commutator{a}{L_n} - \commutator{a}{L^\dagger_n} L_n\right) - \sum_{\nu = 1}^\infty \nu \sqrt{\kappa_\nu} a^{\dagger (\nu-1)} \frac{i}{\sqrt{2 \pi}} \int_{-\infty}^\infty d\omega \ b_\omega(t_0) e^{-i \omega (t - t_0)} \nonumber\\
+    &-& \sum_{\nu = 1}^\infty \frac{\nu \kappa_\nu}{2} a^{\dagger (\nu-1)} a^\nu
+\end{eqnarray}
+
+We introduce $a_{\text{in}}(t) \equiv \frac{i}{\sqrt{2 \pi}} \int_{-\infty}^\infty d\omega \ b_\omega(t_0) e^{-i \omega (t - t_0)}$ where $a_{\text{in}}(t)$ has the dimension $T^{-\frac{1}{2}}$. We finally get:
+\begin{equation}
+    \timeDeriv{a} = \ihbar \commutator{a}{H} + \frac{1}{2} \sum_n \left(L^\dagger_n \commutator{a}{L_n} - \commutator{a}{L^\dagger_n} L_n\right) - \sum_{\nu = 1}^\infty \nu a^{\dagger (\nu-1)} \left( \sqrt{\kappa_\nu}  a_{\text{in}}(t) + \frac{\kappa_\nu}{2}a^\nu \right)
+\end{equation}
+
+\section{Two-Cavity Model}
+We present a more realistic model based on the devices of Alice \& Bob. We will try to find the necessary hypotheses to recover the equation~\autoref{generalized-langevin} we found previously.
+
+\subsection{Model}
+
+Let us consider the model of two cavities corresponding to the annihilators $a$ and $b$ respectively. We consider that the first cavity is the cavity of interest (called the \textit{memory}) whose Unitary evolution is given by the Hamiltonian $H$. The memory is supposed to be lossless. The second cavity is used to induce two photon loss (called the \textit{buffer}). The second cavity corresponds to a free evolving mode $H_b = \hbar \omega b^\dagger b$ with one photon loss given by the rate $\kappa$. Further, we suppose that the second cavity is driven by the input field $b_{\text{in}}(t)$ To obtain two-photon loss, we consider the interaction Hamiltonian $H_{\text{int}} = \hbar g \left(a^{\dagger 2} b + a^2 b^\dagger\right)$. 
+
+\subsection{Heisenberg-Langevin Equations}
+
+We write the standard quantum Langevin equations:
+
+\begin{eqnarray}
+    \timeDeriv{a} &=& \ihbar \commutator{a}{H} - 2 i g a^\dagger b\\
+    \timeDeriv{b} &=& -i \omega b - i g a^2 -\frac{\kappa}{2} b -\sqrt{\kappa} b_{\text{in}}
+\end{eqnarray}
+
+The second equation is an unhomogeneous linear equation and can be solved directly:
+
+\begin{equation}
+    b(t) = e^{-\left(i \omega + \frac{\kappa}{2}\right) (t - t_0)} b(t_0) - i g \int_{t_0}^t dt' e^{-\left(i \omega + \frac{\kappa}{2}\right) (t - t')} a^2(t') - \sqrt{\kappa} \int_{t_0}^t dt' e^{-\left(i \omega + \frac{\kappa}{2}\right) (t - t')} b_{\text{in}}(t')
+\end{equation}
+
+We take the \textbf{long time limit}: $\kappa (t-t_0) \gg 1$, allowing us to drop the first term:
+
+\begin{equation}
+    b(t) \approx - i g \int_{t_0}^t dt' e^{-\left(i \omega + \frac{\kappa}{2}\right) (t - t')} a^2(t') - \sqrt{\kappa} \int_{t_0}^t dt' e^{-\left(i \omega + \frac{\kappa}{2}\right) (t - t')} b_{\text{in}}(t')
+\end{equation}
+
+Further, we consider the \textbf{slow evolution approximation} which stipulates that $a(t')$ evolves on time scales much larger than $\frac{1}{\kappa}$. This allows us to write:
+
+\begin{equation}
+    \int_{t_0}^t dt' e^{-\left(i \omega + \frac{\kappa}{2}\right) (t - t')} a^2(t') \approx a^2(t) \int_{t_0}^t dt' e^{-\left(i \omega + \frac{\kappa}{2}\right) (t - t')} \approx \frac{2}{\kappa} a^2(t)
+\end{equation}
+
+Additionally, we introduce:
+
+\begin{equation}
+    a_{\text{in}}(t) \equiv -i \frac{\kappa}{2} \int_{t_0}^t dt' e^{-\left(i \omega + \frac{\kappa}{2}\right) (t - t')} b_{\text{in}}(t')
+\end{equation}
+
+We finally get the equation:
+
+\begin{equation}
+    \timeDeriv{a} = \ihbar \commutator{a}{H} - \frac{4 g^2}{\kappa} a^\dagger a^2 - 2 \frac{2 g}{\sqrt{\kappa}} a^\dagger a_{\text{in}}(t)
+\end{equation}
+
+We thus recover the previous equation. Further, we see that the decay rate is given by the ratio $\eta \equiv \frac{4 g^2}{\kappa}$, which looks like the Purcell effect constant~\cite{purcell1946optical}.

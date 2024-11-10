@@ -1,0 +1,176 @@
+We will express times in units of $\frac{1}{g}$ where $g$ is a characteristic frequency. The rate constants $\kappa$ are expressed in units of $g$. Any other energy scale will be expressed in units of $\hbar g$. The plots were plotted using the \texttt{Python} modules \texttt{NumPy}~\cite{numpy}, \texttt{SciPy}~\cite{scipy}, \texttt{SymPy}~\cite{sympy}, \texttt{matplotlib}~\cite{matplotlib} and \texttt{dynamiqs}~\cite{dynamiqs}. \texttt{dynamiqs} represents the states by matrices in the Fock basis.
+
+\paragraph{Numerical resolution for MF methods:} \texttt{scipy.solve\_ivp} with options \texttt{method="DOP853"} and \texttt{dense\_output=True}.
+\section{General Considerations} \label{gene-other-plots}
+In \autoref{fig:comp_a_dag_a__vs_n}, we plot $\average{a^\dagger a}(t)$ and $\average{a^\dagger(t) a(t)}$ for the Hamiltonian $H = \hbar a^\dagger a$ and quantum jumps $a$, $\frac{1}{2} a^\dagger$.
+
+In \autoref{fig:PictureSqueeze}, we plot the cumulants and moments for the the squeezed state $S[0.5] \ket{1.5}$ with $S[z] \equiv \exp{\frac{1}{2}\left(z^* a^2 - z a^{\dagger 2}\right)}$ \cite{dynamiqs-squeeze}.
+
+From \autoref{fig:CompStabKerr} and \autoref{fig:CompStabNegKerr}, we see that the the stability does \textit{not} depend on the sign of the coupling constant for self-Kerr.
+
+\autoref{fig:Eg_H_Kerr_1Loss} shows that the divergence and instabilities start to appear in a time proportional to the inverse of the coupling constant. Adding one-photon loss stabilizes the system (cf.\@~\autoref{fig:Eg_H_Kerr_1Loss_stqble}).
+
+\section{Test of X-gate} \label{x-gate-ab}
+
+In this section, we test how to implement the X-gate for the encoding where the states $\ket{0}$ and $\ket{1}$ correspond to the coherent states $\ket{\alpha}$ and $\ket{-\alpha}$ respectively. These states are stabilized by applying the quantum jump $a^2-\alpha^2$~\cite{jeremie-X-CX}. As explained in~\cite{jeremie-X-CX}, the X-gate corresponds to the rotation of the lobe $\ket{\pm \alpha}$ to the lobe $\ket{\mp \alpha}$ in the phase space. Even though applying $H = -\frac{\pi}{T} a^\dagger a$ during $T$ suffices theoretically, small perturbations can lead to undesired dynamics, for example a bit flip where the lobe "jumps" to the other position. Therefore, this process can be stabilized by applying the time-dependent quantum jump $a^2-\alpha^2 e^{\frac{2i\pi t}{T}}$, which stabilizes the states $\ket{\pm \alpha e^{\frac{i\pi t}{T}}}$ at any time $t \in (0, T)$. At the end of the process, the quadrature $\average{x}(T)$ is measured. Note that our mean-field methods can be implemented for \textit{time-dependent Hamiltonians and quantum jumps}.
+
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/comp_a_dag_a__vs_n.pdf}
+      \caption{Plot of $\average{a^\dagger a}(t)$ using \texttt{dynamiqs} \cite{dynamiqs} in dashed lines. Plot of $\average{a^\dagger(t) a(t)}$ using TEA using Padé approximate (cf.\@~\autoref{pade-approx-intro}) in continuous line. The dashed-dotted lines correspond to the limits for $\average{a^\dagger a}(t)$ ($1$) and for $\average{a^\dagger(t) a(t)}$ ($0$).}
+      \label{fig:comp_a_dag_a__vs_n}
+    \end{figure}
+\end{center}
+
+
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/PictureSqueeze.pdf}
+      \caption{Cumulants and moments for the projector $S[0.5] \ket{1.5}$ with $S[z] \equiv \exp{\frac{1}{2}\left(z^* a^2 - z a^{\dagger 2}\right)}$~\cite{dynamiqs-squeeze} using \texttt{dynamiqs}~\cite{dynamiqs} for the space dimension $500$. The index $(j, k)$ corresponds to $\average{a^{\dagger j} a^k}$. $\average{a^{\dagger k} a^j}$ and $\average{a^{\dagger j} a^k}$ are complex-conjugate, thus we limit ourselves to $j \le k$. The indices are ranked in an increasing order of $j+k$. For each subset of fixed $j+k$, the lexicographic order is imposed.}
+      \label{fig:PictureSqueeze}
+    \end{figure}
+\end{center}
+
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_0_and_losses_deph_p_2_rule_trunc-cumul.pdf}
+        \caption{Method \texttt{Truncated moments}}
+        \label{fig:H_0_and_losses_deph_p_2_rule_trunc-cumul}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_0_and_losses_deph_p_2_rule_min-cut.pdf}
+        \caption{Method \texttt{Minimum cut}}
+        \label{fig:H_0_and_losses_deph_p_2_rule_min-cut}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_0_and_losses_deph_p_2_rule_smart_divide_in_half.pdf}
+        \caption{Method \texttt{Divide in half}}
+        \label{fig:H_0_and_losses_deph_p_2_rule_smart_divide_in_half}
+    \end{subfigure}
+    \caption{Maximal value for the real part of the eigenvalues of the stability matrix $\mathcal{L}$ for quantum jump $\sqrt{\kappa} a^\dagger a$, coherent state $\ket{\alpha}$ and $p=2$.}
+    \label{fig:CompStabDeph}
+\end{figure}
+
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_Self_Kerr_and_losses_1_p_3_rule_trunc-cumul.pdf}
+        \caption{Method \texttt{Truncated moments}}
+        \label{fig:H_Self_Kerr_and_losses_1_p_3_rule_trunc-cumul}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_Self_Kerr_and_losses_1_p_3_rule_min-cut.pdf}
+        \caption{Method \texttt{Minimum cut}}
+        \label{fig:H_Self_Kerr_and_losses_1_p_3_rule_min-cut}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_Self_Kerr_and_losses_1_p_3_rule_smart_divide_in_half.pdf}
+        \caption{Method \texttt{Divide in half}}
+        \label{fig:H_Self_Kerr_and_losses_1_p_3_rule_smart_divide_in_half}
+    \end{subfigure}
+    \caption{Maximal value for the real part of the eigenvalues of the stability matrix $\mathcal{L}$ for Hamiltonian $H = a^{\dagger 2} a^2$, quantum jump $\sqrt{\kappa} a$ and coherent state $\ket{\alpha}$ and $p=3$. \texttt{khan} refers to \texttt{cumulant method}, \texttt{min-cut} refers to the method \texttt{Minimum cut} and \texttt{smart\_divide\_in\_half} refers to the method \texttt{Divide in half}.}
+    \label{fig:CompStabKerr}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_Neg_Self_Kerr_and_losses_1_p_3_rule_trunc-cumul.pdf}
+        \caption{Method \texttt{Truncated moments}}
+        \label{fig:H_Neg_Self_Kerr_and_losses_1_p_3_rule_trunc-cumul}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_Neg_Self_Kerr_and_losses_1_p_3_rule_min-cut.pdf}
+        \caption{Method \texttt{Minimum cut}}
+        \label{fig:H_Neg_Self_Kerr_and_losses_1_p_3_rule_min-cut}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/H_Neg_Self_Kerr_and_losses_1_p_3_rule_smart_divide_in_half.pdf}
+        \caption{Method \texttt{Divide in half}}
+        \label{fig:H_Neg_Self_Kerr_and_losses_1_p_3_rule_smart_divide_in_half}
+    \end{subfigure}
+    \caption{Maximal value for the real part of the eigenvalues of the stability matrix $\mathcal{L}$ for Hamiltonian $H = - a^{\dagger 2} a^2$, quantum jump $\sqrt{\kappa} a$ and coherent state $\ket{\alpha}$ and $p=3$. \texttt{khan} refers to \texttt{cumulant method}, \texttt{min-cut} refers to the method \texttt{Minimum cut} and \texttt{smart\_divide\_in\_half} refers to the method \texttt{Divide in half}.}
+    \label{fig:CompStabNegKerr}
+\end{figure}
+
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/Eg_H_Kerr_1Loss.pdf}
+      \caption{$\Im{\average{a}(t)}$ for the Hamiltonian $H = a^{\dagger 2} a^2$, initial state $\ket{\alpha = 1.5}$, and jump operator $\sqrt{0.5} a$. Continuous line corresponds to MF methods for $p=3$. Dashed lines correspond to \texttt{dynamiqs}~\cite{dynamiqs}.}
+      \label{fig:Eg_H_Kerr_1Loss}
+    \end{figure}
+\end{center}
+
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/Eg_H_Kerr_1Loss_stqble.pdf}
+      \caption{$\Im{\average{a}(t)}$ for the Hamiltonian $H = a^{\dagger 2} a^2$, initial state $\ket{\alpha = 1.5}$, and jump operator $\sqrt{3.25} a$. Continuous line corresponds to MF methods for $p=3$. Dashed lines correspond to \texttt{dynamiqs}~\cite{dynamiqs}.}
+      \label{fig:Eg_H_Kerr_1Loss_stqble}
+    \end{figure}
+\end{center}
+
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/Eg_H_CrossKerr_1Loss.pdf}
+      \caption{$\Re{\average{a b}(t)}$ for the Hamiltonian $H = a^\dagger b^\dagger b a$, initial state $\ket{\alpha = 1.5, \beta = 1.5}$, and jump operator $\sqrt{0.5} a$. Continuous line corresponds to MF methods for $p=3$. Dashed lines correspond to \texttt{dynamiqs}~\cite{dynamiqs}.}
+      \label{fig:Eg_H_CrossKerr_1Loss}
+    \end{figure}
+\end{center}
+
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/Eg_H_CrossKerr_1Loss_stable.pdf}
+      \caption{$\Re{\average{a b}(t)}$ for the Hamiltonian $H = a^\dagger b^\dagger b a$, initial state $\ket{\alpha = 1.5, \beta = 1.5}$, and jump operator $\sqrt{3.25} a$. Continuous line corresponds to MF methods for $p=3$. Dashed lines correspond to \texttt{dynamiqs}~\cite{dynamiqs}.}
+      \label{fig:Eg_H_CrossKerr_1Loss_stable}
+    \end{figure}
+\end{center}
+
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/Eg_H_CrossKerr_Lossless_Compare_Min_Half.pdf}
+      \caption{$\Re{\average{a b}(t)}$ for the Hamiltonian $H = a^\dagger b^\dagger b a$, initial state $\ket{\alpha = 1.5, \beta = 1.5}$, without jump operators (i.e.\@~very instable). Continuous line corresponds to MF methods for $p=7$. Dashed lines correspond to \texttt{dynamiqs}~\cite{dynamiqs}.}
+      \label{fig:Eg_H_CrossKerr_Lossless_Compare_Min_Half}
+    \end{figure}
+\end{center}
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/Eg_stab_AdagA4p10.pdf}
+      \caption{$\Im{\average{a}(t)}$ for the non-Hermitian Hamiltonian $H = a^\dagger a^4$, initial state $\ket{\alpha = 1.5+i}$, without jump operator $a$. Continuous line corresponds to MF methods for $p=10$. Dashed lines correspond to \texttt{dynamiqs}~\cite{dynamiqs}.}
+      \label{fig:Eg_stab_AdagA4p10}
+    \end{figure}
+\end{center}
+
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/X-gate.pdf}
+      \caption{Dynamics of a stabilized X-gate that transfers the state $\ket{0}$ to the state $\ket{1}$ during $T$, \cite{jeremie-X-CX}. Plot obtained using the \texttt{cumulant method} for different values of $p$. $\average{x}(t)$ goes from $+5$ at $t=0$ to $-5$ at $t=T$.}
+      \label{fig:X-gate}
+    \end{figure}
+\end{center}

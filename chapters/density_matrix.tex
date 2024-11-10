@@ -1,0 +1,12 @@
+\subsubsection{Presentation of the Method}
+
+In the Schrödinger picture, the dynamics of the system is described by the state of the system, the operators being time-independent. For a closed system, the axioms of quantum mechanics indicate that the system can be described by a time-dependent ket $\ket{\psi}$~\cite{principles_dirac}. For an open system interacting with the environment, the description needs to be modified. Indeed, the state is now described by a density operator $\rho_S(t)$ that allows for statistical mixtures of quantum states (the subscript $S$ stands for Schrödinger). The density operator is Hermitian, semi-positive and of trace equal to one. Its time evolution, under a Hamiltonian $H_S(t)$ and quantum jumps $L_n(t)$ is given by the master equation~\cite{explo_quant}.
+\begin{equation} \label{master_eq}
+    \timeDeriv{\rho_S(t)} = \ihbar \commutator{H_S(t)}{\rho_S(t)} + \frac{1}{2} \sum_{n} \left(2 L_n(t) \rho_S(t) L_n^\dagger(t) - \anticomm{L_n^\dagger(t) L_n(t)}{\rho}\right).
+\end{equation}
+
+In practice, solving the master equation~\autoref{master_eq} is done by truncating the Fock space, turning the operators into finite dimension matrices represented in the Fock basis. The obtained system is thus solved numerically. This method is implemented by the Python module \texttt{QuTip}~\cite{qutip} or \texttt{dynamiqs}~\cite{dynamiqs}.
+
+\subsubsection{Performance}
+
+The required dimension for each mode goes linearly with the \textbf{maximum} number of photons expected for the mode. In particular, the method fails to describe Hamiltonians that lead to an increase of the number of photons in time. More rigorously, let us denote $M_{\max, i}$ the maximal number of photons per mode. The memory complexity (cf.\@ \autoref{remind_comp} for the convention on the notation for complexity) is $\Theta\left(\prod_{i = 1}^N M_{\max, i}\right)$. In particular, we see that the space dimension grows \textbf{exponentially} with the number of modes (for each additional mode, the dimension of the Hilbert space is multiplied by the maximum number of photons considered in this mode). Therefore, this approach is inefficient for describing a large number of modes.

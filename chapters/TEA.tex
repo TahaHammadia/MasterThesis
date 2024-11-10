@@ -1,0 +1,77 @@
+The hope of this method is to compute the time evolution in a symbolic manner, which can be done using \texttt{SymPy}~\cite{sympy}. The computed result is saved to solve the initial value problem for any initial value. The method allows to have changing parameters, which can be very useful for machine learning tasks~\cite{taha_quandela, markovic2020physics, Dudas2023-xx}.
+
+The method corresponds to computing the expression $\sum_{n = 0}^\infty \frac{1}{n!} \left(\frac{i t}{\hbar}\right)^n \Comm{p}{H}{O(0)}$ in ~\autoref{exact_tea_expansion} using symbolic computation~\cite{sympy} up to some cut-off $p$. One advantage of this approach comparatively to the mean field approximations is that it ensures that the solution is correct for short times (in a rigorous manner). Furthermore, the divergence of the method is well-understood and very intuitive (the neglected terms become important). Additionally, this method has an advantage over the Schrödinger representation since the commutation relations are canonical. Such canonical relations do not exist with the density matrix. Finally, we access directly the correlations $\average{a^{\dagger j}(t) a^k(t)}$, and not the moments $\average{a^{\dagger j} a^k}(t)$.
+
+\subsubsection{Can We Include Quantum Jumps?}
+It turns out that we don't have an easy way to include quantum jumps for the TEA approximation. Nevertheless, we can do it in an \textbf{approximate} manner. For example, for one mode with $\nu-$photon loss, the term that needs to be added to the equation of evolution is: $- \nu \frac{\kappa_\nu}{2} a^{\dagger (\nu-1)} a^\nu$. This can be represented \textbf{approximately} by adding the term $-i \hbar \frac{\kappa_\nu}{2} a^{\dagger \nu} a^\nu$ to the Hamiltonian.
+
+In~\autoref{comp-tea}, we show that the complexity of computing the commutators is given by
+
+\begin{equation}
+        C(p) = O\left(\sum_{n=0}^{p-1} w^{n+1}_H (1+m+n \tau_H)\right)
+\end{equation}
+
+where $w_H$ is the number of terms in $H$. Furthermore, it turns out (cf.\@~\autoref{proofs-time-val}) that the time of validity, i.e. the time where we expect the approximation to hold, grows at best in a linear fashion with $p$. Additionally, the proofs of~\autoref{proofs-time-val} allow us to extract the following pathological case.
+\begin{corollary}
+    We deduce from the proof that the Hamiltonians of the form $H = a^m + a^{\dagger m}$ for $m \ge 3$ are pathological in the sense that their validity time goes towards a constant. However, it turns out that TEA behaves better than \texttt{dynamiqs} \cite{dynamiqs} (cf.\@~\autoref{fig:H_pathos}).
+\end{corollary}
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.49\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/Re_H_pathos.pdf}
+        \caption{Real part}
+        \label{fig:Re_H_pathos}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.49\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/Im_H_pathos.pdf}
+        \caption{Imaginary part}
+        \label{fig:Im_H_pathos}
+    \end{subfigure}
+    \caption{Evolution of $\average{a}(t)$ for $H = a^{\dagger 3} + a^3$ comparing different cut-offs $p$ and dimensions for \texttt{dynamiqs}~\cite{dynamiqs}.  Continuous line corresponds to the TEA for some cut-off while dashed line corresponds to \texttt{dynamiqs} for some dimension which corresponds to the value of $p$. $q = 0$ corresponds to not using the Padé approximate (cf.\@~\autoref{pade-approx-intro}).}
+    \label{fig:H_pathos}
+\end{figure}
+
+\subsubsection{Padé Approximate} \label{pade-approx-intro}
+
+The main takeaway of the previous part is that the time of validity of the TEA method increases at best linearly with the cut-off $p$ while taking an exponential cost in time for the number of monomials $w_H \ge 2$ in the Hamiltonian $H$ - in other words a little gain with a great cost. This prohibitive cost for improving accuracy can be partially tackled by using the Padé approximate~\cite{pade_mems, wiki-pade}.
+
+Let us consider a function approximated by a Taylor expansion: $f(t) = \sum_{n=0}^P a_p t^n + O(t^{P+1})$. We know that the Taylor expansion diverges for $t \rightarrow \infty$. This means that the approximation becomes very wrong for functions that are bounded. Padé approximate leverages this observation and proposes to approximate $f(t)$ by a rational function instead of a polynomial, i.e.\@
+
+\begin{equation}
+    f(t) \approx \frac{\sum_{k=0}^p b_k t^k}{1 + \sum_{l=1}^q c_l t^l}.
+\end{equation}
+We observe that the Padé approximant is at least as good as Taylor expansion if the optimal value of the coefficient is chosen ($q = 0$ corresponds to Taylor expansion). Nevertheless, the numerical system can be ill-conditioned and cause numerical problems. In order to obtain the values of the coefficients $b_k$ and $c_l$, we solve the system
+
+\begin{equation}
+    \sum_{n=0}^N a_p t^n = \frac{\sum_{k=0}^p b_k t^k}{1 + \sum_{l=1}^q c_l t^l}.
+\end{equation}
+This can be done numerically using \texttt{scipy.interpolate.pade}~\cite{scipy}, with $p$ and $q$ hyper-parameters that need to be tuned. The only requirement is that $p+q \le P$ which ensures that the system has at least one solution. See~\autoref{fig:Pade} for examples of how the Padé approximant improves the result.
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/Pade_68_0.pdf}
+        \caption{$(p, q) = (68, 0)$, i.e.\@~no Padé approximant}
+        \label{fig:Pade_68_0}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/Pade_34_34.pdf}
+        \caption{$(p, q) = (34, 34)$}
+        \label{fig:Pade_34_34}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{Pics/Pade_17_17.pdf}
+        \caption{$(p, q) = (17, 17)$}
+        \label{fig:Pade_17_17}
+    \end{subfigure}
+    \caption{Evolution of $\Re{\average{a}(t)}$ using the TEA method improved using the Padé approximant for different values of $p$ and $q$, for  $H = a^\dagger b^\dagger b a$ and $L = \sqrt{0.1} a$. Continuous line corresponds to the TEA for some cut-off while dashed line corresponds to \texttt{dynamiqs}~\cite{dynamiqs} for some dimension.}
+    \label{fig:Pade}
+\end{figure}

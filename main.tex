@@ -1,0 +1,273 @@
+\documentclass[a4paper,11pt,english]{report}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{physics}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage[english]{babel}
+\usepackage{derivative}
+\usepackage{bbold}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{epigraph}
+\usepackage{geometry}
+\usepackage{csquotes}
+\geometry{margin=0.7in}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{ltablex}
+\usepackage{pdflscape}
+\usepackage[hidelinks,colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{subcaption}
+\usepackage{array} % For better table formatting
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{remark}{Remark}[theorem]
+\newtheorem{lemma}{Lemma}[theorem]
+\newtheorem{corollary}{Corollary}[theorem]
+
+\newenvironment{dedication}
+  {
+   \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{1}}% some space at the top
+   \itshape             % the text is in italics
+   \raggedleft          % flush to the right margin
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{3}} % space at bottom is three times that at the top
+   \clearpage           % finish off the page
+  }
+
+\usepackage{nomencl}
+\setlength{\nomlabelwidth}{3.5cm}
+\makenomenclature
+
+\title{Simulation of Systems Governed by Non-Quadratic Hamiltonians in Heisenberg Formalism}
+\author{Taha HAMMADIA}
+\date{April - June 2024}
+
+
+\usepackage[style=nature]{biblatex}
+\addbibresource{biblio.bib}
+
+\begin{document}
+\newcommand{\timeDeriv}[1]{\dv{#1}{t}}
+\newcommand{\ihbar}{\frac{1}{i \hbar}}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\average}[1]{\left\langle #1 \right\rangle}
+\newcommand{\cumulant}[2]{\left\langle #1;#2 \right\rangle_c}
+\newcommand{\normOrd}[1]{:#1:}
+\newcommand{\proj}[2]{\ket{#1}\bra{#2}}
+\newcommand{\kronecher}[2]{\delta_{#1, #2}}
+\newcommand{\weyl}[1]{\{#1\}_S}
+\newcommand{\anticomm}[2]{\left\{#1, #2\right\}}
+\newcommand{\Comm}[3]{\text{Comm}_{#1}\left(#2 | #3\right)}
+\newcommand{\poly}[2]{\text{poly}_{#1}\left(#2\right)}
+\newcommand{\texp}[1]{\mathcal{T}\exp{\int_{0}^t dt' #1(t')}}
+\newcommand{\Texp}[1]{\mathcal{T}\exp{#1}}
+\newcommand{\pr}[1]{\text{Pr}[#1]}
+\newcommand{\LS}[1]{\mathcal{L}_S\left(#1\right)}
+\newcommand{\LSS}[2]{\mathcal{L}^{(#1)}_S\left(#2\right)}
+\newcommand{\heis}[1]{\left(#1\right)_H}
+\newcommand{\algorithmautorefname}{Algorithm}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=15cm]{Pics/Logo1.png}
+\end{figure}
+{\let\newpage\relax\maketitle}
+\begin{center}
+     Supervised by Danijela Marković (CNRS) and Elie Gouzien (Alice \& Bob)
+\end{center}
+\vfill
+\begin{center}
+     Laboratoire Albert Fert, CNRS, Thales, Université Paris-Saclay, Palaiseau, France
+\end{center}
+\vfill
+\begin{center}
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[width=15cm]{Pics/Logo2.png}
+\end{figure}
+\end{center}
+
+\vfill
+
+\begin{center}
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[width=10cm]{Pics/Logo3.png}
+\end{figure}
+\end{center}
+
+\begin{center}
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[width=6.5cm]{Pics/logo_ab.pdf}
+\end{figure}
+\end{center}
+
+\pagenumbering{roman}
+
+\newpage
+\clearpage
+\addcontentsline{toc}{chapter}{Résumé / Abstract}
+\chapter*{Abstract}
+\input{chapters/Résumé}
+\paragraph{Keywords:} open bosonic systems, Heisenberg representation, quantum Langevin equation, mean field, cumulant, bosonic commutation relations, equation of evolution of operators, numerical stability, time evolution approximation
+
+
+\newpage
+\clearpage
+\addcontentsline{toc}{chapter}{Dedication}
+\chapter*{Dedication}
+
+\begin{dedication}
+    To my parents whose sacrifices cannot be enumerated.\\
+    To my family who has always supported me.\\
+    To my friends who shared the path with me.\\
+    To my professors and tutors who guided me.\\
+\end{dedication}
+
+\newpage
+\clearpage
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\chapter*{Acknowledgements}
+\input{chapters/Acknowledgements}
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+\newpage
+\clearpage
+\nomenclature{MF}{Mean field (MF)}
+\nomenclature{$a, b, a_i\ldots$}{Bosonic annihilators}
+\nomenclature{$a^\dagger, b^\dagger, a^\dagger_i\ldots$}{Bosonic creators}
+\nomenclature{$H$}{Hamiltonian}
+\nomenclature{$(\cdot)_H$}{Heisenberg representations}
+\nomenclature{$(\cdot)_S$}{Schrödinger representations}
+\nomenclature{$\commutator{\cdot}{\cdot}$}{Commutator}
+\nomenclature{$\anticomm{\cdot}{\cdot}$}{Anti-commutator}
+\nomenclature{$\kappa, \gamma\ldots$}{Rate of jump operator}
+\nomenclature{$M(\Vec{z}, \Vec{z}^*)$}{Moment generating function (MGF)}
+\nomenclature{$K(\Vec{z}, \Vec{z}^*)$}{Cumulant generating function (CGF)}
+\nomenclature{$K(\Vec{z}, \Vec{z}^*)$}{Cumulant generating function (CGF)}
+\nomenclature{$\poly{q}{a_1, \ldots, a_N; a^\dagger_1, \ldots, a^\dagger_N}$}{Polynomial of $a_1, \ldots, a_N; a^\dagger_1, \ldots, a^\dagger_N$ of degree less or equal to $q$}
+\nomenclature{$L_n$}{Jump operator}
+\nomenclature{$K_k$}{Kraus operator}
+\nomenclature{$\Theta$}{Big theta symbol (asymptotically comparable)}
+\nomenclature{$o$}{Small o symbol (asymptotically negligible)}
+\nomenclature{$O$}{Big o symbol (asymptotically dominated)}
+\nomenclature{$\sim$}{Equivalent}
+\nomenclature{$\rho$}{Density matrix}
+\nomenclature{$\average{\cdot}$}{Average}
+\nomenclature{$C_{\cdot}$}{Cumulant}
+\nomenclature{$p$}{Cut-off of the approximation}
+\nomenclature{$\Comm{n}{A}{B}$}{Iterated commutator $\commutator{A}{\commutator{A}{\commutator{A}{\ldots B}}}$}
+\nomenclature{$\tau_H$}{Degree of the Hamiltonian $H$ minus $2$, represents the non-linearity of $H$}
+\nomenclature{$P(\beta, \beta^*)$}{$P-$distribution}
+\nomenclature{$P(\beta, \beta^*)$}{$P-$distribution}
+\nomenclature{$W(\beta, \beta^*)$}{Wigner function}
+\nomenclature{$\mathcal{P}(n)$}{Set of partitions of $\{1, \ldots, n\}$}
+\nomenclature{$\mathcal{L}$}{Stability matrix}
+\nomenclature{$t_p[\alpha]$}{Time of validity}
+\nomenclature{$B_n$}{Bell numbers}
+\nomenclature{$\texp{A}$}{Time-ordered exponential}
+\nomenclature{$w_X$}{Number of monomials in $X$}
+\nomenclature{$M_{\max, i}$}{Cutoff in Fock space for mode $i$}
+\nomenclature{$T$}{Length of the time interval}
+\nomenclature{$m$}{Degree of the Hamiltonian}
+\nomenclature{$(p, q)$}{Degrees of the numerator and denominator in Padé approximate}
+\printnomenclature
+
+\chapter*{Introduction}
+    \pagenumbering{arabic}
+    \addcontentsline{toc}{chapter}{Introduction}
+    \epigraph{Let there be light}{\textit{Genesis 1:3}}
+    \input{chapters/intro}
+
+\chapter{Generalities and Review of the Literature} \label{generalities-chapter}
+\epigraph{[The universe] cannot be read until we have learnt the language and become familiar with the characters in which it is written. It is written in mathematical language\ldots}{\textit{Galileo Galilei}}
+    \section{Bosonic Commutation Relations}
+    \input{chapters/bosonic_commutation}
+
+    \section{Quantum Dynamics}
+    Let us consider a quantum system driven by the Hamiltonian $H$ and by the jump operators $L_n$~\cite{explo_quant} which represent the interaction of the system with its environment. Before considering the Heisenberg representation, it is useful to remind the results of the Schrodinger representation.
+        \subsection{Schrödinger Representation - Density Matrix}
+            \label{schro-pic}
+            \input{chapters/density_matrix}
+        \subsection{Heisenberg Representation} \label{intro-heis-rep}
+            %\input{chapters/Schrodinger2Heisenberg_unitary}
+            \input{chapters/Schrodinger2Heisenberg_open}
+        \subsection{Mean Field Methods (MF)} \label{intro-MF}
+        \subsubsection{Equations on Moments / Cumulants}
+            \input{chapters/Moments_Eqs}
+        \subsubsection{Cumulant Method} \label{cumulant-method}
+            \input{chapters/Khan}
+
+\chapter{Solving Non-Quadratic Hamiltonians}  \label{main-chapter}
+\epigraph{We must be clear that when it comes to atoms, language can be used only as in poetry.}{\textit{Niels Bohr}}
+Unless stated otherwise, the results of this chapter are original to the best of our knowledge.
+    \section{General Form of Quantum Langevin Equation} \label{find-langevin-gen}
+        \input{chapters/Heisenberg_Langevin_Eqs}
+    \section{Mean Field (MF) Methods}
+        As stated in the introduction, the goal of the MF method is to follow the moments that allow to rebuild all the desired quantities. The number of quantities to follow is expected to be much smaller than the number of variables of the density matrix. In this part, we present our contributions to the MF methods. As shown in~\autoref{app-all-moments}, many quantities can be found by knowing the moments. Additionally, MF methods can tackle time-dependent Hamiltonians and quantum jumps (cf.\@~\autoref{x-gate-ab}).
+        \subsection{Summary of Other Methods}
+            \input{chapters/summary_meth_MF}
+        \subsection{Stability Analysis}
+            \input{chapters/Stability_Analysis}
+    \section{Time Evolution Approximation (TEA)} \label{meth-tea}
+        \input{chapters/TEA}
+    \section{Complexity of the Methods} \label{comp-methds}
+        \input{chapters/performance}
+
+\chapter{Conclusion} \label{cc-chapter}
+\epigraph{The conclusion does not belong to the artist.}{\textit{Emile Zola}}
+This concluding chapter starts by providing a summary of the different subjects presented in the report. Afterwards, it directs the reader towards the open questions that might be the subject of subsequent research.\\
+\section{Summary of the Report}
+\input{chapters/Summary-CC}
+\section{Open questions}
+\input{chapters/Open-questions}
+\newpage
+\clearpage
+\addcontentsline{toc}{chapter}{Bibliography}
+\printbibliography
+
+\newpage
+\clearpage
+\appendix
+\chapter{Additional Definitions} \label{def-app}
+    \section{Notions of Complexity} \label{remind_comp}
+        \input{chapters/Complexity}
+    \section{Bell Numbers} \label{bell-append}
+        \input{chapters/bell_numb}
+        
+\chapter{Sufficient Condition for Multiplicity of Heisenberg Representation} \label{multi-heisenberg-multi}
+    \input{chapters/multi-heisenberg}
+    
+\chapter{Derivation of Quantum Langevin Equation} \label{2-langevin}
+    \input{chapters/Appendix_Deriv_Langevin}
+    
+\chapter{Expression of Some Quantities as a Function of Moments} \label{app-all-moments}
+    \input{chapters/wigner_moments}
+    
+\chapter{Analytical Expressions for Some Hamiltonians} \label{app-analytic-exp}
+    \input{chapters/analytical_exp}
+
+\chapter{Summary of the Methods} \label{summ-all-meths}
+    \input{chapters/Summ-All}
+    
+\chapter{Other Numerical Results}
+    \input{chapters/numerical-res}
+    
+\chapter{Miscellaneous} \label{misc-app}
+    \input{chapters/miscellaneous}
+
+\chapter{Sum of Gaussian States \color{red}(UNFINISHED)\color{black}} \label{app-squeeze}
+    \input{chapters/appendix-squeeze}
+    
+\end{document}

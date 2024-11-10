@@ -1,0 +1,323 @@
+In this appendix, we put all the small remarks that cannot find a place in any other appendix. The different sections are fully independent from each other.
+
+\section{Proof of \autoref{basic_commutator}} \label{proof-basic-commutator}
+
+\begin{theorem}
+    The commutator $\commutator{.}{.}$ satisfies the following properties:
+    \begin{enumerate}
+        \item $\commutator{.}{.}$ is anti-symmetric under exchange of the arguments.
+        \item $\commutator{.}{.}$ is bilinear (i.e. linear in each variable).
+        \item $\forall A$, $B$, $C$, $\commutator{A}{B C} = \commutator{A}{B} C + B \commutator{A}{C}$ and $\commutator{B C}{A} = \commutator{B}{A} C + B \commutator{C}{A}$
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Let $A$ and $B$ be two operators, we have: $\commutator{A}{B} = A B - B A = - (B A - A B) = -\commutator{B}{A}$.
+        \item Since $\commutator{.}{.}$ is anti-symmetric, we only need to show the result for one variable. Let $A$, $B$ and $C$ be three operators, $\lambda \in \mathbb{C}$, we have: $\commutator{A}{B + \lambda C} = A (B + \lambda C) - (B + \lambda C) A = A B + \lambda A C - B A - \lambda C A = \commutator{A}{B} + \lambda \commutator{A}{C}$.
+        \item Here again, since $\commutator{.}{.}$ is anti-symmetric, we only need to show the result for one variable. Let $A$, $B$ and $C$ be three operators, we have: $\commutator{A}{B C} = A B C - B C A = A B C - B A C + B A C - B C A = \commutator{A}{B} C + B \commutator{A}{C}$.
+    \end{enumerate}
+\end{proof}
+
+The last result has an interesting corollary if we consider a bosonic annihilator $a$:
+
+\begin{corollary}
+    Let $a$ be a bosonic annihilator, for each $n \in \mathbb{N}$, $\commutator{a}{a^{\dagger n}} = n a^{\dagger (n-1)}$ and $\commutator{a^n}{a^\dagger} = n a^{(n-1)}$
+\end{corollary}
+
+\begin{proof}
+    For $n = 0$, the result is straightforward. Let $n \in \mathbb{N}$, suppose the result to be true for $n$ and let us show it for $n+1$. We have: $\commutator{a}{a^{\dagger (n+1)}} = \commutator{a}{a^{\dagger n} a^\dagger} = \commutator{a}{a^{\dagger n}} a^\dagger + a^{\dagger n} \commutator{a}{a^\dagger} = n a^{\dagger n} + a^{\dagger n} = (n+1) a^{\dagger n}$. Similarly, $\commutator{a^{n+1}}{a^\dagger} = (n+1) a^{n}$
+\end{proof}
+
+\section{Proof of \autoref{th_deg_comm}} \label{proof-th_deg_comm}
+\begin{theorem}
+    Let $p, m \in \mathbb{N}$, we have:
+    \begin{equation}
+        \commutator{\poly{p}{a_1, ... a_N; a^\dagger_1, ... a^\dagger_N}}{\poly{m}{a_1, ... a_N; a^\dagger_1, ... a^\dagger_N}} = \poly{p+m-2}{a_1, ... a_N; a^\dagger_1, ... a^\dagger_N}
+    \end{equation}
+
+    where $\poly{q}{a_1, ... a_N; a^\dagger_1, ... a^\dagger_N}$ designates any polynomial of degree $q$.
+\end{theorem}
+
+The proof starts by observing that we only need to prove the result for monomial (a polynomial with one term) since the commutator is bilinear. In order to complete the proof, we need to show the following lemma, which is actually a corollary of \ref{basic_commutator}.
+
+\begin{lemma}
+    Let $A$, $B_1$, ..., $B_n$ be operators, we have:
+    \begin{equation}
+        \commutator{A}{\prod_{i = 1}^n B_i} = \sum_{i = 1}^n \left(\prod_{j = 1}^{i-1} B_j \right) \commutator{A}{B_i} \left(\prod_{j = i+1}^{n} B_j \right)
+    \end{equation}
+\end{lemma}
+
+where $\prod_i$ is ordered from the left to the right in an increasing order of $i$.
+
+\begin{proof}
+    For $n = 1$, the result is straightforward. Let us suppose the result to be true for $n$ and let us show if for $n+1$.
+
+    Let $A$, $B_1$, ..., $B_{n+1}$ be operators, we have:
+    \begin{equation}
+        \commutator{A}{\prod_{i = 1}^{n+1} B_i} = \commutator{A}{\prod_{i = 1}^{n} C_i}
+    \end{equation}
+    where $C_i \equiv B_i$ for $i < n$ and $C_n \equiv B_n B_{n+1}$.
+    Using the result for $n$, we get:
+    \begin{eqnarray}
+        \commutator{A}{\prod_{i = 1}^{n+1} B_i} &=& \sum_{i = 1}^n \left(\prod_{j = 1}^{i-1} C_j \right) \commutator{A}{C_i} \left(\prod_{j = i+1}^{n} C_j \right) \nonumber\\
+        &=& \sum_{i = 1}^{n-1} \left(\prod_{j = 1}^{i-1} B_j \right) \commutator{A}{B_i} \left(\prod_{j = i+1}^{n-1} B_j \right) B_n B_{n+1} \nonumber\\
+        &+& \left(\prod_{j = 1}^{n-1} B_j \right) \commutator{A}{B_n B_{n+1}}
+    \end{eqnarray}
+    In order to compute $\commutator{A}{B_n B_{n+1}}$, we use the third result in~\autoref{basic_commutator}: $\commutator{A}{B_n B_{n+1}} = \commutator{A}{B_n} B_{n+1} + B_n \commutator{A}{B_{n+1}}$. We finally get:
+    \begin{equation}
+        \commutator{A}{\prod_{i = 1}^{n+1} B_i} = \sum_{i = 1}^{n+1} \left(\prod_{j = 1}^{i-1} B_j \right) \commutator{A}{B_i} \left(\prod_{j = i+1}^{n+1} B_j \right)
+    \end{equation}
+\end{proof}
+
+With this lemma, we can look at the monomes $\prod_{i = 1}^q o_i$, $\prod_{i = 1}^n \Tilde{o}_i$ with $o_i$ and $\Tilde{o}_i$ being annihilators or creators. We have:
+
+\begin{eqnarray}
+    \commutator{\prod_{i = 1}^q o_i}{\prod_{j = 1}^n \Tilde{o}_j} = \sum_{j = 1}^n \left(\prod_{k = 1}^{j-1} \Tilde{o}_j \right) \commutator{\prod_{i = 1}^q o_i}{\Tilde{o}_j} \left(\prod_{j = j+1}^{n} \Tilde{o}_j \right)
+\end{eqnarray}
+
+Since $\commutator{}{}$ is anti-symmetric, we can develop the commutators on the right hand side:
+
+\begin{eqnarray}
+    \commutator{\prod_{i = 1}^q o_i}{\prod_{j = 1}^n \Tilde{o}_j} = \sum_{j = 1}^n \sum_{i = 1}^q \left(\prod_{k = 1}^{j-1} \Tilde{o}_j \right) \left(\prod_{l = 1}^{i-1} o_l\right) \commutator{o_i}{\Tilde{o}_j} \left(\prod_{l = i+1}^{q} o_l\right) \left(\prod_{j = j+1}^{n} \Tilde{o}_j \right)
+\end{eqnarray}
+
+Since the commutators on the right hand side are scalars, the right hand side is a polynomial of the annihilators and creators whose degree is less or equal to $q + n - 2$, which shows~\autoref{th_deg_comm}.
+
+\section{Solving Quadratic Hamiltonian with One Photon Loss} \label{misc-quad-one-loss}
+
+We consider the Hamiltonian $H \equiv \hbar \omega a^\dagger a$ with the quantum jump $L \equiv \sqrt{\kappa} a$. The Heisenberg equation for the operator $a$ is given by
+\begin{equation}
+    \timeDeriv{a} = -i \omega a - \frac{\kappa}{2} a.
+\end{equation}
+
+Thus: $a(t) = e^{\left(-i \omega - \frac{\kappa}{2}\right) t} a(0)$. Therefore, 
+\begin{eqnarray}
+    \commutator{a(t)}{a^\dagger(t)} = \commutator{e^{\left(-i \omega - \frac{\kappa}{2}\right) t} a(0)}{e^{\left(i \omega - \frac{\kappa}{2}\right) t} a(0)} = e^{\left(-i \omega - \frac{\kappa}{2}\right) t} e^{\left(i \omega - \frac{\kappa}{2}\right) t} \commutator{a(0)}{a^\dagger(0)} = e^{- \kappa t}.
+\end{eqnarray}
+
+\section{Number of Equations - MF Equations} \label{misc-nbr-eq}
+
+We prove the following theorem:
+\begin{theorem}
+    We have:
+    \begin{eqnarray}
+        \frac{1}{2} \sum_{q=1}^p \binom{2N+q-1}{q} &=& O(p^{2 N}), \ \ \text{for } N \text{ constant and } p \rightarrow \infty\\
+        \frac{1}{2} \sum_{q=1}^p \binom{2N+q-1}{q} &\sim& \frac{(2 N)^p}{2 p!}, \ \ \text{for } p \text{ constant and } N \rightarrow \infty
+    \end{eqnarray}
+\end{theorem}
+
+\begin{proof}
+    Let us take $N$ constant and $p \rightarrow \infty$, we have:
+    \begin{eqnarray}
+        \frac{1}{2} \sum_{q=1}^p \binom{2N+q-1}{q} &=& \frac{1}{2 (2 N - 1)!} \sum_{q = 1}^p \frac{(q + 2N-1)!}{q!} = \frac{1}{2 (2 N - 1)!} \sum_{q = 1}^p \prod_{k=q+1}^{q + 2N-1} k\nonumber\\ &\le& \frac{1}{2 (2 N - 1)!} p (p+2N-1)^{2N-1} = O(p^{2 N})
+    \end{eqnarray}
+
+    Similarly, let us take $p$ constant and $N \rightarrow \infty$, we have:
+    \begin{eqnarray}
+        \frac{1}{2} \sum_{q=1}^p \binom{2N+q-1}{q} &=& \frac{1}{2} \sum_{q = 1}^p \frac{(q + 2N-1)!}{(2 N - 1)! q!} = \frac{1}{2} \sum_{q = 1}^p \frac{1}{q!} \prod_{k=2N}^{q + 2N-1} k\nonumber\\ &\sim& \frac{1}{2} \sum_{q = 1}^p \frac{1}{q!} (2 N)^q \sim \frac{(2 N)^p}{2 p!}
+    \end{eqnarray}
+\end{proof}
+
+\section{Proofs and Corollaries - Initial States (\autoref{initial-general})}
+\label{init-state-appendix}
+\begin{theorem}[Initial Value of Moments]
+Let us consider the states $\{\ket{\phi[\xi]}\}_\xi$. We denote $a \ket{\phi[\xi]} = \lambda[\xi] \ket{\phi^{(1)}[\xi]}$, with $\ket{\phi^{(1)}[\xi]}$ is another state obtained after applying $a$ once on $\ket{\phi[\xi]}$. Let $\ket{\psi} = \sum_{\xi=1}^\chi c_\xi
+\bigotimes_{i=1}^N \ket{\phi_i[\xi]}$. We have
+\begin{equation}
+    \mel{\psi}{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}{\psi} = \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \prod_{l=1}^N \left(\prod_{\gamma = 0}^{j_l - 1} \lambda^{(\gamma)*}_l[\xi]\right) \left(\prod_{\kappa = 0}^{k_l - 1} \lambda^{(\kappa)}_l[\zeta]\right) \braket{\phi^{(j_l)}_l[\xi]}{\phi^{(k_l)}_{l}[\zeta]}
+\end{equation}
+
+where $\ket{\phi^{(k)}[\xi]}$ is the resulting state after applying $k$ times $a$ on $\ket{\phi[\xi]}$.
+\end{theorem}
+\begin{proof}
+\begin{eqnarray}
+    \mel{\psi}{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}{\psi} &=& \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \bigotimes_{i=1}^N \bra{\phi_i[\xi]} \left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right) \bigotimes_{i'=1}^N \ket{\phi_{i'}[\zeta]}\nonumber\\
+    &=& \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta
+    \prod_{l=1}^N\mel{\phi_i[\xi]}{a^{\dagger j_l}_l a^{k_l}_l}{\phi_i[\zeta]}\nonumber\\
+    &=& \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \prod_{l=1}^N \left(\prod_{\gamma = 0}^{j_l - 1} \lambda^{(\gamma)*}_l[\xi]\right) \left(\prod_{\kappa = 0}^{k_l - 1} \lambda^{(\kappa)}_l[\zeta]\right) \braket{\phi^{(j_l)}_l[\xi]}{\phi^{(k_l)}_{l}[\zeta]}\nonumber
+\end{eqnarray}
+\end{proof}
+
+We give the expression for a sum of Fock states and for a sum of coherent states:
+
+\begin{corollary}[Initial Sum of Fock States]
+    Let $\ket{\psi} = \sum_{\xi=1}^\chi c_\xi
+\bigotimes_{i=1}^N \ket{n_i[\xi]}$ a finite sum over the multi-mode Fock states $\bigotimes_{i=1}^N \ket{n_i[\xi]}$. We have:
+\begin{equation}
+    \mel{\psi}{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}{\psi} = \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \prod_{l=1}^N \delta_{n_l[\xi] - j_l, n_l[\zeta] - k_l} \left(\prod_{\gamma = 0}^{j_l - 1} \sqrt{n_l[\xi] - \gamma}\right) \left(\prod_{\kappa = 0}^{k_l - 1} \sqrt{n_l[\zeta] - \kappa}\right)
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+    We have: $a \ket{n} = \sqrt{n} \ket{n-1}$ and $\braket{n}{m} = \delta_{n m}$. Thus, for $\ket{\psi} = \sum_{\xi=1}^\chi c_\xi
+\bigotimes_{i=1}^N \ket{n_i[\xi]}$, we find:
+\begin{eqnarray}
+    \mel{\psi}{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}{\psi} &=& \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \prod_{l=1}^N \left(\prod_{\gamma = 0}^{j_l - 1} \sqrt{n_i[\xi] - \gamma}\right) \left(\prod_{\kappa = 0}^{k_l - 1} \sqrt{n_i[\zeta] - \kappa}\right) \braket{n_l[\xi] - j_l}{n_l[\zeta] - k_l}\nonumber\\
+    &=& \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \prod_{l=1}^N \delta_{n_l[\xi] - j_l, n_l[\zeta] - k_l} \left(\prod_{\gamma = 0}^{j_l - 1} \sqrt{n_l[\xi] - \gamma}\right) \left(\prod_{\kappa = 0}^{k_l - 1} \sqrt{n_l[\zeta] - \kappa}\right)\nonumber
+\end{eqnarray}
+\end{proof}
+
+\begin{corollary}[Initial Sum of Coherent States]
+    Let $\ket{\psi} = \sum_{\xi=1}^\chi c_\xi
+\bigotimes_{i=1}^N \ket{\alpha_i[\xi]}$ a finite sum over the multi-mode coherent states $\bigotimes_{i=1}^N \ket{\alpha_i[\xi]}$. We have:
+\begin{equation}
+    \mel{\psi}{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}{\psi} = \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \prod_{l=1}^N   \alpha^{* j_l}_l[\xi] \alpha^{k_l}_l[\zeta] e^{-\frac{|\alpha_l[\xi]-\alpha_l[\zeta]|^2}{2}} e^{\frac{\alpha^*_l[\xi]\alpha_l[\zeta] - \alpha^*_l[\zeta]\alpha_l[\xi]}{2}}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+    We have: $a \ket{\alpha} = \alpha \ket{\alpha}$ and $\braket{\alpha}{\beta} = e^{-\frac{1}{2}|\alpha-\beta|^2} e^{\frac{1}{2}(\alpha^*\beta - \beta^*\alpha)}$~\cite{explo_quant}. Thus, we have:
+    \begin{eqnarray}
+    \mel{\psi}{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}{\psi} &=& \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \prod_{l=1}^N   \alpha^{* j_l}_l[\xi] \alpha^{k_l}_l[\zeta] \braket{\alpha_l[\xi]}{\alpha_l[\zeta]}\nonumber\\
+    &=& \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \prod_{l=1}^N   \alpha^{* j_l}_l[\xi] \alpha^{k_l}_l[\zeta] e^{-\frac{|\alpha_l[\xi]-\alpha_l[\zeta]|^2}{2}} e^{\frac{\alpha^*_l[\xi]\alpha_l[\zeta] - \alpha^*_l[\zeta]\alpha_l[\xi]}{2}}\nonumber
+\end{eqnarray}
+\end{proof}
+
+\begin{corollary}[Initial Mixed State]
+    If the initial state is a mixed state $\rho$ instead of a pure state, then we can diagonalize the density matrix and write $\rho = \sum_{\mu=1}^\Xi p_\mu \ket{\psi_\mu}\bra{\psi_\mu}$ where $\average{O} = \sum_{\mu=1}^\Xi p_\mu \mel{\psi_\mu}{O}{\psi_\mu}$. Thus, we can estimate the moments if the states $\ket{\psi_\mu}$ satisfy the condition of \autoref{initial-general}.
+\end{corollary}
+
+\section{Proof of Independent Resolution on Projectors} \label{proof-sum-gauss-non-lin}
+In this section, we prove that 
+
+\begin{theorem}
+    If the initial state can be written as $\ket{\psi} = \sum_{\xi=1}^\chi c_\xi \ket{\phi_\xi}$, then we can obtain the evolution of the averages of the operators $\{O_i\}_{i \in I}$ by solving the differential system for each projector $\frac{\ket{\phi_\xi}\bra{\phi_\zeta}}{\braket{\phi_\zeta}{\phi_\xi}}$ independently, provided the values of $\braket{\phi_\zeta}{\phi_\xi}$ and $\mel{\phi_\zeta}{O_i(0)}{\phi_\xi}$ are known.
+\end{theorem}
+
+\begin{proof}
+    Let $i \in I$
+    \begin{eqnarray}
+        \average{O_i}(t) = \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \mel{\phi_\zeta}{O_i(t)}{\phi_\xi} = \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \frac{\mel{\phi_\zeta}{O_i(t)}{\phi_\xi}}{\braket{\phi_\zeta}{\phi_\xi}} \braket{\phi_\zeta}{\phi_\xi}
+    \end{eqnarray}
+    
+    Thus, if $\braket{\phi_\zeta}{\phi_\xi}$ are known, we only need to know $\frac{\mel{\phi_\zeta}{O_i(t)}{\phi_\xi}}{\braket{\phi_\zeta}{\phi_\xi}}$. Since the initial condition is known, we focus on the differential system. We write the Langevin equation:
+    \begin{equation}
+        \timeDeriv{O_i} = \mathbb{f}_i\left(\{O_j\}_{j \in I}\right)
+    \end{equation}
+    By taking the average for the projector $\frac{\ket{\phi_\xi}\bra{\phi_\zeta}}{\braket{\phi_\zeta}{\phi_\xi}}$, we find
+    \begin{equation}
+        \timeDeriv{\Tr{\frac{\ket{\phi_\xi}\bra{\phi_\zeta}}{\braket{\phi_\zeta}{\phi_\xi}}  O_i}} = \Tr{\frac{\ket{\phi_\xi}\bra{\phi_\zeta}}{\braket{\phi_\zeta}{\phi_\xi}} \mathbb{f}_i\left(\{O_j\}_{j \in I}\right)}
+    \end{equation}
+    i.e.
+    \begin{equation}
+        \timeDeriv{\frac{\mel{\phi_\zeta}{O_i(t)}{\phi_\xi}}{\braket{\phi_\zeta}{\phi_\xi}}} = \frac{\mel{\phi_\zeta}{\mathbb{f}_i\left(\{O_j\}_{j \in I}\right)(t)}{\phi_\xi}}{\braket{\phi_\zeta}{\phi_\xi}}
+    \end{equation}
+    Thus, we can solve for each projector independently.
+\end{proof}
+
+
+\section{Properties of Stability Matrix} \label{ppties-L}
+
+We study some properties of the stability matrix. This matrix is close to symplectic matrices that were studied in chapters 7 and 8 of \cite{elie-these}.
+
+\paragraph{Real initial condition with no quantum jump} One special case of interest is when the initial condition is real (i.e. a coherent state with $\alpha \in \mathbb{R}$) and without quantum jump. In this case, $\mathcal{L}$ can be written in the form:
+
+\begin{equation} \label{form_initial_real}
+    \mathcal{L} = -i \begin{pmatrix}
+        X & Y\\
+        -Y & -X
+    \end{pmatrix}
+\end{equation}
+
+with $X$ and $Y$ real matrices. In this case, we have the following result:
+
+\begin{theorem}
+    Let $\mathcal{L}$ be a matrix in the form~\autoref{form_initial_real}. If $\lambda$ is an eigenvalue of $\mathcal{L}$, then $-\lambda$ is also an eigenvalue of $\mathcal{L}$.
+\end{theorem}
+
+\begin{proof}
+    Let $\mathbb{X} \equiv \begin{pmatrix}
+        0 & \mathbb{1}\\
+        \mathbb{1} & 0
+    \end{pmatrix}$, such that $\mathbb{X}^{-1} = \mathbb{X}^2$. We have: $\mathbb{X} \mathcal{L} \mathbb{X} = - \mathcal{L}$. Thus, if $\mathcal{L} \Vec{x} = \lambda \Vec{x}$, $\Vec{x} \neq \Vec{0}$, then $\mathcal{L} \mathbb{X} \Vec{x} = -\lambda \mathbb{X} \Vec{x}$, where $\mathbb{X} \Vec{x} \neq \Vec{0}$.
+\end{proof}
+
+\begin{corollary}
+    In particular, this case is \textit{at best} neutral.
+\end{corollary}
+
+\subsubsection{General Case}
+
+In the general case, we only have the following result that is not very enlightening concerning the stability problem:
+
+\begin{theorem}
+    Let $\mathcal{L}$ be a matrix in the form~\autoref{general-form}. If $\lambda$ is an eigenvalue of $\mathcal{L}$, then $\lambda^*$ is also an eigenvalue of $\mathcal{L}$.
+\end{theorem}
+
+\begin{proof}
+    We have $\mathbb{X} \mathcal{L} \mathbb{X} = \mathcal{L}^*$. Thus, if $\mathcal{L} \Vec{x} = \lambda \Vec{x}$, $\Vec{x} \neq \Vec{0}$, then $\mathcal{L} \mathbb{X} \Vec{x}^* = \mathbb{X} \mathcal{L}^* \Vec{x}^* =  \lambda^* \mathbb{X} \Vec{x}^*$, with $\mathbb{X} \Vec{x}^* \neq \Vec{0}$.
+\end{proof}
+
+\section{Complexity of TEA - Computation of the Commutators} \label{comp-tea}
+
+\begin{theorem}[Time Complexity]
+    The time complexity for computing $a_i(t)$ up to the cut-off $p$ is given by:
+    \begin{equation}
+        C(p) = O\left(\sum_{n=0}^{p-1} w^{n+1}_H (1+m+n \tau_H)\right)
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    To compute the time complexity of this method, we introduce the notation $w_A$, representing the number of terms in the operator $A$. Further, the complexity for computing the complexity of monomes of degrees $p$ and $m$ is $O(p+m)$ since the rule $\commutator{A B}{C} = \commutator{A}{C} B + A \commutator{B}{C}$.
+
+    If $H$ is a polynomial of degree $m$ , then using the bilinearity of the commutation relations, the complexity of computing $\commutator{H}{a_i}$ is $O(w_H (1+m))$.
+
+    Equipped with this result, we can estimate the complexity of computing $\Comm{n+1}{H}{a_i} = \commutator{H}{\Comm{n}{H}{a_i}}$. Using the previous result, it is:
+
+    $$O\left(w_H w_{\Comm{n}{H}{a_i}} (1+m+n \tau_H)\right)$$
+
+    We need to estimate $w_{\Comm{n}{H}{a_i}}$. To this, we observe that: $w_{\Comm{n+1}{H}{a_i}} = w_H w_{\Comm{n}{H}{a_i}}$ (number of terms in an expansion of two factors) and $w_{\Comm{0}{H}{a_i}} = w_{a_i}$. Therefore: $w_{\Comm{n}{H}{a_i}} = w_{a_i} w^n_H$.
+
+    Thus: the total complexity is:
+
+    \begin{equation}
+        C(p) = O\left(\sum_{n=0}^{p-1} w^{n+1}_H (1+m+n \tau_H)\right)
+    \end{equation}
+\end{proof}
+
+\begin{remark} We can make the following observations:
+    \begin{enumerate}
+        \item For $p \rightarrow \infty$, $\ln{C(p)} \sim p \ln{w_H}$ for $w_H \ge 2$. This confirms that the time complexity is mainly controlled by the number of terms in the Hamiltonian.
+        \item For $w_H = 1$, the cost is polynomial.
+        \item We see that there is an advantage in going into a    rotating frame that can allow to drop some terms of the Hamiltonian.
+        \item The time to compute the $(n + 1)^{\text{st}}$ term is roughly $w_H$ times longer than the time to compute the $n^{\text{th}}$ term if $w_H \ge 2$.
+    \end{enumerate}
+    
+\end{remark}
+
+\section{Proofs for Times of Validity - TEA} \label{proofs-time-val}
+For this part, time is expressed of units of $g$ and we focus on the one mode case. In this part, we try to estimate the time validity of the approximation for a coherent state $\ket{\alpha}$. This time will be denoted $t_p[\alpha]$. We shall consider two limit cases which will allow us to restrict the time of validity.
+
+\begin{theorem}[Overestimate of Time of Validity]
+    The time of validity can be overestimated by:
+    \begin{equation}
+        t_N[\alpha] = O\left(\frac{p}{|\alpha|^{\tau_H}}\right)
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    To estimate the time of validity, we can compare the last term taken into account which is of the order $\frac{t^p}{p!} |\alpha|^{1+ p \tau_H}$ with the next one: $\frac{t^{p+1}}{(p+1)!} |\alpha|^{1+ (p+1) \tau_H}$. The ratio is of the order of $1$ when:
+    \begin{equation}
+        t_N[\alpha] = O\left(\frac{Np}{|\alpha|^{\tau_H}}\right)
+    \end{equation}
+
+    This result gives an \textit{overestimation} of the time of validity.
+\end{proof}
+
+\begin{theorem}[Underestimate of Time of Validity]
+    The time of validity can be underestimate by a constant:
+    \begin{equation}
+        t_p[\alpha] = \Omega(1)
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    The highest coefficient for the term $n+1$ is due to the powers $m$ of the Hamiltonian and $1 + n \tau_H$ of the previous term. Thus, by recursion, the coefficient of order $n$ is given by:
+    $$\frac{1}{n!} t^n m^n |\alpha|^{1+ n \tau_H} \prod_{k=0}^{n-1} (1 + n \tau_H)$$
+    Comparing the terms $p$ and $p+1$, we see that:
+    \begin{equation}
+        t_p[\alpha] \sim \frac{1}{(2+\tau_H) |\alpha|^{\tau_H} \tau_H}
+    \end{equation}
+    which is a well-defined constant for $\tau_H \ge 1$.
+\end{proof}

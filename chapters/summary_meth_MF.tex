@@ -1,0 +1,92 @@
+\subsubsection{Writing the Differential System}
+
+The goal of this part is to follow the evolution of the moments of degree less or equal to $p$. We recall that the MF methods are based on approximating the equation of evolution of the moments. In particular, the equations of evolution for moments of degrees greater or equal to $p - \tau_H$ are approximated since the moments of degree larger than $p$ appear in them. Such a term can be for example $\average{a^{p+1}}$. Since we do not follow such a quantity, we need to be able to write it (in an approximate manner) in terms of moments of order less or equal to $p$. 
+
+We have studied the following ways of approximating the moments of order larger than $p$.
+\begin{enumerate}
+    \item \texttt{Truncated cumulants}: this method is presented in~\autoref{cumulant-method}.
+    \item \texttt{Divide in half}: this method is presented in~\autoref{divide-in-half}.
+    \item \texttt{Minimum Cut}: this method is presented in~\autoref{min-cut}.
+\end{enumerate}
+
+Explicitly, we are interested in writing the moment $\average{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}$ with $\sum_{l=1}^N j_l + k_l > p$.
+
+\paragraph{\texttt{Divide in Half}} \label{divide-in-half}
+The intuition behind this approach is that, if we take $p \ge \tau_H$, cutting the moment in two parts gives terms of degrees less or equal to $p$. For example, $\average{a^{p+1}} \mapsto \average{a^{\floor{\frac{p+1}{2}}}} \average{a^{\ceil{\frac{p+1}{2}}}}$.
+
+More rigorously, this is done by representing the moment $\average{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}$ by the tuple $T \equiv (j_1, ..., j_N, k_1, ..., k_N)$. The tuple can be manipulated by following~\autoref{alg:divide-in-half}. This algorithm is actually a heuristic as they are some cases that fail (for example $(3,~4,~4,~9)$ for $p=10$) Nevertheless, the method works for all the applications of interest.
+
+\begin{algorithm}
+\caption{Divide in Half Algorithm}\label{alg:divide-in-half}
+\begin{algorithmic}
+\Require T a tuple of length $2 N$, $p \in \mathbb{N}^*$ with $p \ge \tau_H$
+\If{$\text{sum}(T) \le p$}
+\State $L \gets [T]$
+\Else
+\State $i \gets$ \texttt{find$\_$idx}$(T, p)$ \Comment{\texttt{find$\_$idx} gives the smallest $i$ s.t. $\text{sum}(T[:i+1]) > p$}
+\State $v\gets \min\left(p - \text{sum}(T[:i]), \ceil{\frac{T[i]}{2}}\right)$ \Comment{Divide in half here}
+\State $L \gets \big[T[:i] + (v) + (0,)\times(2N-i-1), (0)\times i + (T[i] - v) + T[i+1:]\big]$
+\EndIf
+\State \Return L
+\end{algorithmic}
+\end{algorithm}
+
+The reason behind trying to divide the ladder operator at position $i$ between the two resulting moments is to keep some correlation between them \textit{via} the aforementioned ladder operator. Furthermore, \texttt{divide in half} is intuitively \textit{expected} to be very accurate because the replacement is done by moments whose equation of evolution is correct. Thus the error is \textit{expected} to propagate to the second order.
+
+\paragraph{\texttt{Minimum Cut}}  \label{min-cut}
+The intuition behind this method is to divide the moment into the smallest possible number of chunks. This is done by taking chunks of size $p$ from $\average{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}$ going from the left to the right. For example, $\average{a^{p+1}} \mapsto \average{a^{p}} \average{a}$.
+
+More rigorously, like in~\autoref{divide-in-half}, this is done by representing the moment $\average{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}$ by the tuple $T \equiv (j_1, ..., j_N, k_1, ..., k_N)$. The tuple is divided into chunks whose sum is equal to $p$. Usually, there will remain a last chunk whose sum is strictly less than $p$. The tuple can be manipulated by following~\autoref{alg:min-cut}. This algorithm is correct since each chunk has a sum less or equal to $p$.
+\begin{algorithm}
+\caption{Minimum Cut Algorithm}\label{alg:min-cut}
+\begin{algorithmic}
+\Require T a tuple of length $2 N$, $p \in \mathbb{N}^*$
+\State $c \gets 0$, $i \gets 0$, $j \gets 0$, $L \gets []$
+\While{$j < 2 N$}
+\If{$c + T[j] < p$} \Comment{\texttt{Python} convention}
+    \State $c \gets c + T[j]$, $j \gets j + 1$ \Comment{Accumulate ladder operators}
+\Else \Comment{We have a chunk of degree $p$}
+    \State $L \gets L + [(0)\times i + T[i:j] + (0)\times (2N-j-1)]$ \Comment{$(0)\times i = (0, 0, ..., 0)$ $i$ times}
+    \State $T[j] \gets T[j] - p + \text{sum}(T[i:j])$ \Comment{Subtract the part already in a chunk}
+    \State $c \gets 0$, $i \gets j$, $T[:j] \gets(0) \times j$
+\EndIf
+\EndWhile
+\State $L \gets L + (0)\times i + T[i:]$ \Comment{The rest goes into a last chunk}
+\State \Return L
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Initial States}
+
+For all the three methods, finding the initial condition can be done by finding the \textit{initial values of the moments}. We can show that this can be done for a large class of states. Indeed, we prove~\autoref{initial-general} in~\autoref{init-state-appendix} and give corollaries for a sum of coherent and of Fock states.
+
+\begin{theorem}[Initial Value of Moments] \label{initial-general}
+Let us consider the states $\{\ket{\phi[\xi]}\}_\xi$. We denote $a \ket{\phi[\xi]} = \lambda[\xi] \ket{\phi^{(1)}[\xi]}$, with $\ket{\phi^{(1)}[\xi]}$ is another state obtained after applying $a$ once on $\ket{\phi[\xi]}$. Let $\ket{\psi} = \sum_{\xi=1}^\chi c_\xi
+\bigotimes_{i=1}^N \ket{\phi_i[\xi]}$. We have
+\begin{equation}
+    \mel{\psi}{\left(\prod_{l=1}^N a^{\dagger j_l}_l\right) \left(\prod_{l=1}^N a^{k_l}_l\right)}{\psi} = \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \prod_{l=1}^N \left(\prod_{\gamma = 0}^{j_l - 1} \lambda^{(\gamma)*}_l[\xi]\right) \left(\prod_{\kappa = 0}^{k_l - 1} \lambda^{(\kappa)}_l[\zeta]\right) \braket{\phi^{(j_l)}_l[\xi]}{\phi^{(k_l)}_{l}[\zeta]}
+\end{equation}
+
+where $\ket{\phi^{(k)}[\xi]}$ is the resulting state after applying $k$ times $a$ on $\ket{\phi[\xi]}$.
+\end{theorem}
+
+\paragraph{Numerical Implementation:} Even though~\autoref{initial-general} gives the expressions of the moments for states that are linear superpositions of states that we can handle, the resulting approximated differential system is very wrong since the state is very far from being Gaussian (see for example~\autoref{fig:CPictureCatCM}). Nevertheless, we have: $\rho = \sum_{\xi=1}^\chi \sum_{\zeta=1}^\chi c^*_\xi c_\zeta \bigotimes_{i=1}^N \ketbra{\phi_i[\zeta]}{\phi_i[\xi]}$. By linearity, the linear system can be solved by solving each projector $\bigotimes_{i=1}^N \frac{\ketbra{\phi_i[\zeta]}{\phi_i[\xi]}}{\braket{\phi_i[\xi]}{\phi_i[\zeta]}}$ (of trace one if $\braket{\phi_i[\xi]}{\phi_i[\zeta]} \neq 0$) independently (a similar idea is presented in~\cite{quesada-fast-sum-Gauss} for Gaussian evolution). A proof is given in~\autoref{proof-sum-gauss-non-lin}. This requires knowing the dot products $\braket{\phi_i[\xi]}{\phi_i[\zeta]}$. Indeed, if we consider a sum over coherent states, the projectors have zero cumulants for degrees larger or equal to $2$ (see fig. \ref{fig:PictureProj}).
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.8\linewidth]{Pics/PictureCatCM.pdf}
+      \caption{Cumulants and moments for the state $\propto \frac{\ket{3} + \ket{-3}}{\sqrt{2}}$ from \texttt{dynamiqs}~\cite{dynamiqs} for the dimension $500$ in logarithm scale. The index $(j, k)$ corresponds to $a^{\dagger j} a^k$. The index $(j, k)$ corresponds to $\average{a^{\dagger j} a^k}$. $\average{a^{\dagger k} a^j}$ and $\average{a^{\dagger j} a^k}$ are complex-conjugate, thus we limit ourselves to $j \le k$. For each subset of fixed $j+k$, the lexicographic order is imposed.}
+      \label{fig:CPictureCatCM}
+    \end{figure}
+\end{center}
+
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/PictureProj.pdf}
+      \caption{Cumulants and moments for the projector $\frac{\ketbra{2}{1.5-3.7i}}{\braket{1.5-3.7i}{2}}$ using the exact numerical expression. The index $(j, k)$ corresponds to $\average{a^{\dagger j} a^k}$. The indices are ranked in an increasing order of $j+k$. For each subset of fixed $j+k$, the lexicographic order is imposed.}
+      \label{fig:PictureProj}
+    \end{figure}
+\end{center}
+
+To see this, let us consider the projector $\frac{\ketbra{\alpha}{\beta}}{\braket{\beta}{\alpha}}$. We have $M(z, z^*) = \Tr{\frac{\ketbra{\alpha}{\beta}}{\braket{\beta}{\alpha}} e^{i z^* a^\dagger} e^{i z a}} = \frac{\mel{\beta}{e^{i z^* a^\dagger} e^{i z a}}{\alpha}}{\braket{\beta}{\alpha}} = e^{i z^* \beta^*} e^{i z \alpha}$ (the expression is in normal order). Thus $\average{a^{\dagger j} a^k} = \beta^{* j} \alpha^k$. And $K(z, z^*) = i z^* \beta^* + i z \alpha$. Thus: $C_{a} = \alpha$, $C_{a^\dagger} = \beta^*$ and $C_{a^{\dagger j} a^k} = 0$ for $j + k \ge 2$.

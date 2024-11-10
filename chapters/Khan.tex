@@ -1,0 +1,91 @@
+This part is largely inspired by~\cite{khan2021physical} that introduces cumulants in normal order for a given state. In order to follow the evolution of initial cat states and other non-Gaussian states, we give a more general definition of cumulants. The problem of writing equations in terms of moments is that they increase exponentially as a function of the degree (at least for coherent states with $|\alpha| > 1$, see~\autoref{fig:Cumu_Mom_Coherent}). The idea is to introduce a quantity that decreases as a function of the degree. For many cases, cumultants can play such a role.
+\begin{center}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\linewidth]{Pics/Cumu_Mom_Coherent.pdf}
+      \caption{Cumulants and moments for the state $\ket{1.5-1.25i}$ from \texttt{dynamiqs} \cite{dynamiqs} for the dimension $500$ in logarithm scale. The index $(j, k)$ corresponds to $\average{a^{\dagger j} a^k}$. $\average{a^{\dagger k} a^j}$ and $\average{a^{\dagger j} a^k}$ are complex-conjugate, thus we limit ourselves to $j \le k$. The indices are ranked in an increasing order of $j+k$. For each subset of fixed $j+k$, the lexicographic order is imposed.}
+      \label{fig:Cumu_Mom_Coherent}
+    \end{figure}
+\end{center}
+
+\paragraph{Moment Generating Function (MGF)} The \textbf{normal} characteristic function for the multi-mode case for the operator $X$ is defined as \cite{explo_quant, khan2021physical}
+\begin{equation}
+    M^{[X]}(\Vec{z}, \Vec{z}^*) \equiv \Tr{X \left(\prod_{k=1}^N e^{i z^*_k a^\dagger_k}\right) \left(\prod_{k=1}^N e^{i z_k a_k}\right)}.
+\end{equation}
+
+In~\cite{khan2021physical}, $X$ is a density operator. In our case, we only impose the normalization condition $\Tr{X} = 1$, ensuring that $M^{[X]}(\Vec{0}, \Vec{0}) = \Tr{X} = 1$. In  In particular, we can deduce directly the values of moments in normal order from the derivatives of $M^{[X]}(\Vec{z}, \Vec{z}^*)$
+
+\begin{equation}
+    \Tr{X\left(\prod_{k=1}^N a^{\dagger j_k}_k\right) \left(\prod_{k=1}^N a^{l_k}_k\right)} = \left[\prod_{k=1}^N \pdv[order = {j_k,l_k}]{}{(i z^*),(i z)}\right]M^{[X]}(\Vec{0}, \Vec{0}).
+\end{equation}
+
+This makes $M^{[X]}(\Vec{z}, \Vec{z}^*)$ the normal order moment generating function. While the symmetric characteristic function is associated with the Wigner function, $M^{[X]}(\Vec{z}, \Vec{z}^*)$ is associated with the Glauber–Sudarshan $P-$distribution defined as the complex Fourier transform of $M^{[X]}(\Vec{z}, \Vec{z}^*)$~\cite{walls_milburn, khan2021physical, wiki-quasi-prob, wiki-Glauber–Sudarshan},
+
+\begin{equation}
+    P^{[X]}(\Vec{\beta}, \Vec{\beta}^*) \equiv \frac{1}{\pi^{2 N}}\int \dd{z_1} \dd{z^*_1} \ldots \dd{z_N} \dd{z^*_N} M^{[X]}(\Vec{z}, \Vec{z}^*) e^{-i \Vec{\beta} . \Vec{z}} e^{-i \Vec{\beta}^* . \Vec{z}^*}.
+\end{equation}
+
+The $P-$distribution \cite{walls_milburn, khan2021physical} allows to represent a state $\rho$ on the coherent state basis:
+
+\begin{equation}
+    X = \int \dd{\beta_1} \dd{\beta^*_1} \ldots \dd{\beta_N} \dd{\beta^*_N} P^{[X]}(\Vec{\beta}, \Vec{\beta}^*) \ketbra{\Vec{\beta}}
+\end{equation}
+
+where $\ket{\Vec{\beta}} \equiv \ket{\beta_1} \otimes \ldots \otimes \ket{\beta_N}$.
+
+\paragraph{Cumulant Generating Function (CGF)} The CGF is defined as: $K^{[X]}(\Vec{z}, \Vec{z}^*) \equiv \ln{M^{[X]}(\Vec{z}, \Vec{z}^*)}$. $K^{[X]}(\Vec{0}, \Vec{0}) = \ln{\Tr{X}} = 0$. $K^{[X]}(\Vec{z}, \Vec{z}^*)$ defines the cumulants as its derivatives at $(\Vec{0}, \Vec{0})$.
+
+\begin{equation}
+    C^{[X]}_{\left(\prod_{k=1}^N a^{\dagger j_k}_k\right) \left(\prod_{k=1}^N a^{l_k}_k\right)} \equiv \left[\prod_{k=1}^N \pdv[order = {j_k,l_k}]{}{(i z^*),(i z)}\right]K^{[X]}(\Vec{0}, \Vec{0}).
+\end{equation}
+
+It is possible to link moments and cumulants using the Faà di Bruno formula \cite{livre_faa, wiki-faa}. The lemma uses the notion of \textbf{partitions}. For a finite set $I$, $\mathcal{P}(I)$ denotes the \textbf{set} of \textbf{sets} of disjoint \textbf{subsets} of $I$ whose union is $I$. We denote $\mathcal{P}(n)$ as a short hand for $\mathcal{P}(\{1, \ldots, n\})$. For example, $\Big\{\{1, 2\}, \{3\}\Big\}$ and $\Big\{\{1, 2, 3\}\Big\}$ are partitions of $I = \{1, 2, 3\}$. More accurately, 
+$$\mathcal{P}(3) = \Bigg\{\Big\{\{1\}, \{2\}, \{3\}\Big\}, \Big\{\{1, 2\}, \{3\}\Big\}, \Big\{\{1, 3\}, \{2\}\Big\}, \Big\{\{2, 3\}, \{1\}\Big\}, \Big\{\{1, 2, 3\}\Big\}\Bigg\}.$$ 
+The number of elements of $\mathcal{P}(n)$ is given by the Bell number $B_n$ (cf.\@~\autoref{bell-append}), i.e.\@ $B_3 = 5$.
+
+\begin{lemma}[Faà di Bruno formula] 
+    Let $f$ and $g$ be differentiable $n-$times. We have:
+    \begin{equation} \label{faa_form}
+        \frac{\partial^n}{\partial x_1 ... \partial x_n} f(g) = \sum_{\pi \in \mathcal{P}(n)} f^{(|\pi|)}(g) \prod_{B \in \pi} \frac{\partial^{|B|} g}{\prod_{i \in B} \partial x_i}
+    \end{equation}
+    where $x_i$ can be any set of variables, with some potentially equal.
+\end{lemma}
+
+From this formula, we can deduce identities allowing us to express moments as a function of cumulants and cumulants as a function of moments:
+
+\begin{theorem}[Passage from moments to cumulants and vice-versa in normal order] \label{th-m2c-c2m}
+    Let $O_k$ be operators such that $\prod_{k=1}^n O_k \equiv O_1 \ldots O_N$ is written in the \textbf{normal} order. The following relations are true even if $\Tr{X} \neq 1$.
+    \begin{eqnarray} \label{gen-m2c}
+        C^{[X]}_{\prod_{k=1}^n O_k} &=& \sum_{\pi \in \mathcal{P}(n)} \frac{(-1)^{|\pi|-1} (|\pi|-1)!}{M^{[X]}(\Vec{0}, \Vec{0})^{|\pi|}} \prod_{B \in \pi} \Tr{X\prod_{i \in B} O_i}\\ \label{gen-c2m}
+        \Tr{X\prod_{k=1}^n O_k} &=& \sum_{\pi \in \mathcal{P}(n)} e^{K^{[X]}(\Vec{0}, \Vec{0})} \prod_{B \in \pi} C^{[X]}_{\prod_{i \in B} O_i}
+    \end{eqnarray}
+    where $\prod_{i \in B} O_i$ is written in increasing order of $i$
+\end{theorem}
+\begin{proof}
+    In this proof, we do \textbf{not} suppose that $\Tr{X} = 1$.
+    
+    For~\autoref{gen-m2c}, we use the relation $K^{[X]}(\Vec{z}, \Vec{z}^*) = \ln{M^{[X]}(\Vec{z}, \Vec{z}^*)}$. We use the Faà di Bruno formula~\autoref{faa_form} evaluated at $(\Vec{0}, \Vec{0})$. Further, we can show by induction that $\ln^{(n)}{x} = \frac{(-1)^{n-1} (n-1)!}{x^n}$, $n \ge 1$.
+
+    For~\autoref{gen-c2m}, we use the relation $M^{[X]}(\Vec{z}, \Vec{z}^*) = \exp{K^{[X]}(\Vec{z}, \Vec{z}^*)}$. We use the Faà di Bruno formula~\autoref{faa_form} evaluated at $(\Vec{0}, \Vec{0})$. Further, $\exp^{(n)}{x} = \exp{x}$.
+\end{proof}
+
+\begin{corollary}
+    Since we always impose that $\Tr{X} = 1$, the passage relations become:
+    \begin{eqnarray} \label{m2c}
+        C^{[X]}_{\prod_{k=1}^n O_k} &=& \sum_{\pi \in \mathcal{P}(n)} (-1)^{|\pi|-1} (|\pi|-1) \prod_{B \in \pi} \Tr{X\prod_{i \in B} O_i}\\
+        \label{c2m}
+        \Tr{X\prod_{k=1}^n O_k} &=& \sum_{\pi \in \mathcal{P}(n)} \prod_{B \in \pi} C^{[X]}_{\prod_{i \in B} O_i}
+    \end{eqnarray}
+    where $\prod_{i \in B} O_i$ is written in increasing order of $i$
+\end{corollary}
+
+\paragraph{Method (\texttt{truncated cumulants})} The method proposed in~\cite{khan2021physical} is to write differential equations on the \textit{cumulants}, which we will follow. However, it is possible to use cumulants to write differential equations on moments~\cite{quesada-fast-sum-Gauss, QuantumCumulants}. It is also possible to envision writing a closure relation using moments while writing differential equations on cumulants. This can be done by linking the higher degree moments to lower degree moments by setting the left hand side of~\autoref{m2c} to zero. The intuition behind writing the differential equations on cumulants is that for coherent states, cumulants are $0$ beyond the order $1$ and for Gaussian states cumulants are $0$ beyond the order $2$. Thus, at least for short times, we can suppose that cumulants beyond some order $p$ are $0$ as ``it takes time for them to be occupied''. This can be done by following the steps.
+
+\begin{enumerate}
+    \item Express the cumulants up to order $p$ in terms of moments using~\autoref{m2c}.
+    \item Write the quantum Langevin equations for the moments which relate the time derivative of a moment to other moments.
+    \item Write the time derivative of the cumulants in terms of moments by combining the two previous steps.
+    \item Express the moments in terms of cumulants by replacing moments by cumulants using.~\autoref{c2m}. Impose that cumulants of order larger than $p$ are equal to $0$.
+\end{enumerate}
+
+One important limitation of the \texttt{truncated cumulants} is that the computation time is exponential in the cutoff $p$. The exponential time comes from summing on partitions in~\autoref{m2c} and~\autoref{c2m}, whose number (the Bell numbers) grows quasi-exponentially (see~\autoref{fig:Capture_Bell}). Writing the differential system on the cumulants becomes therefore cumbersome quite rapidly. See~\autoref{bell-append} for more information about Bell numbers.

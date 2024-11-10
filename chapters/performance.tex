@@ -1,0 +1,55 @@
+We compare the different methods by estimating their complexities in three different steps: writing the differential equations on scalar functions to solve, solving the differential system and evaluating the moments. We denote $T$ the length of the time interval of interest. Solving the differential equation has a time and memory complexity proportional to $T$. As a reminder, $N$ denotes the number of modes, $p$ the cut-off, $m$ the degree of the Hamiltonian, $w_H$ the number of terms in the Hamiltonian, $w_L$ the number of jump operators,  $M_{\max, i}$ the maximal number of photons for the mode $i$, $\chi$ the number of terms for the sum on Gaussian states, $B_p$ the $p^{\text{th}}$ Bell number, cf.\@~\autoref{bell-append}.
+
+\subsection{Density Matrix Method}
+We recall that the space dimension of the density matrix method is given by $\Theta\left(\prod_{i = 1}^N M_{\max, i}\right)$, which is exponential in the number of modes $N$. The three steps require manipulating matrices of size $\Theta\left(\prod_{i = 1}^N M_{\max, i}\right)$ \textit{via} multiplication, addition or inversion. Thus, the time complexity is proportional to a polynomial of $\Theta\left(\prod_{i = 1}^N M_{\max, i}\right)$.
+
+\subsection{Usual MF}
+This section refers to the methods \texttt{Divide in half} and \texttt{Minimum Cut}. The number of equations is $\sim \frac{1}{2} \sum_{q=1}^p \binom{2N+q-1}{q} = O((2N)^p)$. By using the bilinearity and product relation for the commutator, we can show that each equation has a time complexity $O((w_H + w_L) (p+m))$, where $w_H$ is the number of monomials in $H$ and $w_L$ is the number of jump operators. The memory complexity is $\sim \frac{1}{2} \sum_{q=1}^p \binom{2N+q-1}{q}$. The expressions can potentially been stored in an optimal manner. Solving the initial value problem requires using linear algebra polynomials, thus its time and memory complexities are given by $\Theta\left(T \text{poly}\left(\sum_{q=1}^p \binom{2N+q-1}{q}\right)\right)$. Retrieving the moments is straightforward since they are the values that are computed by solving the differential system. When the initial state is a sum over $\chi$ Gaussian states, we need to solve for each projector $\frac{\ketbra{\alpha_\xi}{\alpha_\zeta}}{\braket{\alpha_\zeta}{\alpha_\xi}}$ independently, thus leading to a factor $\chi^2$.
+
+\subsection{Cumulant Method}
+The cumulant method is similar to the usual MF methods. One important difference is time needed to convert moments to cumulants and vice-versa. This time scales as $B_p$, i.e.\@~the $p^{\text{th}}$ Bell number, see~\autoref{bell-append} for an introduction to Bell numbers. One important point is that $B_p$ grows exponentially with $p$. Writing differential equations on cumulants is usually done by converting differential equations on moments~\cite{khan2021physical}. Thus each term (a moment) needs to be converted into cumulants. For each equation, the number of terms is $O((w_H + w_L) (p+m))$. Furthermore, retrieving a moment requires converting back cumulants into moments, taking  a time proportional to $B_p$.
+
+\subsection{Time Evolution Approximation}
+
+For the TEA, the state is represented by the evolution of the annihilators $a_i(t)$. These states can be represented, up to the time of validity which can be expanded using Padé approximate, by the coefficients which can be written symbolically. Thus, their is no need to solve a differential system, solving the problem of stability. Additionally, retrieving a moment requires multiplying symbolic representations, which requires computing $\chi^2$ terms. The main limiting factor of this method is the time needed to compute the commutators. 
+
+The results of this part are summarized in~\autoref{tab:comp-meths-1} and \autoref{tab:comp-meths-2}. Complexities are over-estimated (with $O$) for the sake of making the comparison easier. See \autoref{bell-append} for the asymptotic behavior of Bell numbers.
+
+\begin{table}
+    \centering
+  \caption{Comparison of the complexities of the methods (Part 1). For definition of notations, see~\autoref{comp-methds}}
+  \label{tab:comp-meths-1}
+  \centering
+  \makebox[\textwidth]{\begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Step / Method & Density Matrix & Usual MF\\
+    \hline
+    Writing equations (time) & $\Theta\left(\text{poly}\left(\prod_{i = 1}^N M_{\max, i}\right)\right)$ & $O\left((w_H + w_L) (p+m) (2N)^p\right)$\\
+    Writing equations (memory) & $\Theta\left(\prod_{i = 1}^N M_{\max, i}\right)$ & $O\left((2N)^p\right)$\\
+    Solving equations (time) & $\Theta\left(T \text{poly}\left(\prod_{i = 1}^N M_{\max, i}\right)\right)$ & $\Theta\left(\chi^2 T \text{poly}\left((2N)^p\right)\right)$\\
+    Solving equations (memory) & $\Theta\left(T \prod_{i = 1}^N M_{\max, i}\right)$ & $\Theta\left(\chi^2T \text{poly}\left((2N)^p\right)\right)$\\
+    Retrieving a moment (time) & $\Theta\left(\text{poly}\left(\prod_{i = 1}^N M_{\max, i}\right)\right)$ & $O(\chi^2)$\\
+    \hline
+  \end{tabular}}
+\end{table}
+
+\begin{table}
+    \centering
+  \caption{Comparison of the complexities of the methods (Part 2). For definition of notations, see~\autoref{comp-methds}}
+  \label{tab:comp-meths-2}
+  \centering
+  \makebox[\textwidth]{\begin{tabular}{|c|c|c|c|c|}
+    \hline
+    Step / Method &  Cumulant & TEA \\
+    \hline
+    Writing equations (time) & $O\left(B_p (w_H + w_L) (p+m) (2N)^p\right)$ & $O\left(N p w^{p}_H (m+p \tau_H)\right)$ \\
+    Writing equations (memory) & $\sim \frac{1}{2} (2N)^p$ & $\Theta(N p + N p^2 \tau_H)$ \\
+    Solving equations (time) & $\Theta\left(\chi^2 T \text{poly}\left((2N)^p\right)\right)$ & - \\
+    Solving equations (memory) & $\Theta\left(\chi^2 T \text{poly}\left((2N)^p\right)\right)$ & - \\
+    Retrieving a moment (time) & $\Theta(\chi^2 B_p)$ & $O(\chi^2 \text{poly}(p, \tau_H))$ \\
+    \hline
+  \end{tabular}}
+\end{table}
+
+
+

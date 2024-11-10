@@ -1,0 +1,55 @@
+We have seen in \ref{schro-pic} that solving the dynamics of the system in the Schrödinger picture requires a large memory complexity. This can be very limiting since matrix operations need to be done on this representation, leading to a large time complexity. In this part, we change the representation of the dynamics in the hope that these problems are solved.
+
+In the Heisenberg representation, the dynamics are described by the evolution of the operators. This transformation is defined carefully in the following section.
+
+\subsubsection{Reminders Concerning the Heisenberg Picture}
+
+In this part, the subscript $S$ refers to the Schrödinger picture while the subscript $H$ refers to the Heisenberg picture.
+
+\begin{definition}[Heisenberg Picture]
+    The Heisenberg picture is defined as:
+    \begin{equation} \label{heisenberg-pic}
+        O_H(t) \equiv U_S^\dagger(t) O_S(t) U_S(t)
+    \end{equation}
+\end{definition}
+
+The following theorem gives how do operators evolve in the Heisenberg picture:
+
+\begin{theorem}
+    Under the Hamiltonian $H_S(t)$, the time evolution of $O_H(t)$ is given by:
+
+    \begin{equation}
+        \timeDeriv{O_H}(t) = \ihbar \commutator{O_H(t)}{H_H(t)} + \left(\pdv{O_S}{t}(t)\right)_H
+    \end{equation}
+
+    where $H_H(t)$ and $\left(\pdv{O_S}{t}(t)\right)_H$ are given by Eq.~\ref{heisenberg-pic}.
+\end{theorem}
+\begin{proof}
+    We write using \ref{heisenberg-pic}:
+    \begin{equation}
+        \timeDeriv{O_H}(t) = \timeDeriv{U_S^\dagger}(t) O_S(t) U_S(t) + U_S^\dagger(t) O_S(t) \timeDeriv{U_S}(t) + U_S^\dagger(t) \pdv{O_S}{t}(t) U_S(t)
+    \end{equation}
+    Knowing that: $\timeDeriv{U_S}(t) = \ihbar H_S(t) U_S(t)$, we find:
+    \begin{equation}
+        \timeDeriv{O_H}(t) = - \ihbar U_S^\dagger(t) H_S(t) O_S(t) U_S(t) + \ihbar U_S^\dagger(t) O_S(t) H_S(t) U_S(t) + \left(\pdv{O_S}{t}(t)\right)_H
+    \end{equation}
+    Introducing $\mathbb{1} = U_S(t) U_S^\dagger(t)$ for the two first terms, we identify:
+    \begin{equation}
+        \timeDeriv{O_H}(t) = - \ihbar H_H(t) O_H(t) + \ihbar O_H(t) H_H(t) + \left(\pdv{O_S}{t}(t)\right)_H
+    \end{equation}
+    which the result to show.
+\end{proof}
+
+
+ \begin{remark}
+     Let $O_S(t) \equiv a_S(t) b_S(t)$ be an operator in the Schrödinger picture, its Heisenberg is given by:
+     \begin{eqnarray}
+         O_H(t) &=& U_S^\dagger(t) a_S(t) b_S(t) U_S(t)\nonumber\\
+         &=& U_S^\dagger(t) a_S(t) U_S(t) \ U_S^\dagger(t) b_S(t) U_S(t)\nonumber\\
+         &=& a_H(t) b_H(t)
+     \end{eqnarray}
+     This computation shows that if $O_S(t)$ is a polynomial of some operators, then $O_H(t)$ is the same polynomial of the Heisenberg representation of the aforementioned operators. In particular, the commutation relations can be computed by using the expression in the Schrödinger picture and then replacing the operators by their Heisenberg representation.
+
+     In particular, the ladder operators satisfy the commutation relations $\commutator{a_i(t)}{a_j(t)} = 0$ and $\commutator{a_i(t)}{a^\dagger_j(t)} = \delta_{i j}$ when the evolution is \textbf{Unitary}. 
+ \end{remark}
+

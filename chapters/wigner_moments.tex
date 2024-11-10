@@ -1,0 +1,194 @@
+The goal of this appendix is to show how to express different quantities that are used to characterize the state. These quantities will not be introduced here for the sake of briefness. A good introduction to quasi-probabilities can be found in~\cite{weiestrass_trans_ref, walls_milburn, explo_quant, wiki-Glauber–Sudarshan, wiki-Husimi, wiki-Wigner}. For the sake of simplicity, we limit ourselves to one-mode states. All the computations of this part are done in the \textbf{Schrödinger picture}. The final result does not depend on the representation.
+
+\section{Quasi-Probabilities}
+The goal of this part is to express the $P-$distribution, Wigner function and $Q$ Husimi function as a function of the moments. We limit ourselves to one mode where the quasi-probabilities are usually used. We will prove the following result:
+\begin{theorem}[Expression of the Quasi-Probabilities in Function of Moments]
+The $P-$distribution can be written as:
+\begin{equation} \label{p_distrib_moment}
+    P(\beta, \beta^*) =  \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} (-1)^{j+k} \frac{\partial^{j+k}}{\partial \beta^{* j} \partial \beta^k}  \delta(\beta, \beta^*)
+\end{equation}
+
+The Wigner function can be expressed as:
+\begin{equation} \label{eq-wigner-moments}
+    W(\alpha, \alpha^*) = \frac{2 e^{-2 |\alpha|^2}}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} 2^{k+j} \sum_{r = 0}^{\min(j, k)} \binom{j}{r}  \frac{k!}{(k-r)!} (-1)^r \frac{\alpha^{* (k-r)} \alpha^{j-r}}{2^r}
+\end{equation}
+
+Finally, the Husimi function is given by:
+\begin{eqnarray} \label{eq-q-moments}
+     Q(\alpha, \alpha^*) &=& \frac{e^{-|\alpha|^2}}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \sum_{r = 0}^{\min(j, k)} (-1)^r \frac{\average{a^{\dagger j} a^k}}{j! k!} \binom{j}{r}  \frac{k!}{(k-r)!} \alpha^{* (k-r)} \alpha^{j-r}
+\end{eqnarray}
+\end{theorem}
+
+\begin{proof}
+To prove this theorem, we recall the expression of the $P-$distribution~\cite{khan2021physical}:
+
+\begin{equation}
+    P(\beta, \beta^*) = \int \frac{d^2z}{\pi^2} M(z, z^*) e^{-i \beta z}e^{-i \beta^* z^*}
+\end{equation}
+
+with $M(z, z^*) = \average{e^{i z^* a^\dagger} e^{i z a}} = \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\left(i z^*\right)^j \left(i z\right)^k}{j! k!} \average{a^{\dagger j} a^k}$. Thus:
+
+\begin{equation} 
+    P(\beta, \beta^*) =  \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} \int \frac{d^2z}{\pi^2} \left(i z^*\right)^j \left(i z\right)^k e^{-i \beta z}e^{-i \beta^* z^*}
+\end{equation}
+
+We introduce the integral:
+
+\begin{equation}
+    I_{j k}(\beta, \beta^*) =  \int \frac{d^2z}{\pi^2} \left(i z^*\right)^j \left(i z\right)^k e^{-i \beta z}e^{-i \beta^* z^*} = (-1)^{j+k} \frac{\partial^{j+k}}{\partial \beta^{* j} \partial \beta^k} \int \frac{d^2z}{\pi^2} e^{-i \beta z}e^{-i \beta^* z^*}
+\end{equation}
+
+where: $\int \frac{d^2z}{\pi^2} e^{-i \beta z}e^{-i \beta^* z^*} = \delta(\beta, \beta^*)$. Thus:
+
+\begin{equation}
+    P(\beta, \beta^*) =  \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} (-1)^{j+k} \frac{\partial^{j+k}}{\partial \beta^{* j} \partial \beta^k}  \delta(\beta, \beta^*)
+\end{equation}
+
+Since we know that a state is fully characterized by its $P-$distribution, we conclude that a state is fully characterized by its moments. We can relate the Wigner function to the $P-$distribution using the Weiestrass transform or called Gaussian smoothing~\cite{weiestrass_trans_ref}:
+
+\begin{eqnarray} \label{gaussian_smooth}
+    W(\alpha, \alpha^*) &=& 2 \int \frac{d^2 \beta}{\pi} P(\beta, \beta^*) e^{-2 (\beta - \alpha) (\beta^* - \alpha^*)}\\
+    &=& 2 \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} (-1)^{j+k} \int \frac{d^2 \beta}{\pi} e^{-2 (\beta - \alpha) (\beta^* - \alpha^*)} \frac{\partial^{j+k}}{\partial \beta^{* j} \partial \beta^k}  \delta(\beta, \beta^*) \nonumber\\
+    &=& 2 \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} \left[\frac{\partial^{j+k}}{\partial \beta^{* j} \partial \beta^k} e^{-2 (\beta - \alpha) (\beta^* - \alpha^*)}\right]_{\beta = 0, \beta^* = 0} \nonumber\\
+    &=& \frac{2}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} \left[\frac{\partial^{j}}{\partial \beta^{* j}} (-2)^k (\beta^* -\alpha^*)^k e^{-2 (\beta - \alpha) (\beta^* - \alpha^*)}\right]_{\beta = 0, \beta^* = 0} \nonumber
+\end{eqnarray}
+
+Using Bernoulli's identity for the derivative of a product, we find:
+
+\begin{eqnarray}    
+     W(\alpha, \alpha^*) &=& \frac{2}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} (-2)^k\nonumber\\ &\times& \sum_{r = 0}^{\min(j, k)} \binom{j}{r} \left[\frac{\partial^{r}}{\partial \beta^{* r}} (\beta^* - \alpha^*)^k \right]_{\beta = \beta^* = 0} \left[ \frac{\partial^{j-r}}{\partial \beta^{* (j-r)}}e^{-2 (\beta - \alpha) (\beta^* - \alpha^*)}\right]_{\beta =\beta^* = 0} \nonumber\\
+     &=& \frac{2}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} (-2)^k \nonumber\\
+     &\times& \sum_{r = 0}^{\min(j, k)} \binom{j}{r}  \left[\frac{k!}{(k-r)!}  (\beta^* - \alpha^*)^{k-r} \right]_{\beta = \beta^* = 0} \left[(-2)^{j-r} (\beta - \alpha)^{j-r}  e^{-2 (\beta - \alpha) (\beta^* - \alpha^*)}\right]_{\beta =\beta^* = 0}\nonumber\\
+     &=& \frac{2}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} (-2)^k \sum_{r = 0}^{\min(j, k)} \binom{j}{r}  \frac{k!}{(k-r)!} (-\alpha^*)^{k-r} (-2)^{j-r} (-\alpha)^{j-r} e^{-2 |\alpha|^2}\nonumber\\
+     &=& \frac{2 e^{-2 |\alpha|^2}}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} 2^{k+j} \sum_{r = 0}^{\min(j, k)} \binom{j}{r}  \frac{k!}{(k-r)!} (-1)^r \frac{\alpha^{* (k-r)} \alpha^{j-r}}{2^r}
+\end{eqnarray}
+
+We finally find:
+\begin{equation}
+    W(\alpha, \alpha^*) = \frac{2 e^{-2 |\alpha|^2}}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} 2^{k+j} \sum_{r = 0}^{\min(j, k)} \binom{j}{r}  \frac{k!}{(k-r)!} (-1)^r \frac{\alpha^{* (k-r)} \alpha^{j-r}}{2^r}
+\end{equation}
+
+Similarly, the Husimi $Q-$distribution is related to the $P-$distribution by the Gaussian smoothing~\cite{weiestrass_trans_ref}:
+\begin{eqnarray}
+    Q(\alpha, \alpha^*) &=& \int \frac{d^2 \beta}{\pi} P(\beta, \beta^*) e^{-|\alpha - \beta|^2}\\
+    &=& \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} (-1)^{j+k} \int \frac{d^2 \beta}{\pi} e^{-(\beta - \alpha) (\beta^* - \alpha^*)} \frac{\partial^{j+k}}{\partial \beta^{* j} \partial \beta^k}  \delta(\beta, \beta^*) \nonumber\\
+    &=& \frac{1}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} (-1)^{j+k} \left[\frac{\partial^{j+k}}{\partial \beta^{* j} \partial \beta^k} e^{(\beta - \alpha) (\beta^* - \alpha^*)}\right]_{\beta = 0, \beta^* = 0} \nonumber\\
+    &=& \frac{1}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} \left[\frac{\partial^{j}}{\partial \beta^{* j}} (-1)^k (\beta^* -\alpha^*)^k e^{-(\beta - \alpha) (\beta^* - \alpha^*)}\right]_{\beta = 0, \beta^* = 0} \nonumber\\
+\end{eqnarray}
+
+Using Bernoulli's identity for the derivative of a product and evaluating at $(0, 0)$, we find:
+
+\begin{eqnarray}
+     Q(\alpha, \alpha^*) &=& \frac{e^{-|\alpha|^2}}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \sum_{r = 0}^{\min(j, k)} (-1)^r \frac{\average{a^{\dagger j} a^k}}{j! k!} \binom{j}{r}  \frac{k!}{(k-r)!} \alpha^{* (k-r)} \alpha^{j-r}
+\end{eqnarray}
+\end{proof}
+\subsection{Sanity Check: Coherent State}
+In this part, we verify the relations \autoref{p_distrib_moment} and \autoref{eq-wigner-moments} for a one-mode coherent state $\ket{\gamma}$.
+
+\subsubsection{$P-$distribution}
+For the state $\ket{\gamma}$, we know that the $P-$distribution is given by $P(\beta, \beta^*) =  \delta(\beta - \gamma, \beta^* - \gamma^*)$. Further, let $\phi(\beta, \beta^*)$ be a function that admits a Taylor power series expansion (recall that the $P-$distribution  is a distribution, not a function). We have:
+
+\begin{eqnarray}
+    \int d^2 \beta \ P(\beta, \beta^*) \phi(\beta, \beta^*) &=&  \phi(\gamma, \gamma^*) \nonumber\\
+    &=&  \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\gamma^{* j} \gamma^k}{j! k!} \frac{\partial^{j+k} \phi}{\partial \beta^{* j} \partial \beta^k}(0, 0) \nonumber\\
+    &=&  \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\gamma^{* j} \gamma^k}{j! k!} (-1)^{j+k} \int d^2 \beta \ \phi(\beta, \beta^*) \frac{\partial^{j+k} \delta}{\partial \beta^{* j} \partial \beta^k}(\beta, \beta^*)
+\end{eqnarray}
+
+Since this equality is true for any $\phi(\beta, \beta^*)$, we deduce that:
+
+\begin{equation}
+    P(\beta, \beta^*) = \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\gamma^{* j} \gamma^k}{j! k!} (-1)^{j+k} \frac{\partial^{j+k}}{\partial \beta^{* j} \partial \beta^k} \delta(\beta, \beta^*)
+\end{equation}
+
+which is~\autoref{p_distrib_moment} for the coherent state $\ket{\gamma}$.
+
+\subsubsection{Wigner Function and Husimi Function}
+For the state $\ket{\gamma}$, we know that the Wigner function is given by $W(\alpha, \alpha^*) =  \frac{2}{\pi} e^{-2 (\gamma - \alpha) (\gamma^* - \alpha^*)}$ (this can be seen from~\autoref{gaussian_smooth}). $W(\alpha, \alpha^*)$ can be given by the Taylor expansion:
+
+\begin{equation}
+    W(\alpha, \alpha^*) = \frac{2}{\pi} \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\gamma^{* j} \gamma^k}{j! k!} \left[\frac{\partial^{j+k}}{\partial \gamma^{* j} \partial \gamma^k} e^{-2 (\gamma - \alpha) (\gamma^* - \alpha^*)}\right]_{\gamma = \gamma^* = 0}
+\end{equation}
+
+Expanding the derivatives and evaluating them at $(0,0)$ corresponds to~\autoref{eq-wigner-moments} for the state $\ket{\gamma}$. We obtain a similar result for~\autoref{eq-q-moments} with $Q(\alpha, \alpha^*) =  \frac{1}{\pi} e^{-(\gamma - \alpha) (\gamma^* - \alpha^*)}$
+
+\section{Probability of Number Occupation}
+
+In this part, we evaluate $\pr{n}$, the probability of being occupied by $n$ photons. The goal is to prove the following result:
+\begin{theorem}[Expression of the Probability of Occupation in Function of Moments]
+    $\pr{n}$ is given by:
+    \begin{equation} \label{eq_pr_n_moments}
+    \pr{n} = \frac{1}{n!} \sum_{k=0}^\infty (-1)^k \frac{\average{a^{\dagger (k+n)} a^{k+n}}}{k!}
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+We introduce the $P-$distribution:
+
+\begin{equation}
+    \pr{n} = \mel{n}{\rho}{n} = \int d^2 \alpha P(\alpha, \alpha^*) \braket{n}{\alpha} \braket{\alpha}{n} = \int d^2 \alpha P(\alpha, \alpha^*) \frac{|\alpha|^{2 n}}{n!} e^{-|\alpha|^2} = \int d^2 \alpha P(\alpha, \alpha^*) \frac{\alpha^{* n} \alpha^{n}}{n!} e^{-\alpha^* \alpha}
+\end{equation}
+
+Using~\autoref{p_distrib_moment}, we have:
+\begin{eqnarray}
+    \pr{n} &=& \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k!} (-1)^{j+k} \int d^2 \alpha \frac{\alpha^{* n} \alpha^{n}}{n!} e^{-\alpha^* \alpha} \frac{\partial^{j+k}}{\partial \alpha^{* j} \partial \alpha^k}  \delta(\alpha, \alpha^*)\nonumber\\
+    &=& \sum_{j=0}^\infty \sum_{k=0}^\infty \frac{\average{a^{\dagger j} a^k}}{j! k! n!} \left[\frac{\partial^{j+k}}{\partial \alpha^{* j} \partial \alpha^k} \alpha^{* n} \alpha^{n} e^{-\alpha^* \alpha} \right]_{\alpha = \alpha^* = 0}\nonumber
+\end{eqnarray}
+
+Using Bernoulli's identity twice, we get:
+
+\begin{eqnarray}
+    \frac{\partial^{j+k}}{\partial \alpha^{* j} \partial \alpha^k} \alpha^{* n} \alpha^{n} e^{-\alpha^* \alpha} &=& \frac{\partial^j}{\partial \alpha^{* j}} \left\{\alpha^{* n} \sum_{r = 0}^{k} \binom{k}{r} \left(\frac{\partial^r}{\partial \alpha^{r}} \alpha^{n}\right) \left(\frac{\partial^{k-r}}{\partial \alpha^{k-r}} e^{-\alpha^* \alpha}\right) \right\}\nonumber\\
+    &=& \frac{\partial^j}{\partial \alpha^{* j}} \left\{\alpha^{* n} \sum_{r = 0}^{\min(k,n)} \binom{k}{r} \frac{n!}{(n-r)!} \alpha^{n-r} (-\alpha^*)^{k-r} e^{-\alpha^* \alpha}\right\}\nonumber\\
+    &=& \sum_{r = 0}^{\min(k,n)} \binom{k}{r} \frac{n!}{(n-r)!} (-1)^{k-r} \alpha^{n-r} \frac{\partial^j}{\partial \alpha^{* j}}\left(\alpha^{* (n+k-r)} e^{-\alpha^* \alpha}\right)\nonumber\\
+    &=& \sum_{r = 0}^{\min(k,n)} \binom{k}{r} \frac{n!}{(n-r)!} (-1)^{k-r} \alpha^{n-r} \sum_{s = 0}^{j} \binom{j}{s} \left(\frac{\partial^s}{\partial \alpha^{s}} \alpha^{n+k-r}\right) \left(\frac{\partial^{j-s}}{\partial \alpha^{j-s}} e^{-\alpha^* \alpha}\right)\nonumber\\
+    &=& \sum_{r = 0}^{\min(k,n)} \sum_{s = 0}^{\min(j,n+k-r)} \binom{k}{r} \binom{j}{s} \frac{n! (n+k-r)!}{(n-r)! (n+k-r-s)!} \nonumber\\ &\times& (-1)^{k+j-r-s} \alpha^{n+j-r-s} \alpha^{* (n+k-r-s)} e^{-\alpha^* \alpha}
+\end{eqnarray}
+
+Evaluating at $\alpha = 0$, finding the nonzero term corresponds to solving the system:
+
+\begin{eqnarray} \label{eq_sys_1}
+    n + j &=& r + s\\ \label{eq_sys_2}
+    n + k &=& r + s\\ \label{eq_sys_3}
+    0 \le s &\le& \min(j,n+k-r)\\ \label{eq_sys_4}
+    0 \le r &\le& \min(k,n)
+\end{eqnarray}
+
+\autoref{eq_sys_1} and~\autoref{eq_sys_2} imply that $j = k$. Further, \autoref{eq_sys_4} implies that $r \le n$, \autoref{eq_sys_3} becomes $0 \le s \le k$. Therefore, satisfying~\autoref{eq_sys_2} imposes that $s = k$ and $r = n$, which implies that $n \le k$. Thus, we have the simple expression:
+
+\begin{equation}
+    \pr{n} = \frac{1}{n!} \sum_{k=0}^\infty (-1)^k \frac{\average{a^{\dagger (k+n)} a^{k+n}}}{k!}
+\end{equation}
+\end{proof}
+\begin{corollary}
+    $\pr{n}$ depends only on the averages $\average{a^{\dagger q} a^{q}}$ for $q \ge n$.
+\end{corollary}
+
+\subsection{Sanity Checks}
+
+We test the validity of the formula~\autoref{eq_pr_n_moments} by taking the case of a coherent state and a Fock state.
+
+\subsubsection{Coherent State $\ket{\alpha}$}
+
+We know that: $\average{a^{\dagger (k+n)} a^{k+n}} = |\alpha|^{2 (k+n)}$, thus:
+
+\begin{equation}
+    \frac{1}{n!} \sum_{k=0}^\infty (-1)^k \frac{\average{a^{\dagger (k+n)} a^{k+n}}}{k!} = \frac{1}{n!} \sum_{k=0}^\infty (-1)^k \frac{|\alpha|^{2 (k+n)}}{k!} = \frac{|\alpha|^{2 n}}{n!} \sum_{k=0}^\infty (-1)^k \frac{|\alpha|^{2 k}}{k!} = \frac{|\alpha|^{2 n}}{n!} e^{-|\alpha|^2}
+\end{equation}
+
+which is the correct value
+
+\subsubsection{Fock State $\ket{\nu}$}
+
+We have $\mel{\nu}{a^{\dagger (k+n)} a^{k+n}}{\nu} = \left\Vert a^{k+n} \ket{\nu} \right\Vert^2$, thus:
+
+\begin{eqnarray}
+    \mel{\nu}{a^{\dagger (k+n)} a^{k+n}}{\nu} &=& \frac{\nu!}{(\nu-k-n)!} \ , \ k \le \nu - n\\
+    \mel{\nu}{a^{\dagger (k+n)} a^{k+n}}{\nu} &=& 0 \ , \ k > \nu - n
+\end{eqnarray}
+
+Thus, if $n > \nu$, $\frac{1}{n!} \sum_{k=0}^\infty (-1)^k \frac{\average{a^{\dagger (k+n)} a^{k+n}}}{k!} = 0$. Otherwise:
+\begin{equation}
+    \frac{1}{n!} \sum_{k=0}^\infty (-1)^k \frac{\average{a^{\dagger (k+n)} a^{k+n}}}{k!} = \sum_{k=0}^{\nu - n} (-1)^k \frac{\nu!}{(\nu-k-n)!} = \frac{\nu!}{(\nu-n)!} \sum_{k=0}^{\nu - n} (-1)^k \frac{(\nu-n)!}{(\nu-k-n)!} = \frac{\nu!}{(\nu-n)!} (1-1)^{\nu - n}
+\end{equation}
+
+Therefore: $\frac{1}{n!} \sum_{k=0}^\infty (-1)^k \frac{\average{a^{\dagger (k+n)} a^{k+n}}}{k!} = \delta_{\nu, n}$, which is the exact value.

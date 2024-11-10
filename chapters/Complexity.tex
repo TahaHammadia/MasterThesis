@@ -1,0 +1,64 @@
+In this appendix, we introduce some notations for studying complexity. Since there are different notations~\cite{knuth, wiki-complexity}, we fix the one we will follow in this report.
+
+\subsection{Presentation of the Problem}
+When we are considering computational problems whose input size is given by $N$, we want to evaluate the needed resources for solving the problem using a given problem. For example, the computational time (in some time unit) or the memory size (in bits for example) might be of great importance.
+
+Nevertheless, there is usually no need to know the exact value of the needed resources. Indeed, the exact value of the needed resources depends on the details of the machine. Thus, only the global evolution for $N$ going to infinity matters. For example, does the computation time go polynomialy with $N$? Does the memory requirement go exponentially with $N$?
+
+\subsection{Notation Conventions}
+We consider two functions $f(N)$ and $g(N)$ two functions. We want to compare their behavior at infinity. For this, we introduce the following definitions:
+
+\begin{definition}[$o$ Notation]
+    We say that $f(N) = o(g(N))$ when:
+\begin{equation}
+    \forall \epsilon > 0, \exists N_0 \in \mathbb{N}, \forall N \ge N_0, |f(N)| \le \epsilon |g(N)|
+\end{equation}
+\end{definition}
+
+This means that $f(N)$ is negligible in front of $g(N)$.
+
+\begin{definition}[$O$ Notation]
+We say that $f(N) = O(g(N))$ when:
+\begin{equation}
+    \exists M > 0, \exists N_0 \in \mathbb{N}, \forall N \ge N_0, |f(N)| \le M |g(N)|
+\end{equation}
+\end{definition}
+
+\begin{remark}
+    It is quite important to understand that this notation does not mean that $f(N)$ and $g(N)$ become comparable when $N \rightarrow \infty$. For example, we can write: $N = O(e^N)$.
+\end{remark}
+
+If we want to say that $f(N)$ and $g(N)$ become comparable when $N \rightarrow \infty$, we use the $\Theta$ notation:
+\begin{definition}[$\Theta$ notation]
+    We say that $f(N) = \Theta(g(N))$ when:
+\begin{equation}
+    \exists M_1, M_2 > 0, \exists N_0 \in \mathbb{N}, \forall N \ge N_0, M_1 |g(N)| \le |f(N)| \le M_2 |g(N)|
+\end{equation}
+\end{definition}
+
+In particular, we have:
+
+\begin{theorem}
+    We have: 
+    \begin{enumerate}
+        \item $f(N) = \Theta(g(N)) \iff g(N) = \Theta(f(N))$
+        \item $f(N) = \Theta(g(N)) \implies f(N) = O(g(N))$
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}[Equivalence]
+    We say that $f(N) \sim g(N)$ ($f$ and $g$ are equivalent) when:
+    \begin{equation}
+        \lim_{N \rightarrow \infty} \frac{f(N)}{g(N)} = 1
+    \end{equation}
+\end{definition}
+
+In particular, we have:
+
+\begin{theorem}
+    We have:
+    \begin{enumerate}
+        \item $f(N) \sim g(N) \iff g(N) \sim f(N)$
+        \item $f(N) \sim g(N) \implies f(N) = \Theta(g(N))$
+    \end{enumerate}
+\end{theorem}

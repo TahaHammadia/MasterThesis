@@ -1,0 +1,286 @@
+In this appendix, we present a brief summary of a variety of aspects of the different methods. In \autoref{tab:summ-table}, we present a summary of the different methods that were explored in this report. In \autoref{tab:summ-table-stab}, we present the summary of the stability of the methods. In \autoref{tab:fig-table-stab}, we present many stability plots for the mean field methods.
+
+\begin{landscape}
+\begin{center}
+    \begin{table}[h!]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{4cm}|p{4cm}|p{4cm}|p{4cm}|p{4cm}|}
+        \hline
+        \textbf{Method} & \texttt{dynamiqs}~\cite{dynamiqs} & \textbf{Usual MF} & \texttt{Truncated Cumulants} & \textbf{TEA} & \textbf{Analytical Expression} \\
+        \hline
+        \textbf{Followed Quantity} & Density matrix & Moments & Cumulants & Operator $a_i(t)$ in symbolic representation & Exact analytical expression \\
+        \hline
+        \textbf{Cut-off} & Number of photons (cut-off in the Fock basis) & Degree of the moment, impose some closure relation linking moments of higher degree to moments of lower degrees & Degree of the cumulant, set cumulants to zero beyond some $p$ & Compute the infinite series of operators up to some $p$ & - \\
+        \hline
+        \textbf{Generality / Validity} & Very general if small number of modes / photons & Limited by how well MF describes the state & Initial sum over Gaussian states & In theory for closed systems, works for open systems in some cases & Requires being able to find the solution \\
+        \hline
+        \textbf{Advantages} & Can be optimised using linear algebra tools & Fast, accurate for short times. Can be improved with no relative cost using Padé approximate. & Very accurate at short times. More stable than usual MF methods & Can solve for any initial condition. Can compute symbolically for a set of parameters (can be useful for machine learning). & Computing exact analytical expressions numerically is much better than estimating the value numerically (in terms of accuracy, stability, time\ldots)\\
+        \hline
+        \textbf{Problems / Open Questions} & Many modes with a significant number of photons (for eg.\@~$4$ modes with a cut-off of $\sim 20$ photons per mode) & If non-Gaussian interaction, instability. How to describe non-Gaussian states in general? & Slow, needs to pre-compute equations if machine learning applications. If non-Gaussian interaction, instability. How to describe non-Gaussian states in general? & Small improvement at large time expense. Gives correlations instead of moments. How to deal with open systems properly? & Integrals and differential of operators are tricky. $(A B)_H \neq A_H B_H$ for open systems. Green's function for non-linear systems?\\
+        \hline
+    \end{tabular}
+    \caption{Summary of the methods}
+    \label{tab:summ-table}
+\end{table}
+\end{center}
+\end{landscape}
+
+\begin{landscape}
+\begin{center}
+    \begin{table}[h!]
+    \centering
+    \begin{tabular}{|p{3.5cm}|p{4cm}|p{4cm}|p{4cm}|p{4cm}|p{4cm}|}
+        \hline
+        \textbf{Method} & \texttt{dynamiqs}~\cite{dynamiqs} & \textbf{Usual MF} & \texttt{Truncated Cumulants} & \textbf{TEA} & \textbf{Analytical Expression} \\
+        \hline
+        \textbf{General description} & Very stable if cut-off large enough & Becomes unstable once non-linearity kicks in & Becomes unstable once non-linearity kicks in & Can be made stable using Padé approximate (with no relative cost) & - \\
+        \hline
+        \textbf{One Photon-Loss} & - & Stabilized & Stabilized & - & - \\
+        \hline
+        \textbf{Two Photon-Loss} & - & Destabilized & Stabilized & - & - \\
+        \hline
+        \textbf{Dephasing} & - & Neutral & Neutral & - & - \\
+        \hline
+        \textbf{$H=a^{\dagger 2} + a^2$ and $L = \sqrt{\kappa} a^2$} & - & Very unstable & Stable \textbf{if} $\alpha$ and $\kappa$ and large enough & - & - \\
+        \hline
+        
+    \end{tabular}
+    \caption{Stability of the Methods - Verbal description}
+    \label{tab:summ-table-stab}
+\end{table}
+\end{center}
+
+In general, having higher $p$ is better if stable.
+\end{landscape}
+
+\begin{landscape}
+\begin{longtable}{|p{3cm}|p{7.2cm}|p{7.2cm}|p{7.2cm}|}
+    \hline
+    \textbf{Method} & \texttt{Truncated Cumulants} & \texttt{Divide in half}  & \texttt{Minimum cut} \\
+    \hline
+    \endfirsthead
+        
+    \textbf{Method} & \texttt{Truncated Cumulants} & \texttt{Divide in half}  & \texttt{Minimum cut} \\
+    \hline
+    \endhead
+        
+    \hline
+    \endfoot
+
+    \hline
+    \endlastfoot
+        
+    $H=0$ \& $L = \sqrt{\kappa} a$ ; $p=1$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_1_trunc_cumul.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_1_divide_in_half.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_1_min_cut.pdf}
+    \end{minipage}\\
+    \hline
+    $H=0$ \& $L = \sqrt{\kappa} a$ ; $p=2$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_1_trunc_cumul_p=2.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_1_divide_in_half_p=2.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_1_min_cut_p=2.pdf}
+    \end{minipage}\\
+    \hline
+    \hline
+    $H=0$ \& $L = \sqrt{\kappa} a^2$ ; $p=2$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_trunc_cumul.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_divide_in_half.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_min_cut.pdf}
+    \end{minipage}\\
+    \hline
+    $H=0$ \& $L = \sqrt{\kappa} a^2$ ; $p=3$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_trunc_cumul_p=3.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_divide_in_half_p=3.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_min_cut_p=3.pdf}
+    \end{minipage}\\
+    \hline
+    $H=0$ \& $L = \sqrt{\kappa} a^2$ ; $p=4$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_trunc_cumul_p=4.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_divide_in_half_p=4.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_min_cut_p=4.pdf}
+    \end{minipage}\\
+    \hline
+    $H=0$ \& $L = \sqrt{\kappa} a^2$ ; $p=5$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_trunc_cumul_p=5.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_divide_in_half_p=5.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_2_min_cut_p=5.pdf}
+    \end{minipage}\\
+    \hline
+    \hline
+    $H=a^2+a^{\dagger 2}$ \& $L = \sqrt{\kappa} a^2$ ; $p=2$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_AB_trunc_cumul_p=2.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+            \centering
+            \includegraphics[width=\textwidth]{Pics/Stab_AB_divide_in_half_p=2.pdf}
+        \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_AB_min_cut_p=2.pdf}
+    \end{minipage}\\
+    \hline
+    $H=a^2+a^{\dagger 2}$ \& $L = \sqrt{\kappa} a^2$ ; $p=3$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_AB_trunc_cumul_p=3.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+            \centering
+            \includegraphics[width=\textwidth]{Pics/Stab_AB_divide_in_half_p=3.pdf}
+        \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_AB_min_cut_p=3.pdf}
+    \end{minipage}\\
+    \hline
+    $H=a^2+a^{\dagger 2}$ \& $L = \sqrt{\kappa} a^2$ ; $p=4$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_AB_trunc_cumul_p=4.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+            \centering
+            \includegraphics[width=\textwidth]{Pics/Stab_AB_divide_in_half_p=4.pdf}
+        \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_AB_min_cut_p=4.pdf}
+    \end{minipage}\\
+    \hline
+    $H=a^2+a^{\dagger 2}$ \& $L = \sqrt{\kappa} a^2$ ; $p=5$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_AB_trunc_cumul_p=5.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+            \centering
+            \includegraphics[width=\textwidth]{Pics/Stab_AB_divide_in_half_p=5.pdf}
+        \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_AB_min_cut_p=5.pdf}
+    \end{minipage}\\
+    \hline
+    \hline
+    $H=a^{\dagger 2}a^2$ \& $L = \sqrt{\kappa} a$ ; $p=2$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_trunc_cumul_p=2.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+            \centering
+            \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_divide_in_half_p=2.pdf}
+        \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_min_cut_p=2.pdf}
+    \end{minipage}\\
+    \hline    
+    $H=a^{\dagger 2}a^2$ \& $L = \sqrt{\kappa} a$ ; $p=3$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_trunc_cumul_p=3.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+            \centering
+            \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_divide_in_half_p=3.pdf}
+        \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_min_cut_p=3.pdf}
+    \end{minipage}\\
+    \hline   
+    $H=a^{\dagger 2}a^2$ \& $L = \sqrt{\kappa} a$ ; $p=4$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_trunc_cumul_p=4.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+            \centering
+            \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_divide_in_half_p=4.pdf}
+        \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_min_cut_p=4.pdf}
+    \end{minipage}\\
+    \hline   
+    $H=a^{\dagger 2}a^2$ \& $L = \sqrt{\kappa} a$ ; $p=5$ &
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_trunc_cumul_p=5.pdf}
+    \end{minipage}&
+    \begin{minipage}{7cm}
+            \centering
+            \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_divide_in_half_p=5.pdf}
+        \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_min_cut_p=5.pdf}
+    \end{minipage}\\
+    \hline
+    $H=a^{\dagger 2}a^2$ \& $L = \sqrt{\kappa} a$ ; $p=6$ &
+    -&
+    \begin{minipage}{7cm}
+            \centering
+            \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_divide_in_half_p=6.pdf}
+        \end{minipage}&
+    \begin{minipage}{7cm}
+        \centering
+        \includegraphics[width=\textwidth]{Pics/Stab_Kerr1_min_cut_p=6.pdf}
+    \end{minipage}\\
+    \hline
+    \caption{Stability of the MF Methods - Plots. The red corresponds to positive values while blue corresponds to negative values of the maximum real value of the eigenvalues of the stability matrix for an initial coherent state $\ket{\alpha}$. The same color-bar is used for the same physical system which qre separated by a double line.}
+    \label{tab:fig-table-stab}
+\end{longtable}
+\end{landscape}

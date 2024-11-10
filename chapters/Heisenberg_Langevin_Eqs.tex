@@ -1,0 +1,38 @@
+In~\autoref{2-langevin}, we present two derivations of the quantum Langevin equation which includes many photon loss, while including other jump operators that are represented by $L_n$. Many photon loss is described by the loss rate $\kappa_\nu$. The incoming field, denoted by $a_{\text{in}}(t)$, corresponds to an incoming propagating field. The first considers incoming propagating modes while the second considers a two cavity model.
+
+\begin{equation} \label{generalized-langevin}
+    \timeDeriv{a} = \ihbar \commutator{a}{H} + \frac{1}{2} \sum_n \left(L^\dagger_n \commutator{a}{L_n} - \commutator{a}{L^\dagger_n} L_n\right) - \sum_{\nu = 1}^\infty \nu a^{\dagger (\nu-1)} \left( \sqrt{\kappa_\nu}  a_{\text{in}}(t) + \frac{\kappa_\nu}{2}a^\nu \right)
+\end{equation}
+
+We observe that having higher than one photon loss is enough to lead to a nonlinear system (i.e. non-Gaussian dynamics). Furthermore, the term $- \nu \sqrt{\kappa_\nu} a^{\dagger (\nu-1)} a_{\text{in}}(t)$ couples the cavity field and the input field in a multiplicative manner.
+
+\subsubsection{Examples}
+
+Let us consider two examples:
+
+\paragraph{One Photon Loss:} $\kappa_1 = \kappa$ and $\forall \nu \ge 2, \kappa_\nu = 0$. We get:
+
+\begin{eqnarray}
+    \timeDeriv{a} &=& \ihbar \commutator{a}{H} + \frac{1}{2} \sum_n \left(L^\dagger_n \commutator{a}{L_n} - \commutator{a}{L^\dagger_n} L_n\right) - \frac{\kappa}{2}a - \sqrt{\kappa}  a_{\text{in}}(t) 
+\end{eqnarray}
+
+which is the standard quantum Langevin equation.
+
+\paragraph{Two Photon Loss:} $\kappa_2 = \kappa$ and $\forall \nu \neq 2, \kappa_\nu = 0$. We get:
+
+\begin{eqnarray}
+    \timeDeriv{a} &=& \ihbar \commutator{a}{H} + \frac{1}{2} \sum_n \left(L^\dagger_n \commutator{a}{L_n} - \commutator{a}{L^\dagger_n} L_n\right) -\kappa a^\dagger a^2 - 2 \sqrt{\kappa}  a^\dagger a_{\text{in}}(t)
+\end{eqnarray}
+
+\subsection{Sanity Check: Adding Jump Operators}
+
+Alternatively, we could have obtain the quantum jump term of \ref{generalized-langevin} due to photon loss by adding the jump operators $\Tilde{L}_\nu \equiv \sqrt{\kappa_\nu} a^\nu$ to the Hamiltonian with the jump operators $L_n$. The additional term is indeed
+
+\begin{equation}
+    \frac{1}{2} \left(\Tilde{L}^\dagger_\nu \commutator{a}{\Tilde{L}_\nu} - \commutator{a}{\Tilde{L}^\dagger_\nu} \Tilde{L}_\nu\right) = - \frac{\kappa_\nu}{2} \commutator{a}{a^{\dagger \nu}} a^\nu = - \frac{\nu \kappa_\nu}{2} a^{\dagger (\nu - 1)} a^\nu.
+\end{equation}
+However, we cannot recover the term proportional to the input. This is because the input term $a_{\text{in}}(t)$ comes from considering the quantum state of the input field. This is not taken into account by the Heisenberg-Langevin equation, because it makes the density matrix of the Universe written as: $\rho_{\text{sys}} \otimes \rho_{\text{env}}$, and the environment is assumed to be Markovian.
+
+\begin{remark}
+    In the rest of this report, we do not consider the $a_{\text{in}}(t)$ term. If $a_{\text{in}}(t)$ describes a macroscopic coherent state, it can be simulated by adding a linear term to the Hamiltonian (for one-photon loss, we need to add the term $-i \hbar \sqrt{\kappa_1} \left(a^\dagger a_{\text{in}} - a^\dagger_{\text{in}} a\right)$, with $a_{\text{in}}$ a complex number). Otherwise, we do not know how to deal with time-dependent $a_{\text{in}}(t)$ in general~\cite{non-lin-green, paper-off-non-lin-green}.
+\end{remark}
